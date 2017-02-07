@@ -29,15 +29,16 @@ CREATE TABLE IF NOT EXISTS Cities (
 
 CREATE TABLE IF NOT EXISTS Persons (
     country TEXT,
-    personnummer LIKE '[0-9]{8}-[0-9]{4}'
+    personnummer TEXT, 
     name TEXT,
     locationcountry TEXT,
     locationarea TEXT,
     budget FLOAT,
 
+    CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$'),
     PRIMARY KEY (country,personnummer),
-    FOREIGN KEY (country) REFERENCES Countries (name)
-    FOREIGN KEY (locationarea,locationarea) REFERENCES Areas (name,country)
+    FOREIGN KEY (country) REFERENCES Countries (name),
+    FOREIGN KEY (locationarea, locationcountry) REFERENCES Areas (name,country)
     );
 
 
@@ -48,8 +49,8 @@ CREATE TABLE IF NOT EXISTS Hotels (
     ownercountry TEXT,
     ownerpersonnummer TEXT,
     PRIMARY KEY (locationcountry,locationname,ownercountry,ownerpersonnummer),
-    FOREING KEY (locationcountry,locationname) REFERENCES Cities (name,country)
-    FOREING KEY (ownercountry,ownerpersonnummer) REFERENCES Persons (country,personnummer)
+    FOREIGN KEY (locationcountry,locationname) REFERENCES Cities (name,country),
+    FOREIGN KEY (ownercountry,ownerpersonnummer) REFERENCES Persons (country,personnummer)
     );
 
 
@@ -64,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Roads (
     PRIMARY KEY (fromcountry,fromarea,tocountry,toarea,ownercountry,ownerpersonnummer),
     FOREIGN KEY (fromcountry,fromarea) REFERENCES Areas (country,name),
     FOREIGN KEY (tocountry,toarea) REFERENCES Areas (country,name),
-    FOREING KEY (ownercountry,ownerpersonnummer) REFERENCES Persons (country,personnummer)
+    FOREIGN KEY (ownercountry,ownerpersonnummer) REFERENCES Persons (country,personnummer)
     );
 
 
