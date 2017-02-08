@@ -7,18 +7,17 @@ WHERE (p.country = r.fromcountry AND p.area = r.fromarea) OR (p.country = r.toco
 WITH
     roadAssets AS(
         SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('roadprice') AS assets
-        FROM (
-            SELECT DISTINCT ownercountry, ownerpersonnummer
-            FROM Roads
-        )
+        FROM Roads
+        GROUP BY ownercountry, ownerpersonnummer
     )
     hotelAssets AS(
-    SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('hotelprice') AS assets, COUNT(*) * getval('hotelrefund') AS reclaimable
-        FROM (
-            SELECT DISTINCT ownercountry, ownerpersonnummer
-            FROM Hotels
-        
+        SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('hotelprice') AS assets, COUNT(*) * getval('hotelrefund') AS reclaimable
+        FROM Hotels
+        GROUP BY ownercountry, ownerpersonnummer
     )
 CREATE OR REPLACE VIEW AssetsSummary AS
-SELECT
+SELECT ownercountry, ownerpersonnummer, h.assets + r.assets AS assets, reclaimable
+FROM roadAssets r
+NATURAL JOIN hotelAssets h
+
 ;
