@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Towns (
 CREATE TABLE IF NOT EXISTS Cities (
     country TEXT,
     name TEXT,
-    visitbonus INT,
+    visitbonus FLOAT,
     PRIMARY KEY (country,name),
     FOREIGN KEY (country,name) REFERENCES Areas (country,name)
     );
