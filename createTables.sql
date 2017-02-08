@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS Countries (
 CREATE TABLE IF NOT EXISTS Areas (
     country TEXT,
     name TEXT,
-    population INT,
+    population INT NOT NULL,
     PRIMARY KEY (country,name),
     FOREIGN KEY (country) REFERENCES Countries (name)
     );
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Towns (
 CREATE TABLE IF NOT EXISTS Cities (
     country TEXT,
     name TEXT,
-    visitbonus FLOAT,
+    visitbonus FLOAT NOT NULL,
     PRIMARY KEY (country,name),
     FOREIGN KEY (country,name) REFERENCES Areas (country,name)
     );
@@ -30,12 +30,12 @@ CREATE TABLE IF NOT EXISTS Cities (
 CREATE TABLE IF NOT EXISTS Persons (
     country TEXT,
     personnummer TEXT, 
-    name TEXT,
-    locationcountry TEXT,
-    locationarea TEXT,
-    budget FLOAT,
+    name TEXT NOT NULL,
+    locationcountry TEXT NOT NULL,
+    locationarea TEXT NOT NULL,
+    budget FLOAT NOT NULL,
 
-    CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$'),
+    CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$' OR (country = ' ' AND personnummer = ' ')),
     PRIMARY KEY (country,personnummer),
     FOREIGN KEY (country) REFERENCES Countries (name),
     FOREIGN KEY (locationarea, locationcountry) REFERENCES Areas (name,country)
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS Persons (
 
 
 CREATE TABLE IF NOT EXISTS Hotels (
-    name TEXT,
+    name TEXT NOT NULL,
     locationcountry TEXT,
     locationname TEXT,
     ownercountry TEXT,
@@ -61,13 +61,17 @@ CREATE TABLE IF NOT EXISTS Roads (
     toarea TEXT,
     ownercountry TEXT,
     ownerpersonnummer TEXT,
-    roadtax  FLOAT,
+    roadtax  FLOAT NOT NULL,
     PRIMARY KEY (fromcountry,fromarea,tocountry,toarea,ownercountry,ownerpersonnummer),
     FOREIGN KEY (fromcountry,fromarea) REFERENCES Areas (country,name),
     FOREIGN KEY (tocountry,toarea) REFERENCES Areas (country,name),
     FOREIGN KEY (ownercountry,ownerpersonnummer) REFERENCES Persons (country,personnummer)
     );
 
+INSERT INTO Countries VALUES (’ ’);
+INSERT INTO Countries VALUES (’Sweden’) ;
+INSERT INTO Areas VALUES (’Sweden’,’Gothenburg’, 491630) ;
+INSERT INTO Persons VALUES (’ ’, ’ ’, ’The government’, ’Sweden’, ’Gothenburg’, 100000000000);
 
 
 
