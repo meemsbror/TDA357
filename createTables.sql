@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS Roads (
     ownercountry TEXT,
     ownerpersonnummer TEXT,
     roadtax  FLOAT NOT NULL,
+    CHECK(fromarea=toarea AND fromcountry=tocountry),
     PRIMARY KEY (fromcountry,fromarea,tocountry,toarea,ownercountry,ownerpersonnummer),
     FOREIGN KEY (fromcountry,fromarea) REFERENCES Areas (country,name),
     FOREIGN KEY (tocountry,toarea) REFERENCES Areas (country,name),
