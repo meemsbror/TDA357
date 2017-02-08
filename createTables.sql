@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS Countries (
     name TEXT,
     PRIMARY KEY (name)
@@ -8,6 +7,7 @@ CREATE TABLE IF NOT EXISTS Areas (
     country TEXT,
     name TEXT,
     population INT NOT NULL,
+    CHECK(population >= 0),
     PRIMARY KEY (country,name),
     FOREIGN KEY (country) REFERENCES Countries (name)
     );
@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS Towns (
 CREATE TABLE IF NOT EXISTS Cities (
     country TEXT,
     name TEXT,
-    visitbonus FLOAT NOT NULL,
+    visitbonus NUMERIC NOT NULL,
+    CHECK(visitbonus >= 0),
     PRIMARY KEY (country,name),
     FOREIGN KEY (country,name) REFERENCES Areas (country,name)
     );
@@ -33,8 +34,9 @@ CREATE TABLE IF NOT EXISTS Persons (
     name TEXT NOT NULL,
     locationcountry TEXT NOT NULL,
     locationarea TEXT NOT NULL,
-    budget FLOAT NOT NULL,
+    budget NUMERIC NOT NULL,
 
+    CHECK(budget >= 0),
     CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$' OR (country = ' ' AND personnummer = ' ')),
     PRIMARY KEY (country,personnummer),
     FOREIGN KEY (country) REFERENCES Countries (name),
@@ -61,17 +63,19 @@ CREATE TABLE IF NOT EXISTS Roads (
     toarea TEXT,
     ownercountry TEXT,
     ownerpersonnummer TEXT,
-    roadtax  FLOAT NOT NULL,
+    roadtax  NUMERIC NOT NULL,
+
+    CHECK(roadtax >= 0),
     PRIMARY KEY (fromcountry,fromarea,tocountry,toarea,ownercountry,ownerpersonnummer),
     FOREIGN KEY (fromcountry,fromarea) REFERENCES Areas (country,name),
     FOREIGN KEY (tocountry,toarea) REFERENCES Areas (country,name),
     FOREIGN KEY (ownercountry,ownerpersonnummer) REFERENCES Persons (country,personnummer)
     );
 
-INSERT INTO Countries VALUES (’ ’);
-INSERT INTO Countries VALUES (’Sweden’) ;
-INSERT INTO Areas VALUES (’Sweden’,’Gothenburg’, 491630) ;
-INSERT INTO Persons VALUES (’ ’, ’ ’, ’The government’, ’Sweden’, ’Gothenburg’, 100000000000);
+INSERT INTO countries VALUES (' ');
+INSERT INTO countries VALUES ('Sweden') ;
+INSERT INTO areas VALUES ('Sweden','Gothenburg', 491630) ;
+INSERT INTO persons VALUES (' ', ' ', 'The government', 'Sweden', 'Gothenburg', 100000000000);
 
 
 
