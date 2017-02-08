@@ -13,12 +13,12 @@ WITH
         )
     )
     hotelAssets AS(
-    SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('hotelprice') AS assets
+    SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('hotelprice') AS assets, COUNT(*) * getval('hotelrefund') AS reclaimable
         FROM (
             SELECT DISTINCT ownercountry, ownerpersonnummer
             FROM Hotels
         
     )
 CREATE OR REPLACE VIEW AssetsSummary AS
-SELECT 
+SELECT
 ;
