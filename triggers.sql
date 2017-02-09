@@ -7,19 +7,19 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
             THEN RAISE EXCEPTION 'Road already exists';
        END IF;
 
-       IF((SELECT COUNT(*) 
+       IF((SELECT COUNT(*)
             FROM Persons
-            WHERE peronnummer = new.ownerpersonnummer AND country = new.ownercountry AND 
-            ((personLocationArea=new.fromarea AND personLocationCountry=new.fromcountry ) OR 
-                (personLocationArea=new.toarea AND personLocationCountry=new.tocountry))) < 1 )
+            WHERE personnummer = new.ownerpersonnummer AND country = new.ownercountry AND
+            ((LocationArea=new.fromarea AND LocationCountry=new.fromcountry ) OR
+                (LocationArea=new.toarea AND LocationCountry=new.tocountry))) < 1 )
             THEN RAISE EXCEPTION 'Person not in right location';
-        ENDIF;
+        END IF;
 
         IF((SELECT budget
             FROM Persons
-            WHERE peronnummer = new.ownerpersonnummer AND country = new.ownercountry) < getvalue('roadprice') )
+            WHERE personnummer = new.ownerpersonnummer AND country = new.ownercountry) < getval('roadprice'))
             THEN RAISE EXCEPTION 'Not enough money';
-        ENDIF;
+        END IF;
 
     RETURN NEW;
     END
@@ -31,11 +31,11 @@ CREATE TRIGGER newRoad
     EXECUTE PROCEDURE checkRoad();
 
 
-REATE OR REPLACE FUNCTION updateBudget() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION updateBudget() RETURNS TRIGGER AS $$
     BEGIN
         UPDATE Persons
-        SET budget = budget - getvalue('roadprice')
-        WHERE peronnummer = new.ownerperonnummer 
+        SET budget = budget - getval('roadprice')
+        WHERE personnummer = new.ownerpersonnummer
         AND country = new.ownercountry;
     RETURN NEW;
     END
@@ -67,5 +67,3 @@ CREATE TRIGGER removeRoad
     FOR EACH ROW
     EXECUTE PROCEDURE removeDuplicate();
 
-CREATE TRIGGER personLocation
-    BEFORE INSERT ON 
