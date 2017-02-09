@@ -18,6 +18,7 @@ CREATE TRIGGER roadDirection
 
 CREATE OR REPLACE FUNCTION removeDuplicate() RETURNS TRIGGER AS $$
     BEGIN
+        RAISE EXCEPTION 'asdf';
         IF(TG_OP = 'DELETE' ) THEN
         IF((SELECT COUNT(*)
         FROM Roads
@@ -29,7 +30,8 @@ CREATE OR REPLACE FUNCTION removeDuplicate() RETURNS TRIGGER AS $$
     RETURN OLD;
     END
     $$ LANGUAGE 'plpgsql';
+
 CREATE TRIGGER removeRoad
     BEFORE DELETE ON Roads
-    FOR EACH STATEMENT
+    FOR EACH ROW
     EXECUTE PROCEDURE removeDuplicate();
