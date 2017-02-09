@@ -1,3 +1,5 @@
+psql -d test -c 'drop view nextmoves;' 
+psql -d test -c 'drop view assetssummary;' 
 psql -d test -c 'drop table roads;' 
 psql -d test -c 'drop table hotels;'
 psql -d test -c 'drop table towns;'
