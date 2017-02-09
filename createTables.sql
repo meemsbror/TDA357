@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Cities (
 
 CREATE TABLE IF NOT EXISTS Persons (
     country TEXT,
-    personnummer TEXT, 
+    personnummer TEXT,
     name TEXT NOT NULL,
     locationcountry TEXT NOT NULL,
     locationarea TEXT NOT NULL,
