@@ -48,15 +48,20 @@ CREATE TRIGGER afterNewRoad
 
 CREATE OR REPLACE FUNCTION updateRoadTaxOnly() RETURNS TRIGGER AS $$
     BEGIN
-        RAISE EXCEPTION 'asdf';
-        RETURN OLD;
+        new.toarea := old.toarea;
+        new.fromarea := old.fromarea;
+        new.tocountry := old.tocountry ;
+        new.fromcountry := old.fromcountry ;
+        new.ownerpersonnummer := old.ownerpersonnummer;
+        new.ownercountry := old.ownercountry ;
+        RETURN new;
     END
     $$ LANGUAGE 'plpgsql';
 
-CREATE TRIGGER afterNewRoad
+CREATE TRIGGER updateRoad
     BEFORE UPDATE OF toarea,fromarea,tocountry,fromcountry,ownercountry,ownerpersonnummer
     ON Roads
-    FOR EACH STATEMENT
+    FOR EACH ROW
     EXECUTE PROCEDURE updateRoadTaxOnly();
 
 
