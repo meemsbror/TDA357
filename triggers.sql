@@ -46,6 +46,23 @@ CREATE TRIGGER afterNewRoad
     FOR EACH ROW
     EXECUTE PROCEDURE updateBudget();
 
+CREATE OR REPLACE FUNCTION updateRoadTaxOnly() RETURNS TRIGGER AS $$
+    BEGIN
+        IF(NOT(new.toarea=old.toarea AND new.tocountry=old.tocountry AND new.fromarea=old.fromarea AND 
+            new.fromcountry=old.fromcountry AND new.ownerpersonnummer=old.ownerpersonnummer AND new.ownercountry = old.ownercountry))
+            SET old.roadtax = new.roadtax;
+            RETURN OLD;
+        END IF;
+    RETURN NEW;
+    END
+    $$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER afterNewRoad
+    AFTER UPDATE ON Roads
+    FOR EACH ROW
+    EXECUTE PROCEDURE updateRoadTaxOnly();
+
+
 
 /*This no work. Why??? */
 CREATE OR REPLACE FUNCTION removeDuplicate() RETURNS TRIGGER AS $$
