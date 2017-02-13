@@ -20,7 +20,7 @@ insert into hotels values('Sunny Beach 2', 'Sweden', 'Gothenburg', 'Sweden', '19
 insert into hotels values('King bed', 'Sweden', 'Kungsbacka', 'Sweden', '19960123-2631');
 
 select * from persons;
-insert into hotels values('Sunny Beachyy', 'Sweden', 'Kungsbacka', 'Finland', '19960115-1120');
+insert into persons values ('Sweden', '960123-2631', 'Frej Karlsson', 'Sweden', 'Gothenburg', '100000');
 
 select * from persons;
 select * from hotels;
