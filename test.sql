@@ -11,3 +11,4 @@ update roads
 set roadtax = 2, toarea = 'Stockholm';
 select * from roads;
 select * from persons;
+insert into persons values ('Sweden', '960123-2631', 'Frej Karlsson', 'Sweden', 'Gothenburg', '100000');
