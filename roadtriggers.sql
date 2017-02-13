@@ -3,8 +3,12 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
        /* Check if the owner already has a road between the areas */
        IF((SELECT COUNT(*)
             FROM Roads
-            WHERE ownerpersonnummer = NEW.ownerpersonnummer AND fromarea = NEW.toarea AND toarea = NEW.fromarea AND fromcountry = NEW.tocountry
-            AND tocountry = NEW.fromcountry AND ownercountry = NEW.ownercountry) > 0)
+            WHERE ownerpersonnummer = NEW.ownerpersonnummer 
+            AND fromarea = NEW.toarea 
+            AND toarea = NEW.fromarea 
+            AND fromcountry = NEW.tocountry
+            AND tocountry = NEW.fromcountry 
+            AND ownercountry = NEW.ownercountry) > 0)
             THEN RAISE EXCEPTION 'Road already exists';
        END IF;
 

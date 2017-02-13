@@ -15,7 +15,6 @@ WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea)
 ;
 
 
-
 CREATE OR REPLACE VIEW AssetsSummary AS
 WITH
     roadAssets AS(

@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Hotels (
     ownercountry TEXT,
     ownerpersonnummer TEXT,
     PRIMARY KEY (locationcountry,locationname,ownercountry,ownerpersonnummer),
-    FOREIGN KEY (locationcountry,locationname) REFERENCES Cities (name,country),
+    FOREIGN KEY (locationcountry,locationname) REFERENCES Cities (country,name),
     FOREIGN KEY (ownercountry,ownerpersonnummer) REFERENCES Persons (country,personnummer)
     );
 
