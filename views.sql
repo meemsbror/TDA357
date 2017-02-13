@@ -24,7 +24,7 @@ WITH
     ),
     hotelAssets AS(
         SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('hotelprice') AS hAssets,
-        COUNT(*) * getval('hotelrefund') AS reclaimable
+        COUNT(*) * getval('hotelrefund') * getval('hotelprice') AS reclaimable
         FROM Hotels
         GROUP BY ownercountry, ownerpersonnummer
     )
