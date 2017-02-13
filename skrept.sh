@@ -13,4 +13,4 @@ psql -d test -f lab2-20-constants.sql
 psql -d test -f roadtriggers.sql
 psql -d test -f persontriggers.sql
 psql -d test -f views.sql
-psql -d test -f tmptest.sql
+psql -d test -f test.sql

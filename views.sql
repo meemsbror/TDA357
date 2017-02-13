@@ -18,18 +18,18 @@ WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea)
 CREATE OR REPLACE VIEW AssetsSummary AS
 WITH
     roadAssets AS(
-        SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('roadprice') AS assets
+        SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('roadprice') AS rAssets
         FROM Roads
         GROUP BY ownercountry, ownerpersonnummer
     ),
     hotelAssets AS(
-        SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('hotelprice') AS assets,
+        SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('hotelprice') AS hAssets,
         COUNT(*) * getval('hotelrefund') AS reclaimable
         FROM Hotels
         GROUP BY ownercountry, ownerpersonnummer
     )
-SELECT ownercountry, ownerpersonnummer, h.assets + r.assets AS assets, reclaimable
+SELECT ownercountry, ownerpersonnummer, hAssets + rAssets AS assets, reclaimable
 FROM roadAssets r
-NATURAL JOIN hotelAssets h
+NATURAL INNER JOIN hotelAssets h;
 
 ;

@@ -24,3 +24,4 @@ insert into persons values ('Sweden', '960123-2631', 'Frej Karlsson', 'Sweden', 
 
 select * from persons;
 select * from hotels;
+select * from AssetsSummary;

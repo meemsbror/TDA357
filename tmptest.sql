@@ -20,10 +20,3 @@ set locationarea = 'Arvika'
 where personnummer = '19960123-2631' AND  country = 'Sweden';
 
 select * from persons;
-
-SELECT cost
-    FROM NextMoves
-    WHERE country = 'Sweden' AND area = 'Gothenburg'
-    AND destcountry = 'Sweden' AND destarea = '
-    ORDER BY cost ASC
-    LIMIT 1
