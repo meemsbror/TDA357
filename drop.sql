@@ -1,0 +1,9 @@
+drop view nextmoves; 
+drop view assetssummary;
+drop table roads;
+drop table hotels;
+drop table towns;
+drop table cities;
+drop table persons;
+drop table areas;
+drop table countries;

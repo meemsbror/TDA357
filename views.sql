@@ -1,7 +1,9 @@
 CREATE OR REPLACE VIEW  NextMoves AS
-SELECT p.country, p.personnummer, p.locationcountry, p.locationarea, r.*
+SELECT p.country, p.personnummer, p.locationcountry, p.locationarea, r.fromcountry, r.fromarea, r.tocountry, r.toarea,
+		r.roadtax
 FROM Persons p, Roads r
-WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea) OR (p.locationcountry = r.tocountry AND p.locationarea = r.toarea);
+WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea) 
+OR (p.locationcountry = r.tocountry AND p.locationarea = r.toarea);
 
 
 
