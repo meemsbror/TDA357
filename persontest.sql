@@ -9,7 +9,6 @@ update persons
 set locationarea = 'Stockholm'
 where personnummer = '19960123-2631' AND  country = 'Sweden';
 
-
 update persons
 set locationarea = 'Arvika'
 where personnummer = '19960123-2631' AND  country = 'Sweden';
