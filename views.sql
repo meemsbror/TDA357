@@ -1,7 +1,20 @@
 CREATE OR REPLACE VIEW  NextMoves AS
-SELECT p.country, p.personnummer, p.locationcountry, p.locationarea, r.*
+SELECT p.country AS personcountry, p.personnummer,
+p.locationcountry AS country, p.locationarea AS area,
+r.tocountry AS destcountry, r.toarea AS destarea, r.roadtax AS cost
 FROM Persons p, Roads r
-WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea) OR (p.locationcountry = r.tocountry AND p.locationarea = r.toarea);
+WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea)
+
+UNION ALL
+
+SELECT p.country AS personcountry, p.personnummer,
+p.locationcountry AS country, p.locationarea AS area,
+r.fromcountry AS destcountry, r.fromarea AS destarea, r.roadtax AS cost
+FROM Persons p, Roads r
+WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea)
+;
+
+
 
 
 

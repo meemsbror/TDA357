@@ -1,5 +1,6 @@
 CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
     BEGIN
+       /* Check if the owner already has a road between the areas */
        IF((SELECT COUNT(*)
             FROM Roads
             WHERE ownerpersonnummer = NEW.ownerpersonnummer AND fromarea = NEW.toarea AND toarea = NEW.fromarea AND fromcountry = NEW.tocountry
@@ -7,6 +8,7 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
             THEN RAISE EXCEPTION 'Road already exists';
        END IF;
 
+       /* Check if the owner is either in the start pos or end pos of the road */
        IF((SELECT COUNT(*)
             FROM Persons
             WHERE personnummer = new.ownerpersonnummer AND country = new.ownercountry AND
@@ -15,6 +17,7 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
             THEN RAISE EXCEPTION 'Person not in right location';
         END IF;
 
+        /* Check if the person hase enough money to build the road */
         IF((SELECT budget
             FROM Persons
             WHERE personnummer = new.ownerpersonnummer AND country = new.ownercountry) < getval('roadprice'))
@@ -31,6 +34,7 @@ CREATE TRIGGER newRoad
     EXECUTE PROCEDURE checkRoad();
 
 
+/* Update the budgedt after you successfully create a road */
 CREATE OR REPLACE FUNCTION updateBudget() RETURNS TRIGGER AS $$
     BEGIN
         UPDATE Persons
@@ -46,6 +50,7 @@ CREATE TRIGGER afterNewRoad
     FOR EACH ROW
     EXECUTE PROCEDURE updateBudget();
 
+/* Blocks all updates except on roadtax */
 CREATE OR REPLACE FUNCTION updateRoadTaxOnly() RETURNS TRIGGER AS $$
     BEGIN
         new.toarea := old.toarea;

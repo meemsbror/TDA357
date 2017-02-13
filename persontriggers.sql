@@ -1,5 +1,6 @@
 CREATE OR REPLACE FUNCTION updatePerson() RETURNS TRIGGER AS $$
     BEGIN
+    /* Check if there is a valid road to the new location*/
     IF((SELECT COUNT(*)
         FROM Roads
         WHERE (fromarea = old.locationarea AND fromcountry = old.locationcountry
@@ -7,6 +8,7 @@ CREATE OR REPLACE FUNCTION updatePerson() RETURNS TRIGGER AS $$
         OR (fromarea = new.locationarea AND fromcountry = new.locationcountry
         AND toarea = old.locationarea AND tocountry = old.locationcountry)) > 0) THEN
 
+            /* Check if there is a free road between the locations */
             IF((SELECT COUNT(*)
                 FROM Roads
                 WHERE (fromarea = old.locationarea AND fromcountry = old.locationcountry
@@ -18,6 +20,8 @@ CREATE OR REPLACE FUNCTION updatePerson() RETURNS TRIGGER AS $$
                     RETURN NEW;
             END IF;
 
+            /* If there is no free road check if the person has enough money 
+            to travel on the cheapest one */
             IF((SELECT TOP roadtax
                 FROM Roads
                 WHERE (fromarea = old.locationarea AND fromcountry = old.locationcountry
@@ -25,6 +29,7 @@ CREATE OR REPLACE FUNCTION updatePerson() RETURNS TRIGGER AS $$
                 OR (fromarea = new.locationarea AND fromcountry = new.locationcountry
                 AND toarea = old.locationarea AND tocountry = old.locationcountry))
                 < new.budget) THEN
+                RAISE EXCEPTION 'yoyo';
                 RETURN NEW;
             END IF;
 
