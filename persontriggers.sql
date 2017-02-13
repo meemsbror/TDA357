@@ -10,27 +10,27 @@ CREATE OR REPLACE FUNCTION updatePerson() RETURNS TRIGGER AS $$
             /* Check if there is a free road between the locations */
             IF((SELECT COUNT(*)
                 FROM Roads
-                WHERE (fromarea = old.locationarea AND fromcountry = old.locationcountry
+                WHERE ((fromarea = old.locationarea AND fromcountry = old.locationcountry
                 AND toarea = new.locationarea AND tocountry = new.locationcountry)
                 OR (fromarea = new.locationarea AND fromcountry = new.locationcountry
-                AND toarea = old.locationarea AND tocountry = old.locationcountry)
+                AND toarea = old.locationarea AND tocountry = old.locationcountry))
 
-                AND (ownerpersonnummer = new.personnummer AND ownercountry = new.country)
-                OR ((ownerpersonnummer = ' ' AND ownercountry = ' '))) > 0) THEN
+                AND ((ownerpersonnummer = new.personnummer AND ownercountry = new.country)
+                OR ((ownerpersonnummer = ' ' AND ownercountry = ' ')))) > 0) THEN
 
                 RETURN NEW;
             END IF;
 
-            RAISE EXCEPTION 'yoyo';
             /* If there is no free road check if the person has enough money 
             to travel on the cheapest one */
-            IF((SELECT TOP roadtax
+            IF((SELECT roadtax
                 FROM Roads
-                WHERE (fromarea = old.locationarea AND fromcountry = old.locationcountry
+                WHERE ((fromarea = old.locationarea AND fromcountry = old.locationcountry
                 AND toarea = new.locationarea AND tocountry = new.locationcountry)
                 OR (fromarea = new.locationarea AND fromcountry = new.locationcountry
-                AND toarea = old.locationarea AND tocountry = old.locationcountry))
-                < new.budget) THEN
+                AND toarea = old.locationarea AND tocountry = old.locationcountry)))
+                < new.budget)
+                LIMIT 1 THEN
                 RAISE EXCEPTION 'yoyo';
                 RETURN NEW;
             END IF;
