@@ -1,5 +1,10 @@
 CREATE OR REPLACE FUNCTION beforeNewHotel() RETURNS TRIGGER AS $$
     BEGIN
+        /* Government cannot own hotel */
+        IF(new.personnummer = ' ' AND new.ownercountry = ' ')
+            THEN RAISE EXCEPTION 'The government cannot own a hotel';
+        END IF;
+
         /* See if person has enough money before buying hotel*/
        IF((SELECT budget 
           FROM Persons
@@ -45,6 +50,11 @@ CREATE TRIGGER afterNewHotel
 
 CREATE OR REPLACE FUNCTION updateHotelOwner() RETURNS TRIGGER AS $$
     BEGIN
+         /* Government cannot own hotel */
+        IF(new.personnummer = ' ' AND new.ownercountry = ' ')
+            THEN RAISE EXCEPTION 'The government cannot own a hotel';
+        END IF;
+        
         /* If already owns hotel, cannot change owner to this person */
         IF((SELECT COUNT(*) 
             FROM Hotels
