@@ -24,10 +24,10 @@ FROM Persons p, Roads r
 WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea)
 ;
 
-
+/*
 CREATE OR REPLACE VIEW HotelAssets AS
-	SELECT 	ownercountry AS country, 
-			ownerpersonnummer AS personnummer, 
+	SELECT 	ownercountry, 
+			ownerpersonnummer, 
 			COUNT(*) * getval('hotelprice') AS assets, 
 			COUNT(*) * getval('hotelrefund') * getval('hotelprice') AS reclaimable
 	FROM Hotels
@@ -35,22 +35,32 @@ CREATE OR REPLACE VIEW HotelAssets AS
 	;
 
 CREATE OR REPLACE VIEW RoadAssets AS
-	SELECT 	ownercountry AS country, 
-			ownerpersonnummer AS personnummer, 
+	SELECT 	ownercountry, 
+			ownerpersonnummer, 
 			COUNT(*) * getval('roadprice') AS assets
 	FROM Roads
 	GROUP BY ownercountry, ownerpersonnummer
 	;
-
+*/
 
 CREATE OR REPLACE VIEW AssetsSummary AS
-	SELECT p.country, 
-	p.personnummer, 
-	p.budget,
-	h.assets + r.assets AS assets,
-	h.reclaimable  
-	FROM Persons p, RoadAssets r, HotelAssets h
-	/*WHERE r.ownercountry = p.country AND h.ownercountry = p.country
-	AND r.ownerpersonnummer = p.personnummer AND h.ownerpersonnummer = p.personnummer
-	*/
-	;
+WITH
+    roadAssets AS(
+        SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('roadprice') AS rAssets
+        FROM Roads
+        GROUP BY ownercountry, ownerpersonnummer
+    ),
+    hotelAssets AS(
+        SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('hotelprice') AS hAssets,
+        COUNT(*) * getval('hotelrefund') * getval('hotelprice') AS reclaimable
+        FROM Hotels
+        GROUP BY ownercountry, ownerpersonnummer
+    ),
+    personBudget AS(
+    	SELECT personnummer AS ownerpersonnummer, country AS ownercountry, budget
+    	FROM Persons)
+SELECT ownercountry, ownerpersonnummer, hAssets + rAssets AS assets, reclaimable, budget
+FROM roadAssets r
+NATURAL INNER JOIN hotelAssets h
+NATURAL INNER JOIN personBudget p;
+
