@@ -55,15 +55,8 @@ CREATE TRIGGER afterNewRoad
     EXECUTE PROCEDURE updateBudget();
 
 /* Blocks all updates except on roadtax */
-CREATE OR REPLACE FUNCTION updateRoadTaxOnly() RETURNS TRIGGER AS $$
     BEGIN
-        new.toarea := old.toarea;
-        new.fromarea := old.fromarea;
-        new.tocountry := old.tocountry ;
-        new.fromcountry := old.fromcountry ;
-        new.ownerpersonnummer := old.ownerpersonnummer;
-        new.ownercountry := old.ownercountry ;
-        RETURN new;
+        RAISE EXCEPTION 'Can only change the roadtax of roads';
     END
     $$ LANGUAGE 'plpgsql';
 

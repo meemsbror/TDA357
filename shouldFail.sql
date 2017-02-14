@@ -33,12 +33,11 @@ select * from persons;
 select * from hotels;
 
 
-/*Shouldn't fail, but should only update the owner ???? */
+/* Cannot update hotel location */
 update hotels
 set locationname='Gothenburg';
 
-
-/*Shouldn't fail, but should only update the roadtax*/
+/*Cannot update anything but the roadtax */
 update roads
 set roadtax = 2, toarea = 'Stockholm'
 where ownerpersonnummer = '19960123-2631' and ownercountry = 'Sweden' and toarea = 'Arvika' and

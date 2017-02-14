@@ -39,5 +39,10 @@ update hotels
 set ownerpersonnummer = '19960123-2631', ownercountry = 'Sweden'
 where name = 'King bed';
 
+update roads
+set roadtax = 8;
+where ownerpersonnummer = '19960123-2631' and ownercountry = 'Sweden' and toarea = 'Arvika' and
+tocountry = 'Sweden' and fromarea = 'Gothenburg' and fromcountry = 'Sweden'  ;
+
 
 
