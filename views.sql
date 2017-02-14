@@ -24,7 +24,6 @@ FROM Persons p, Roads r
 WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea)
 ;
 
-
 CREATE OR REPLACE VIEW AssetsSummary AS
 WITH
     roadAssets AS(
@@ -44,5 +43,6 @@ WITH
 SELECT ownercountry AS country, ownerpersonnummer AS personnummer, budget, hAssets + rAssets AS assets, reclaimable
 FROM roadAssets r
 NATURAL INNER JOIN hotelAssets h
-NATURAL INNER JOIN personBudget p;
+NATURAL INNER JOIN personBudget p
+;
 

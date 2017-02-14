@@ -8,6 +8,7 @@ CREATE OR REPLACE FUNCTION updatePerson() RETURNS TRIGGER AS $$
         AND destcountry = new.locationcountry AND destarea = new.locationarea)> 0) THEN
 
             /* Check if there is a free road between the locations */
+            --THIS IS UNNECESSARY
             IF((SELECT COUNT(*)
                 FROM Roads
                 WHERE ((fromarea = old.locationarea AND fromcountry = old.locationcountry
@@ -23,6 +24,7 @@ CREATE OR REPLACE FUNCTION updatePerson() RETURNS TRIGGER AS $$
 
             /* If there is no free road check if the person has enough money 
             to travel on the cheapest one */
+            --ONLY NEED TO CHECK IF PERSON HAS ENOUGH MONEY TO TRAVEL. NEXT MOVES ALWAYS SHOWS THE CHEAPEST WAY
             IF((SELECT roadtax
                 FROM Roads
                 WHERE ((fromarea = old.locationarea AND fromcountry = old.locationcountry
@@ -52,6 +54,7 @@ CREATE TRIGGER beforePerUpdate
 CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
     BEGIN
     /* Check if there is a free road between the locations */
+    --My dear... Same as above. 
     IF((SELECT COUNT(*)
         FROM Roads
         WHERE ((fromarea = old.locationarea AND fromcountry = old.locationcountry
@@ -66,6 +69,7 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
     END IF;
 
     /* Deducts cheapest alternative from budget */
+    -- :(
     UPDATE persons
     SET budget = budget - 
     (SELECT cost

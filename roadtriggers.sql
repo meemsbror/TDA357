@@ -12,6 +12,11 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
             THEN RAISE EXCEPTION 'Road already exists';
        END IF;
 
+       /* Check if it is the goverment, location or money not neccessary*/
+       IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+            THEN RETURN NEW;
+        END IF;
+
        /* Check if the owner is either in the start pos or end pos of the road */
        IF((SELECT COUNT(*)
             FROM Persons
@@ -21,7 +26,7 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
             THEN RAISE EXCEPTION 'Person not in right location';
         END IF;
 
-        /* Check if the person hase enough money to build the road */
+        /* Check if the person has enough money to build the road */
         IF((SELECT budget
             FROM Persons
             WHERE personnummer = new.ownerpersonnummer AND country = new.ownercountry) < getval('roadprice'))
@@ -41,6 +46,11 @@ CREATE TRIGGER newRoad
 /* Update the budgedt after you successfully create a road */
 CREATE OR REPLACE FUNCTION updateBudget() RETURNS TRIGGER AS $$
     BEGIN
+        /* No budget update needed if it's the government */
+        IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+            THEN RETURN NEW;
+        END IF;
+
         UPDATE Persons
         SET budget = budget - getval('roadprice')
         WHERE personnummer = new.ownerpersonnummer
@@ -55,6 +65,7 @@ CREATE TRIGGER afterNewRoad
     EXECUTE PROCEDURE updateBudget();
 
 /* Blocks all updates except on roadtax */
+CREATE OR REPLACE FUNCTION updateRoadTaxOnly() RETURNS TRIGGER AS $$
     BEGIN
         RAISE EXCEPTION 'Can only change the roadtax of roads';
     END
