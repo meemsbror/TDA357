@@ -32,6 +32,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	*/
 	public E get(E e) {
 		Entry t = find(e,root);
+        splay(t);
 		return t == null ? null : t.element;
 	}  // get
 
@@ -127,8 +128,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 		 if ( y.left != null )
 			 y.left.parent   = y;
 		 x.left    = y;
-		 checkHeight( y );
-		 checkHeight( x );
 	 } //   rotateLeft
 	 // ========== ========== ========== ==========
 
@@ -156,9 +155,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	    z.right.parent = z;
         x.right   = z;
         z.parent  = x;
-        checkHeight( z );
-        checkHeight( y );
-        checkHeight( x );
     }  //  doubleRotateRight
 	// ========== ========== ========== ==========
 	
@@ -196,7 +192,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
       / \                      / \
      A   B                    C   D
 */
-    private void zigzig( Entry x){
+    private void zigZig( Entry x){
 
     	// y = högra x
         Entry y = x.right;
@@ -218,8 +214,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.right = y;
         y.right = z;
 
-
-        //Sort out the childrens parents. x y z already has the correct parents
+//Sort out the childrens parents. x y z already has the correct parents
         if(x.left != null){
             x.left.parent = x;
         }
@@ -238,14 +233,14 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }
 /*
            x                z
-          b \              / \
+          / \              / \
          y   D            A   y
         / \                  / \
        z   C       -->      B   x
       / \                      / \
      A   B                    C   D
 */
-    private void zagzag(Entry x){
+    private void zagZag(Entry x){
 
         Entry y = x.left;
         Entry z = y.left;
@@ -283,5 +278,51 @@ public class SplayWithGet<E extends Comparable<? super E>>
     }
 
 
-    private 
+    private boolean splay(Entry x){
+
+        if(x.parent == null){
+            root = x;
+            System.out.println("asfd");
+
+            return true;
+        }
+
+
+        Entry y = x.parent;
+
+        //if one step from root
+        if(y.parent == null){
+
+            if(y.right == x){
+                System.out.println("here");
+                rotateLeft(y);
+            }else{
+                zig(y);
+            }
+            root = y;
+            return true;
+        }
+
+        Entry z = y.parent;
+
+        if(y == z.right){
+            if(x == y.right){
+                //Right right child
+                zigZig(z);
+
+            }else{
+                //Right left child
+                doubleRotateLeft(z);
+            }
+        }else{
+            if(x == y.right){
+                //Left right child
+                doubleRotateRight(z);
+            }else{
+                //Left left child
+                zagZag(z);
+            }
+        }
+        return splay(z);
+    }
 }
