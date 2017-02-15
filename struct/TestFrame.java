@@ -182,8 +182,10 @@ public class TestFrame extends JFrame implements ActionListener {
 				millisec.setText( nf.format(millis) + " ms." );
 				listModel.clear();
 				antjfr.setText( nf.format(map.getCounter()) + " st." );
-				for( Map.Entry<String,List<Integer>> me : map.entrySet() )
+				for( Map.Entry<String,List<Integer>> me : map.entrySet() ){
 					listModel.addElement( me.getKey() + "  " + me.getValue() );
+                }
+
 				textfil.close();
 			}
 			catch( FileNotFoundException fnfe) { 
@@ -193,6 +195,7 @@ public class TestFrame extends JFrame implements ActionListener {
 			} 
 			catch( NullPointerException ex) { 
 				listModel.addElement("NO Collection implemented");
+                ex.printStackTrace();
 			}
 		}
 	}

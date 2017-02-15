@@ -32,8 +32,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	*/
 	public E get(E e) {
 		Entry t = find(e,root);
-        if(t == null){
-        }
         splay(t);
 		return root == null ? null : root.element;
 	}  // get
