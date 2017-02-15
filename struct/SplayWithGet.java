@@ -203,7 +203,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
 
 
-
+        
      /* Rotera 1 steg i vanstervarv, dvs 
                x'                 y'
               / \                / \
@@ -285,55 +285,96 @@ public class SplayWithGet<E extends Comparable<? super E>>
         z.parent  = x;
     } //  doubleRotateLeft
 	// ========== ========== ========== ==========
-	}
-
-
+/*
+           x                x
+          / \              / \
+         y   D            A   y
+        / \                  / \
+       z   C      <-->      B   z
+      / \                      / \
+     A   B                    C   D
+*/
     private void zigZig( Entry x){
 
         Entry y = x.right;
         Entry z = y.right;
 
-        //set z:s parent as the new parent and tell it to point at z
-        if(x.parent != null){
-            z.parent = x.parent;
-            z.parent.left = z;
-        }else{
-            z.parent = null;
+        //switch x and z elements
+        E e = z.element;
+
+        z.element = x.element;
+        x.element = e;
+
+        //move the subtrees to right pos
+        x.left = z.left;
+        y.left = z.right;
+        z.left = y.right;
+        z.right = x.right;
+        
+        x.right = y;
+        y.right = z;
+
+
+        //Sort out the childrens parents. x y z already has the correct parents
+        if(x.left != null){
+            x.left.parent = x;
         }
 
-        //fix internal parents
-        y.parent = z;
-        x.parent = y;
+        if(y.left != null){
+            y.left.parent = y;
+        }
+        
+        if(z.left != null){
+            z.left.parent = z;
+        }
 
+        if(z.right != null){
+            z.right.parent = z;
+        }
+    }
+/*
+           x                x
+          / \              / \
+         y   D            A   y
+        / \                  / \
+       z   C      <-->      B   z
+      / \                      / \
+     A   B                    C   D
+*/
+    private void zagzag(Entry x){
 
-        //Move children
-        x.right = y.left;
+        Entry y = x.left;
+        Entry z = y.left;
+
+        //Switch the elements in x and z
+        E e = z.element;
+        z.element = x.element;
+        x.element = e;
+
+        //move the subtrees to right pos
+        x.right = z.right;
+        y.right = z.left;
+        z.left = x.left;
+        z.right = y.left;
+
+        x.left = y;
+        y.left = z;
+
+        //Sort out the childrens parents. x y z already has the correct parents
         if(x.right != null){
             x.right.parent = x;
         }
 
-        y.right = z.left;
         if(y.right != null){
             y.right.parent = y;
         }
 
-        //Set right internal structure
-        z.left = y;
-        y.left = x;
+        if(z.right != null){
+            z.right.parent = z;
+        }
+
+        if(z.left != null){
+            z.left.parent = z;
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
