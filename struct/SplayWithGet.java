@@ -115,7 +115,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
                 / \            / \  
                B   C          A   B   
      */
-	 private void rotateLeft( Entry x ) {
+	 private void zag( Entry x ) {
 		 Entry  y  = x.right;
 		 E temp    = x.element;
 		 x.element = y.element;
@@ -129,7 +129,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 			 y.left.parent   = y;
 		 x.left    = y;
 	 } //   rotateLeft
-	 // ========== ========== ========== ==========
 
      /* Rotera 2 steg i hogervarv, dvs 
                x'                  z'
@@ -140,7 +139,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
               / \  
              B   C  
      */
-   private void doubleRotateRight( Entry x ) {
+   private void zigzag( Entry x ) {
         Entry   y = x.left,
 	        z = x.left.right;
         E       e = x.element;
@@ -167,7 +166,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
               / \  
              B   C  
      */
-    private void doubleRotateLeft( Entry x ) {
+    private void zagzig( Entry x ) {
         Entry  y  = x.right, z  = x.right.left;
         E      e  = x.element;
         x.element = z.element;
@@ -182,21 +181,65 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.left    = z;
         z.parent  = x;
     } //  doubleRotateLeft
-	// ========== ========== ========== ==========
+
+/*
+           x                z
+          / \              / \
+         y   D            A   y
+        / \                  / \
+       z   C      <--       B   x
+      / \                      / \
+     A   B                    C   D
+*/
+    private void zigzigHippoVersionLel( Entry x){
+
+    	Entry y = x.parent;
+    	Entry z = y.parent;
+
+    	E e = z.element;
+    	z.element = x.element;
+    	x.element = e;
+
+    	
+    	y.right = z.left;
+    	x.right = z.right;
+    	z.right = y.left;
+    	z.left = x.left;
+
+    	x.left = y;
+    	y.left = z;
+
+    	y.parent = x;
+    	z.parent = y;
+
+    	if(x.right != null){
+            x.right.parent = x;
+        }
+
+        if(y.right != null){
+            y.right.parent = y;
+        }
+        
+        if(z.left != null){
+            z.left.parent = z;
+        }
+
+        if(z.right != null){
+            z.right.parent = z;
+        }
+
 /*
            z                x
           / \              / \
          y   D            A   y
-        / \                  / w
+        / \                  / \
        x   C      <--       B   z
       / \                      / \
      A   B                    C   D
 */
     private void zigZig( Entry x){
 
-    	// y = högra x
         Entry y = x.right;
-        // z = högra y
         Entry z = y.right;
 
         //switch x and z elements
