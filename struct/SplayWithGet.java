@@ -384,9 +384,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
             z.left.parent = z;
         }
     }
-
     private boolean splay(Entry x){
-
         if(x.parent == null){
             root = x;
             return true;
