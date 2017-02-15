@@ -196,7 +196,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
       / \                      / \
      A   B                    C   D
 */
-    private void zigzig( Entry x){
+    private void zigzigHippoVersionLel( Entry x){
 
     	Entry y = x.parent;
     	Entry z = y.parent;
@@ -233,8 +233,17 @@ public class SplayWithGet<E extends Comparable<? super E>>
             z.right.parent = z;
         }
 
+/*
+           z                x
+          / \              / \
+         y   D            A   y
+        / \                  / \
+       x   C      <--       B   z
+      / \                      / \
+     A   B                    C   D
+*/
+    private void zigzig( Entry x){
 
-        /*
         Entry y = x.right;
         Entry z = y.right;
 
@@ -269,9 +278,8 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
         if(z.right != null){
             z.right.parent = z;
-        }*/
+        }
     }
-/*
            x                z
           / \              / \
          y   D            A   y
