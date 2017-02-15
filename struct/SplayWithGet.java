@@ -9,11 +9,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	implements CollectionWithGet<E>{
 		private class Splay_Entry extends Entry {
 
-		//TODO: Some javadoc
-
-		private Splay_Entry( E element, Entry left, 
-			Entry  right,
-			Entry  parent ) {
+		private Splay_Entry( E element, Entry left, Entry right,Entry  parent ) {
 			super( element, left, right, parent );
 		}   //  constructor Splay_Entry
 
@@ -72,103 +68,17 @@ public class SplayWithGet<E extends Comparable<? super E>>
 			}
 			return true;
 		}
-
         //Put to right
 		else {
 			if ( t.right == null ) { 
 				t.right = new Splay_Entry( newElem, t );
-				checkHeight(t);
 			}
 			else {
 				boolean left = addInSplay( newElem, t.right );
-				if ( height(t.right) - height(t.left) > 1 ) {
-					if ( left )
-						doubleRotateLeft( t );
-					else 
-						rotateLeft( t );
-				}
-				else
-					checkHeight(t); 
 			}
 		}
 		return false;
 	}  //   addInAVL
-
-
-
-
-
-	/**
-	* Remove the first occurance of an element with the same key
-	* as the argument element. 
-	* If no element is removed false is returned,
-	* otherwise true is returned.
-	* After the element is removed the height balance
-	* is checked and if nescessary restored.
-	* 
-	* @param elem any element with the searched key
-	* @return true if an element has disapeared from the tree,
-	*         false otherwise
-	*/
-	public boolean remove( E elem ) {
-		if ( root == null )
-			return false;
-		else if ( root.element.compareTo(elem) == 0 && 
-		(root.left == null || root.right == null ) ){
-			root = root.left == null ? root.right : root.left;
-			size--;
-			return true;
-		}
-		else {
-			int oldSize = size;
-			remove( elem, root);
-			return size != oldSize;
-		}
-	} // remove 
-	// ========== ========== ========== ==========
-
-	//  In order to make the iterator in 
-	//  BinarySearchTree to work properly !!
-	protected void removeThis( Entry t ) {
-		remove( t.element, root );
-	}  //  removeThis 
-	// ========== ========== ========== ==========
-	
-	private void remove(  E elem, Entry x ) {
-		if ( elem.compareTo( x.element ) == 0 )
-		if ( x.left == null || x.right == null ) {
-			Entry newX =  x.left == null ? x.right : x.left;
-			if ( newX != null )
-				newX.parent = x.parent;
-			if ( x.parent.left == x )
-				x.parent.left = newX;
-			else
-				x.parent.right = newX;
-			size--;
-			return;
-		}
-		else {
-			Entry t = x.left; //x.element = findRefToMostRight( x.left ).element;
-			while( t.right != null )//
-				t = t.right;       //
-			x.element = t.element; //
-			remove( x.element, x.left );
-        }
-		else 
-		if ( elem.compareTo( x.element ) < 0 ) {
-			if ( x.left != null ) {
-				remove( elem, x.left );
-            }
-		}
-		else 
-		if ( x.right != null ) {
-			remove( elem, x.right );
-			}
-	}  // remove private version              
-
-
-
-
 
      /* Rotera 1 steg i hogervarv, dvs 
                x'                 y'
@@ -177,7 +87,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
             / \                    / \  
            A   B                  B   C
      */
-	 private void rotateRight( Entry x ) {
+	 private void zig( Entry x ) {
 		 Entry   y = x.left;
 		 E    temp = x.element;
 		 x.element = y.element;
@@ -195,14 +105,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
          }
 
 		 x.right   = y;
-		 checkHeight( y );
-		 checkHeight( x );
 	 } //   rotateRight
-	 // ========== ========== ========== ==========
-	 
-
-
-
         
      /* Rotera 1 steg i vanstervarv, dvs 
                x'                 y'
@@ -286,17 +189,19 @@ public class SplayWithGet<E extends Comparable<? super E>>
     } //  doubleRotateLeft
 	// ========== ========== ========== ==========
 /*
-           x                x
+           z                x
           / \              / \
          y   D            A   y
         / \                  / \
-       z   C      <-->      B   z
+       x   C      <-->      B   z
       / \                      / \
      A   B                    C   D
 */
-    private void zigZig( Entry x){
+    private void zigzig( Entry x){
 
+    	// y = högra x
         Entry y = x.right;
+        // z = högra y
         Entry z = y.right;
 
         //switch x and z elements
@@ -333,11 +238,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 /*
-           x                x
+           z                x
           / \              / \
          y   D            A   y
         / \                  / \
-       z   C      <-->      B   z
+       x   C      <-->      B   z
       / \                      / \
      A   B                    C   D
 */
