@@ -32,8 +32,10 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	*/
 	public E get(E e) {
 		Entry t = find(e,root);
+        if(t == null){
+        }
         splay(t);
-		return t == null ? null : t.element;
+		return root == null ? null : root.element;
 	}  // get
 
 	/**
@@ -139,7 +141,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
               / \  
              B   C  
      */
-   private void zigzag( Entry x ) {
+   private void zigZag( Entry x ) {
         Entry   y = x.left,
 	        z = x.left.right;
         E       e = x.element;
@@ -166,7 +168,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
               / \  
              B   C  
      */
-    private void zagzig( Entry x ) {
+    private void zagZig( Entry x ) {
         Entry  y  = x.right, z  = x.right.left;
         E      e  = x.element;
         x.element = z.element;
@@ -227,6 +229,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         if(z.right != null){
             z.right.parent = z;
         }
+    }
 
 /*
            z                x
@@ -249,21 +252,21 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.element = e;
 
         //move the subtrees to right pos
-        x.left = z.left;
-        y.left = z.right;
-        z.left = y.right;
-        z.right = x.right;
+        x.right = z.right;
+        y.right = z.left;
+        z.left = x.left;
+        z.right = y.left;
         
-        x.right = y;
-        y.right = z;
+        x.left= y;
+        y.left= z;
 
 //Sort out the childrens parents. x y z already has the correct parents
-        if(x.left != null){
-            x.left.parent = x;
+        if(x.right != null){
+            x.right.parent = x;
         }
 
-        if(y.left != null){
-            y.left.parent = y;
+        if(y.right != null){
+            y.right.parent = y;
         }
         
         if(z.left != null){
@@ -294,21 +297,21 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.element = e;
 
         //move the subtrees to right pos
-        x.right = z.right;
-        y.right = z.left;
-        z.left = x.left;
-        z.right = y.left;
+        x.left = z.right;
+        y.left = z.right;
+        z.left = y.right;
+        z.right = x.right;
 
-        x.left = y;
-        y.left = z;
+        x.right = y;
+        y.right = z;
 
         //Sort out the childrens parents. x y z already has the correct parents
-        if(x.right != null){
-            x.right.parent = x;
+        if(x.left != null){
+            x.left.parent = x;
         }
 
-        if(y.right != null){
-            y.right.parent = y;
+        if(y.left != null){
+            y.left.parent = y;
         }
 
         if(z.right != null){
@@ -325,11 +328,8 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
         if(x.parent == null){
             root = x;
-            System.out.println("asfd");
-
             return true;
         }
-
 
         Entry y = x.parent;
 
@@ -337,8 +337,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         if(y.parent == null){
 
             if(y.right == x){
-                System.out.println("here");
-                rotateLeft(y);
+                zag(y);
             }else{
                 zig(y);
             }
@@ -355,12 +354,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
             }else{
                 //Right left child
-                doubleRotateLeft(z);
+                zagZig(z);
             }
         }else{
             if(x == y.right){
                 //Left right child
-                doubleRotateRight(z);
+                zigZag(z);
             }else{
                 //Left left child
                 zagZag(z);
