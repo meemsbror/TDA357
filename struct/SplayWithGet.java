@@ -191,8 +191,8 @@ public class SplayWithGet<E extends Comparable<? super E>>
            z                x
           / \              / \
          y   D            A   y
-        / \                  / \
-       x   C      <-->      B   z
+        / \                  / w
+       x   C      <--       B   z
       / \                      / \
      A   B                    C   D
 */
@@ -237,11 +237,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 /*
-           z                x
-          / \              / \
+           x                z
+          b \              / \
          y   D            A   y
         / \                  / \
-       x   C      <-->      B   z
+       z   C       -->      B   x
       / \                      / \
      A   B                    C   D
 */
@@ -281,4 +281,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
             z.left.parent = z;
         }
     }
+
+
+    private 
 }
