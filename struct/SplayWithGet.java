@@ -7,7 +7,7 @@
 public class SplayWithGet<E extends Comparable<? super E>>
 	extends BinarySearchTree<E>
 	implements CollectionWithGet<E>{
-		private class AVL_Entry extends Entry {
+		private class Splay_Entry extends Entry {
 
 		//TODO: Some javadoc
 
@@ -48,8 +48,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
 	/**
 	* Add the element to its first proper empty place.
-	* After the element is inserted the height balance
-	* is checked and if nescessary restored.
 	* @param elem the element to be included  
 	*/
 	public boolean add(E elem) {
@@ -63,25 +61,19 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	} // add
 
 	private boolean addInSplay( E newElem, Entry t ) {
+
+        //Put in left
 		if ( newElem.compareTo( t.element ) < 0 ) {
 			if ( t.left == null ) { 
 				t.left = new Splay_Entry( newElem, t );
 			}
 			else {
 				boolean left = addInSplay( newElem, t.left );
-				
-
-				if ( height(t.left) - height(t.right) > 1 ) {
-					if ( left )
-						rotateRight( t );
-					else 
-						doubleRotateRight( t );
-				}
-				else
-					checkHeight(t); 
 			}
 			return true;
 		}
+
+        //Put to right
 		else {
 			if ( t.right == null ) { 
 				t.right = new Splay_Entry( newElem, t );
@@ -101,7 +93,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 		}
 		return false;
 	}  //   addInAVL
-	// ========== ========== ========== ==========
 
 
 
@@ -162,43 +153,22 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				t = t.right;       //
 			x.element = t.element; //
 			remove( x.element, x.left );
-			if ( height( x.right ) - height( x.left ) > 1 )
-				if ( height( x.right.right ) < 
-					height( x.right.left ) )
-						doubleRotateLeft( x );
-			else
-				rotateLeft( x );
-			else 
-				checkHeight( x );
-		}
+        }
 		else 
 		if ( elem.compareTo( x.element ) < 0 ) {
 			if ( x.left != null ) {
 				remove( elem, x.left );
-				if ( height( x.right ) - height( x.left ) > 1 )
-					if ( height( x.right.right ) < 
-						height( x.right.left ) )
-							doubleRotateLeft( x );
-				else
-					rotateLeft( x );
-				else 
-					checkHeight( x );
-			}
+            }
 		}
 		else 
 		if ( x.right != null ) {
 			remove( elem, x.right );
-			if ( height( x.left ) - height( x.right ) > 1 )
-				if ( height( x.left.left ) < 
-					height( x.left.right ) )
-						doubleRotateRight(x);
-			else
-				rotateRight(x);
-			else
-				checkHeight( x );
-		}
+			}
 	}  // remove private version              
-	// ========== ========== ========== ==========
+
+
+
+
 
      /* Rotera 1 steg i hogervarv, dvs 
                x'                 y'
@@ -213,18 +183,27 @@ public class SplayWithGet<E extends Comparable<? super E>>
 		 x.element = y.element;
 		 y.element = temp;
 		 x.left    = y.left;
-		 if ( x.left != null )
+
+		 if ( x.left != null ){
 			 x.left.parent   = x;
+         }
+
 		 y.left    = y.right;
 		 y.right   = x.right;
-		 if ( y.right != null )
+		 if ( y.right != null ){
 			 y.right.parent  = y;
+         }
+
 		 x.right   = y;
 		 checkHeight( y );
 		 checkHeight( x );
 	 } //   rotateRight
 	 // ========== ========== ========== ==========
 	 
+
+
+
+
      /* Rotera 1 steg i vanstervarv, dvs 
                x'                 y'
               / \                / \
@@ -304,9 +283,57 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	    z.left.parent = z;
         x.left    = z;
         z.parent  = x;
-        checkHeight( z );
-        checkHeight( y );
-        checkHeight( x );
     } //  doubleRotateLeft
 	// ========== ========== ========== ==========
 	}
+
+
+    private void zigZig( Entry x){
+
+        Entry y = x.right;
+        Entry z = y.right;
+
+        //set z:s parent as the new parent and tell it to point at z
+        if(x.parent != null){
+            z.parent = x.parent;
+            z.parent.left = z;
+        }else{
+            z.parent = null;
+        }
+
+        //fix internal parents
+        y.parent = z;
+        x.parent = y;
+
+
+        //Move children
+        x.right = y.left;
+        if(x.right != null){
+            x.right.parent = x;
+        }
+
+        y.right = z.left;
+        if(y.right != null){
+            y.right.parent = y;
+        }
+
+        //Set right internal structure
+        z.left = y;
+        y.left = x;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
