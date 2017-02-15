@@ -188,19 +188,54 @@ public class SplayWithGet<E extends Comparable<? super E>>
     } //  doubleRotateLeft
 	// ========== ========== ========== ==========
 /*
-           z                x
+           x                z
           / \              / \
          y   D            A   y
-        / \                  / w
-       x   C      <--       B   z
+        / \                  / \
+       z   C      <--       B   x
       / \                      / \
      A   B                    C   D
 */
     private void zigzig( Entry x){
 
-    	// y = högra x
+    	Entry y = x.parent;
+    	Entry z = y.parent;
+
+    	E e = z.element;
+    	z.element = x.element;
+    	x.element = e;
+
+    	
+    	y.right = z.left;
+    	x.right = z.right;
+    	z.right = y.left;
+    	z.left = x.left;
+
+    	x.left = y;
+    	y.left = z;
+
+    	y.parent = x;
+    	z.parent = y;
+
+    	if(x.right != null){
+            x.right.parent = x;
+        }
+
+        if(y.right != null){
+            y.right.parent = y;
+        }
+        
+        if(z.left != null){
+            z.left.parent = z;
+        }
+
+        if(z.right != null){
+            z.right.parent = z;
+        }
+
+
+        /*
         Entry y = x.right;
-        // z = högra y
         Entry z = y.right;
 
         //switch x and z elements
@@ -234,11 +269,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
         if(z.right != null){
             z.right.parent = z;
-        }
+        }*/
     }
 /*
            x                z
-          b \              / \
+          / \              / \
          y   D            A   y
         / \                  / \
        z   C       -->      B   x
