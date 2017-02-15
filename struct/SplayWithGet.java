@@ -290,7 +290,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
           / \              / \
          y   D            A   y
         / \                  / \
-       z   C      <-->      B   x
+       z   C      <--       B   x
       / \                      / \
      A   B                    C   D
 */
@@ -337,7 +337,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
           / \              / \
          y   D            A   y
         / \                  / \
-       x   C      <-->      B   z
+       x   C      -->       B   z
       / \                      / \
      A   B                    C   D
 */
