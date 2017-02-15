@@ -114,7 +114,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
                 / \            / \  
                B   C          A   B   
      */
-	 private void rotateLeft( Entry x ) {
+	 private void zag( Entry x ) {
 		 Entry  y  = x.right;
 		 E temp    = x.element;
 		 x.element = y.element;
@@ -130,7 +130,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 		 checkHeight( y );
 		 checkHeight( x );
 	 } //   rotateLeft
-	 // ========== ========== ========== ==========
 
      /* Rotera 2 steg i hogervarv, dvs 
                x'                  z'
@@ -141,7 +140,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
               / \  
              B   C  
      */
-   private void doubleRotateRight( Entry x ) {
+   private void zigzag( Entry x ) {
         Entry   y = x.left,
 	        z = x.left.right;
         E       e = x.element;
@@ -171,7 +170,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
               / \  
              B   C  
      */
-    private void doubleRotateLeft( Entry x ) {
+    private void zagzig( Entry x ) {
         Entry  y  = x.right, z  = x.right.left;
         E      e  = x.element;
         x.element = z.element;
@@ -186,7 +185,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.left    = z;
         z.parent  = x;
     } //  doubleRotateLeft
-	// ========== ========== ========== ==========
+
 /*
            x                z
           / \              / \
@@ -280,6 +279,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
             z.right.parent = z;
         }
     }
+/*
            x                z
           / \              / \
          y   D            A   y
