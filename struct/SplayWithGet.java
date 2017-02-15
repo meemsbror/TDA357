@@ -79,7 +79,71 @@ public class SplayWithGet<E extends Comparable<? super E>>
 			}
 		}
 		return false;
-	}  //   addInAVL
+	}  //   addInSplay
+
+	protected Entry find( E elem, Entry t ) {
+		if ( t == null )
+			return null;
+		else {
+			int jfr = elem.compareTo( t.element );
+			if ( jfr  < 0 )
+				return find( elem, t.left );
+			else if ( jfr > 0 )
+				return find( elem, t.right );
+			else 
+				if(t.parent != null){
+					splay(t);
+				} 
+				return t;
+		}
+	}  //   find
+
+    private boolean splay(Entry x){
+
+        if(x.parent == null){
+            root = x;
+            System.out.println("asfd");
+
+            return true;
+        }
+
+
+        Entry y = x.parent;
+
+        //if one step from root
+        if(y.parent == null){
+
+            if(y.right == x){
+                System.out.println("here");
+                zag(x);
+            }else{
+                zig(x);
+            }
+        }
+
+        Entry z = y.parent;
+
+        if(y == z.right){
+            if(x == y.right){
+                //Right right child
+                zigzig(x);
+
+            }else{
+                //Right left child
+                zagzig(x);
+            }
+        }else{
+            if(x == y.right){
+                //Left right child
+                zigzag(x);
+            }else{
+                //Left left child
+                zagzag(x);
+            }
+        }
+        return splay(x);
+    }
+}
 
      /* Rotera 1 steg i hogervarv, dvs 
                x'                 y'
@@ -320,7 +384,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
             z.left.parent = z;
         }
     }
-
 
     private boolean splay(Entry x){
 
