@@ -286,11 +286,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
     } //  doubleRotateLeft
 	// ========== ========== ========== ==========
 /*
-           x                x
+           x                z
           / \              / \
          y   D            A   y
         / \                  / \
-       z   C      <-->      B   z
+       z   C      <-->      B   x
       / \                      / \
      A   B                    C   D
 */
@@ -333,11 +333,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
 /*
-           x                x
+           z                x
           / \              / \
          y   D            A   y
         / \                  / \
-       z   C      <-->      B   z
+       x   C      <-->      B   z
       / \                      / \
      A   B                    C   D
 */
