@@ -16,6 +16,10 @@ insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', 'Finland', 
 
 /*TODO: Assert that budget is updated for that perssonnummer*/	
 
+insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', ' ', ' ', 1);
+
+/*TODO: Assert that budget is NOT updated for that government*/	
+
 insert into cities values('Sweden', 'Gothenburg', 10);
 insert into cities values('Sweden', 'Kungsbacka', 22);
 	
@@ -40,7 +44,7 @@ set ownerpersonnummer = '19960123-2631', ownercountry = 'Sweden'
 where name = 'King bed';
 
 update roads
-set roadtax = 8;
+set roadtax = 8
 where ownerpersonnummer = '19960123-2631' and ownercountry = 'Sweden' and toarea = 'Arvika' and
 tocountry = 'Sweden' and fromarea = 'Gothenburg' and fromcountry = 'Sweden'  ;
 

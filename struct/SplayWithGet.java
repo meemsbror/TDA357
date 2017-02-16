@@ -1,8 +1,7 @@
 
 /**
-*
-*
-*
+* A class for a Splay-tree
+* 
 */
 public class SplayWithGet<E extends Comparable<? super E>>
 	extends BinarySearchTree<E>
@@ -65,7 +64,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				t.left = new Splay_Entry( newElem, t );
 			}
 			else {
-				boolean left = addInSplay( newElem, t.left );
+				addInSplay( newElem, t.left );
 			}
 			return true;
 		}
@@ -75,7 +74,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				t.right = new Splay_Entry( newElem, t );
 			}
 			else {
-				boolean left = addInSplay( newElem, t.right );
+				addInSplay( newElem, t.right );
 			}
 		}
 		return false;
@@ -106,7 +105,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
             return true;
         }
-
 
         Entry y = x.parent;
 

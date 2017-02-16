@@ -1,27 +1,35 @@
 
+
 CREATE OR REPLACE VIEW  NextMoves AS
-SELECT p.country AS personcountry,
-p.personnummer,
-p.locationcountry AS country,
-p.locationarea AS area,
-r.tocountry AS destcountry,
-r.toarea AS destarea,
-r.roadtax AS cost
+    WITH
+    NextMovesHelp AS(
+        SELECT p.country AS personcountry,
+        p.personnummer,
+        p.locationcountry AS country,
+        p.locationarea AS area,
+        r.tocountry AS destcountry,
+        r.toarea AS destarea,
+        r.roadtax AS cost
 
-FROM Persons p, Roads r
-WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea)
+        FROM Persons p, Roads r
+        WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea) 
 
-UNION ALL
+        UNION ALL
 
-SELECT p.country AS personcountry,
-p.personnummer,
-p.locationcountry AS country,
-p.locationarea AS area,
-r.fromcountry AS destcountry,
-r.fromarea AS destarea,
-r.roadtax AS cost
-FROM Persons p, Roads r
-WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea)
+        SELECT p.country AS personcountry,
+        p.personnummer,
+        p.locationcountry AS country,
+        p.locationarea AS area,
+        r.fromcountry AS destcountry,
+        r.fromarea AS destarea,
+        r.roadtax AS cost
+        FROM Persons p, Roads r
+        WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea) 
+    )
+
+    SELECT personcountry, personnummer, country, area, destcountry, destarea, MIN(cost) AS cost
+    FROM NextMovesHelp
+    GROUP BY personcountry, personnummer, country, area, destcountry, destarea
 ;
 
 CREATE OR REPLACE VIEW AssetsSummary AS
@@ -44,5 +52,6 @@ SELECT ownercountry AS country, ownerpersonnummer AS personnummer, budget, hAsse
 FROM roadAssets r
 NATURAL INNER JOIN hotelAssets h
 NATURAL INNER JOIN personBudget p
+WHERE ownerpersonnummer<>' '
 ;
 
