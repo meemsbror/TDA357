@@ -1,6 +1,8 @@
 
 /**
-* * * */
+* A class for a Splay-tree
+* 
+*/
 public class SplayWithGet<E extends Comparable<? super E>>
 	extends BinarySearchTree<E>
 	implements CollectionWithGet<E>{
@@ -29,11 +31,10 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	*/
 	public E get(E e) {
 		Entry t = find(e,root);
-        if(t != null){
-            splay(t);
-            return root.element;
-        }
-		return null;
+		if(t != null){
+			splay(t);
+		}
+		return t == null ? null : root.element;
 	}  // get
 
 	/**
@@ -65,7 +66,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				t.left = new Splay_Entry( newElem, t );
 			}
 			else {
-				boolean left = addInSplay( newElem, t.left );
+				addInSplay( newElem, t.left );
 			}
 			return true;
 		}
@@ -75,7 +76,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				t.right = new Splay_Entry( newElem, t );
 			}
 			else {
-				boolean left = addInSplay( newElem, t.right );
+				addInSplay( newElem, t.right );
 			}
 		}
 		return false;
@@ -94,10 +95,15 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				return find( elem, t.right );
             }
 			else {
+<<<<<<< HEAD
+				
+=======
+>>>>>>> a1e2f6b03e56b3e0c036da7260ec7b3287f1d836
 				return t;
             }
 		}
 	}  //   find
+
 
      /* Rotera 1 steg i hogervarv, dvs 
                x'                 y'
@@ -173,7 +179,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.right   = z;
         z.parent  = x;
     }  //  doubleRotateRight
-	// ========== ========== ========== ==========
 	
     /* Rotera 2 steg i vanstervarv, dvs 
                x'                  z'
@@ -205,53 +210,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
           / \              / \
          y   D            A   y
         / \                  / \
-       z   C      <--       B   z
-      / \                      / \
-     A   B                    C   D
-*/
-    private void zigzigHippoVersionLel( Entry x){
-
-    	Entry y = x.parent;
-    	Entry z = y.parent;
-
-    	E e = z.element;
-    	z.element = x.element;
-    	x.element = e;
-
-    	
-    	y.right = z.left;
-    	x.right = z.right;
-    	z.right = y.left;
-    	z.left = x.left;
-
-    	x.left = y;
-    	y.left = z;
-
-    	y.parent = x;
-    	z.parent = y;
-
-    	if(x.right != null){
-            x.right.parent = x;
-        }
-
-        if(y.right != null){
-            y.right.parent = y;
-        }
-        
-        if(z.left != null){
-            z.left.parent = z;
-        }
-
-        if(z.right != null){
-            z.right.parent = z;
-        }
-    }
-
-/*
-           z                x
-          / \              / \
-         y   D            A   y
-        / \                  / \
        x   C      <--       B   z
       / \                      / \
      A   B                    C   D
@@ -276,7 +234,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.left = y;
         y.left = z;
 
-//Sort out the childrens parents. x y z already has the correct parents
+		//Sort out the childrens parents. x y z already has the correct parents
         if(x.right != null){
             x.right.parent = x;
         }

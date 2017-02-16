@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION beforeNewHotel() RETURNS TRIGGER AS $$
     BEGIN
         /* Government cannot own hotel */
-        IF(new.personnummer = ' ' AND new.ownercountry = ' ')
+        IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
             THEN RAISE EXCEPTION 'The government cannot own a hotel';
         END IF;
 
@@ -51,7 +51,7 @@ CREATE TRIGGER afterNewHotel
 CREATE OR REPLACE FUNCTION updateHotelOwner() RETURNS TRIGGER AS $$
     BEGIN
          /* Government cannot own hotel */
-        IF(new.personnummer = ' ' AND new.ownercountry = ' ')
+        IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
             THEN RAISE EXCEPTION 'The government cannot own a hotel';
         END IF;
         
