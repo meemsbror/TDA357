@@ -27,7 +27,11 @@ public class SLCWithGet<E extends Comparable<? super E>>
 			if(isEmpty()){
 				head = new Entry(element, head);
 				return true;
-			}else{
+			}if(element.compareTo(head.element) < 0){
+                head =  new Entry(element, head);
+                return true;
+            }
+            else{
 				return addCompare(head.next, head, element);
 			}
 		}
@@ -36,11 +40,14 @@ public class SLCWithGet<E extends Comparable<? super E>>
 	private boolean addCompare(Entry current, Entry previous, E newElement){
 
 		//check if new element is less than or equal to current element
-		if(current == null || newElement.compareTo(current.element) < 1 ){
+		if(current == null || newElement.compareTo(current.element) < 0 ){
 			Entry e = new Entry(newElement, current);
 			previous.next = e;
 			return true;
 		}
+        if( newElement.compareTo(current.element) == 0){
+            return false;
+        }
 		return addCompare(current.next, current, newElement);
 	}
 
@@ -50,7 +57,7 @@ public class SLCWithGet<E extends Comparable<? super E>>
 
 	private E getThatShit(Entry entry, E e){
 		if(entry != null){
-			if(entry.element.equals(e)){
+			if(entry.element.compareTo(e) == 0 ){
 				return entry.element;
 			}
 
