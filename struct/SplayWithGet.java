@@ -31,8 +31,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	*/
 	public E get(E e) {
 		Entry t = find(e,root);
-        splay(t);
-		return root == null ? null : root.element;
+		if(t != null){
+			splay(t);
+		}
+	
+		return t == null ? null : root.element;
 	}  // get
 
 	/**
@@ -81,67 +84,24 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	}  //   addInSplay
 
 	protected Entry find( E elem, Entry t ) {
-		if ( t == null )
+		if ( t == null ){
 			return null;
+            }
 		else {
 			int jfr = elem.compareTo( t.element );
-			if ( jfr  < 0 )
+			if ( jfr  < 0 ){
 				return find( elem, t.left );
-			else if ( jfr > 0 )
+            }
+			else if ( jfr > 0 ){
 				return find( elem, t.right );
-			else 
-				if(t.parent != null){
-					splay(t);
-				} 
+            }
+			else {
+				
 				return t;
+            }
 		}
 	}  //   find
 
-    private boolean splay(Entry x){
-
-        if(x.parent == null){
-            root = x;
-            System.out.println("asfd");
-
-            return true;
-        }
-
-        Entry y = x.parent;
-
-        //if one step from root
-        if(y.parent == null){
-
-            if(y.right == x){
-                System.out.println("here");
-                zag(x);
-            }else{
-                zig(x);
-            }
-        }
-
-        Entry z = y.parent;
-
-        if(y == z.right){
-            if(x == y.right){
-                //Right right child
-                zigzig(x);
-
-            }else{
-                //Right left child
-                zagzig(x);
-            }
-        }else{
-            if(x == y.right){
-                //Left right child
-                zigzag(x);
-            }else{
-                //Left left child
-                zagzag(x);
-            }
-        }
-        return splay(x);
-    }
-}
 
      /* Rotera 1 steg i hogervarv, dvs 
                x'                 y'
@@ -217,7 +177,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.right   = z;
         z.parent  = x;
     }  //  doubleRotateRight
-	// ========== ========== ========== ==========
 	
     /* Rotera 2 steg i vanstervarv, dvs 
                x'                  z'
@@ -243,53 +202,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.left    = z;
         z.parent  = x;
     } //  doubleRotateLeft
-
-/*
-           x                z
-          / \              / \
-         y   D            A   y
-        / \                  / \
-       z   C      <--       B   x
-      / \                      / \
-     A   B                    C   D
-*/
-    private void zigzigHippoVersionLel( Entry x){
-
-    	Entry y = x.parent;
-    	Entry z = y.parent;
-
-    	E e = z.element;
-    	z.element = x.element;
-    	x.element = e;
-
-    	
-    	y.right = z.left;
-    	x.right = z.right;
-    	z.right = y.left;
-    	z.left = x.left;
-
-    	x.left = y;
-    	y.left = z;
-
-    	y.parent = x;
-    	z.parent = y;
-
-    	if(x.right != null){
-            x.right.parent = x;
-        }
-
-        if(y.right != null){
-            y.right.parent = y;
-        }
-        
-        if(z.left != null){
-            z.left.parent = z;
-        }
-
-        if(z.right != null){
-            z.right.parent = z;
-        }
-    }
 
 /*
            z                x
@@ -320,7 +232,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.left= y;
         y.left= z;
 
-//Sort out the childrens parents. x y z already has the correct parents
+		//Sort out the childrens parents. x y z already has the correct parents
         if(x.right != null){
             x.right.parent = x;
         }
@@ -383,6 +295,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
     }
     private boolean splay(Entry x){
+
         if(x.parent == null){
             root = x;
             return true;
