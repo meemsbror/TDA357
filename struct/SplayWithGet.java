@@ -95,10 +95,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				return find( elem, t.right );
             }
 			else {
-<<<<<<< HEAD
-				
-=======
->>>>>>> a1e2f6b03e56b3e0c036da7260ec7b3287f1d836
 				return t;
             }
 		}
