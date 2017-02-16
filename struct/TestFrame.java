@@ -195,7 +195,6 @@ public class TestFrame extends JFrame implements ActionListener {
 			} 
 			catch( NullPointerException ex) { 
 				listModel.addElement("NO Collection implemented");
-                ex.printStackTrace();
 			}
 		}
 	}
@@ -223,7 +222,6 @@ public class TestFrame extends JFrame implements ActionListener {
 					String ord = rad.substring(start,pos);
 					List<Integer> li = map.get(ord);
 					if ( li == null ) {
-                        System.out.println("ord");
 						li = new ArrayList<Integer>();
 						li.add(radNo);
 						map.put(ord,li);

@@ -29,7 +29,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	*/
 	public E get(E e) {
 		Entry t = find(e,root);
-		return root == null ? null : root.element;
+        if(t != null){
+            splay(t);
+            return root.element;
+        }
+		return null;
 	}  // get
 
 	/**
@@ -79,7 +83,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
 	protected Entry find( E elem, Entry t ) {
 		if ( t == null ){
-            System.out.println("why not null?");
 			return null;
             }
 		else {
@@ -91,9 +94,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				return find( elem, t.right );
             }
 			else {
-				if(t.parent != null){
-					splay(t);
-				} 
 				return t;
             }
 		}
@@ -273,8 +273,8 @@ public class SplayWithGet<E extends Comparable<? super E>>
         z.left = x.left;
         z.right = y.left;
         
-        x.left= y;
-        y.left= z;
+        x.left = y;
+        y.left = z;
 
 //Sort out the childrens parents. x y z already has the correct parents
         if(x.right != null){
@@ -313,7 +313,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.element = e;
 
         //move the subtrees to right pos
-        x.left = z.right;
+        x.left = z.left;
         y.left = z.right;
         z.left = y.right;
         z.right = x.right;
