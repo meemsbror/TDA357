@@ -34,7 +34,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 		if(t != null){
 			splay(t);
 		}
-	
 		return t == null ? null : root.element;
 	}  // get
 
@@ -96,7 +95,10 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				return find( elem, t.right );
             }
 			else {
+<<<<<<< HEAD
 				
+=======
+>>>>>>> a1e2f6b03e56b3e0c036da7260ec7b3287f1d836
 				return t;
             }
 		}
@@ -229,8 +231,8 @@ public class SplayWithGet<E extends Comparable<? super E>>
         z.left = x.left;
         z.right = y.left;
         
-        x.left= y;
-        y.left= z;
+        x.left = y;
+        y.left = z;
 
 		//Sort out the childrens parents. x y z already has the correct parents
         if(x.right != null){
@@ -269,7 +271,7 @@ public class SplayWithGet<E extends Comparable<? super E>>
         x.element = e;
 
         //move the subtrees to right pos
-        x.left = z.right;
+        x.left = z.left;
         y.left = z.right;
         z.left = y.right;
         z.right = x.right;
