@@ -62,11 +62,11 @@ public class SplayWithGet<E extends Comparable<? super E>>
 				return null;
 			}
 			return find( elem, t.right );
-        }
+    }
 		else{
 			splay(t);
 			return t;
-        }
+		}
 	}  //   find
 
 
