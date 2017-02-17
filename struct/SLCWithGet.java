@@ -40,15 +40,12 @@ public class SLCWithGet<E extends Comparable<? super E>>
 	private boolean addCompare(Entry current, Entry previous, E newElement){
 
 		//check if new element is less than or equal to current element
-		if(current == null || newElement.compareTo(current.element) < 0 ){
+		if(current == null || newElement.compareTo(current.element) < 1 ){
 			Entry e = new Entry(newElement, current);
 			previous.next = e;
 			return true;
 		}
-        if( newElement.compareTo(current.element) == 0){
-            return false;
-        }
-		return addCompare(current.next, current, newElement);
+        return addCompare(current.next, current, newElement);
 	}
 
 	public E get(E e){
