@@ -8,8 +8,10 @@ public class SplayTest{
 
         a.add("Denna");
         a.add("text");
-        a.add("aar");
-        System.out.println(a.get("zata"));
+        System.out.println(a.get("text"));
+        //System.out.println(a.checkRootRight());
+        //System.out.println(a.get("text"));
+        //System.out.println(a.checkRootRight());
 
     }
 }

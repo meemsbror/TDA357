@@ -47,7 +47,6 @@ public class SplayWithGet<E extends Comparable<? super E>>
 
 
 	protected Entry find( E elem, Entry t ) {
-	
 		int jfr = elem.compareTo( t.element );
 		if ( jfr  < 0 ){
 			if(t.left == null){
@@ -58,14 +57,14 @@ public class SplayWithGet<E extends Comparable<? super E>>
         }
 		else if ( jfr > 0 ){
 			if(t.right == null){
-				splay(t);
-				return null;
+                splay(t);
+                return null;
 			}
 			return find( elem, t.right );
-    }
+        }
 		else{
 			splay(t);
-			return t;
+			return root;
 		}
 	}  //   find
 
@@ -303,5 +302,17 @@ public class SplayWithGet<E extends Comparable<? super E>>
             }
         }
         return splay(z);
+    }
+
+
+    public boolean checkRootRight(){
+
+        if(root.right == null){
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 }
