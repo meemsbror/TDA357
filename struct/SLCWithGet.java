@@ -50,7 +50,7 @@ public class SLCWithGet<E extends Comparable<? super E>>
 
 	private E getThatShit(Entry entry, E e){
 		if(entry != null){
-			if(entry.element.equals(e)){
+			if(entry.element.compareTo(e) == 0){
 				return entry.element;
 			}
 

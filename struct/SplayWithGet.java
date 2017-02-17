@@ -30,11 +30,12 @@ public class SplayWithGet<E extends Comparable<? super E>>
 	*           If no element is found, <tt>null</tt> is returned
 	*/
 	public E get(E e) {
-		Entry t = find(e,root);
-		if(t != null){
-			splay(t);
+		if(e==null || root == null){
+			return null;
 		}
-		return t == null ? null : root.element;
+		Entry t = find(e,root);
+		
+		return t == null ? null : t.element;
 	}  // get
 
 	/**
@@ -44,64 +45,28 @@ public class SplayWithGet<E extends Comparable<? super E>>
 		super();
 	}  // constructor SplayWithGet
 
-	/**
-	* Add the element to its first proper empty place.
-	* @param elem the element to be included  
-	*/
-	public boolean add(E elem) {
-		if ( root == null ){
-			root = new Splay_Entry( elem, null );
-		}
-		else{
-			addInSplay( elem , root );
-		}
-		return true; 
-	} // add
-
-	private boolean addInSplay( E newElem, Entry t ) {
-
-        //Put in left
-		if ( newElem.compareTo( t.element ) < 0 ) {
-			if ( t.left == null ) { 
-				t.left = new Splay_Entry( newElem, t );
-			}
-			else {
-				addInSplay( newElem, t.left );
-			}
-			return true;
-		}
-        //Put to right
-		else {
-			if ( t.right == null ) { 
-				t.right = new Splay_Entry( newElem, t );
-			}
-			else {
-				addInSplay( newElem, t.right );
-			}
-		}
-		return false;
-	}  //   addInSplay
 
 	protected Entry find( E elem, Entry t ) {
-		if ( t == null ){
-			return null;
-            }
-		else {
-			int jfr = elem.compareTo( t.element );
-			if ( jfr  < 0 ){
-				return find( elem, t.left );
-            }
-			else if ( jfr > 0 ){
-				return find( elem, t.right );
-            }
-			else {
-<<<<<<< HEAD
-				
-=======
->>>>>>> a1e2f6b03e56b3e0c036da7260ec7b3287f1d836
-				return t;
-            }
-		}
+	
+		int jfr = elem.compareTo( t.element );
+		if ( jfr  < 0 ){
+			if(t.left == null){
+				splay(t);
+				return null;
+			}
+			return find( elem, t.left );
+        }
+		else if ( jfr > 0 ){
+			if(t.right == null){
+				splay(t);
+				return null;
+			}
+			return find( elem, t.right );
+        }
+		else{
+			splay(t);
+			return t;
+        }
 	}  //   find
 
 
