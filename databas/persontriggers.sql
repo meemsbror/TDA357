@@ -1,5 +1,10 @@
 CREATE OR REPLACE FUNCTION updatePerson() RETURNS TRIGGER AS $$
     BEGIN
+    /* Check it the person has moved */
+    IF(NOT(new.locationarea = old.locationarea AND new.locationcountry = old.locationcountry))
+        THEN RAISE EXCEPTION 'Cannot move to same area';
+    END IF;
+
     /* Check if there is a valid road to the new location*/
     IF((SELECT COUNT(*)
         FROM NextMoves
@@ -36,10 +41,8 @@ CREATE TRIGGER beforePerUpdate
 
 CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
     BEGIN
-    /* Check it the person has moved */
-    IF(NOT(new.locationarea = old.locationarea AND new.locationcountry = old.locationcountry))
-        THEN
-        /* Deducts the roadtax from budget */
+    
+        /* Deducts the roadtax from budget, if the person moved */
         UPDATE persons
         SET budget = budget - 
             (SELECT cost
@@ -50,9 +53,10 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
              AND area = old.locationarea
              AND destcountry = new.locationcountry 
              AND destarea = new.locationarea)  
-        WHERE personnummer = new.personnummer AND country = new.country;
+        WHERE personnummer = new.personnummer AND country = new.country
+        AND locationcountry = new.locationcountry AND locationarea = new.locationarea;
 
-        /* Adds citybonus to person's budget, if there is a citybonus*/
+        /* Adds citybonus to person's budget, if there is a citybonus, and the person moved*/
         IF((SELECT COUNT(*)
             FROM Cities
             WHERE country = new.locationcountry 
@@ -63,10 +67,10 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
                      FROM Cities
                      WHERE country = new.locationcountry 
                      AND area = new.locationarea) 
-                WHERE personnummer = new.personnummer AND country = new.country;
-        END IF;
+                WHERE personnummer = new.personnummer AND country = new.country
+                AND locationcountry = new.locationcountry AND locationarea = new.locationarea;
         RETURN NEW;
-    END IF; 
+        END IF; 
     RETURN OLD;
 END
 $$ LANGUAGE 'plpgsql';

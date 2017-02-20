@@ -11,15 +11,15 @@ insert into persons values ('Sweden', '19900123-3030', 'Mimmi Jarlsson', 'Sweden
 
 insert into roads values ('Sweden', 'Gothenburg', 'Sweden', 'Arvika', 'Sweden', '19960123-2631', 1);
 
-/*TODO: Assert that budget is updated for that perssonnummer*/	
+/* Roadprice is deducted form budget 100000 - 456.9 = 99543.1*/
+select assert((select budget from Persons where personnummer = '19960123-2631' and country = 'Sweden'), 99543.1);
 
 insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', 'Finland', '19960115-1120', 3);
 
-/*TODO: Assert that budget is updated for that perssonnummer*/	
-
 insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', ' ', ' ', 0);
 
-/*TODO: Assert that budget is NOT updated for that government*/	
+/* Assert that budget is NOT updated for that government*/	
+select assert((select budget from Persons where personnummer = ' ' and country = ' '), 0);
 
 insert into cities values('Sweden', 'Gothenburg', 10);
 insert into cities values('Sweden', 'Kungsbacka', 22);
@@ -31,7 +31,8 @@ insert into hotels values('Sunny Beach', 'Sweden', 'Gothenburg', 'Finland', '199
 
 insert into hotels values('Sunny Beach 2', 'Sweden', 'Gothenburg', 'Sweden', '19960123-2631');
 
-/*TODO: Assert that budget is updated for that perssonnummer*/	
+/* 100000 - 789,2 = 99210,8*/
+--select assert((select budget from Persons where personnummer = '19960123-2631' and country = 'Sweden'), 99210.8);
 
 insert into hotels values('King bed', 'Sweden', 'Kungsbacka', 'Sweden', '19960123-2631');
 

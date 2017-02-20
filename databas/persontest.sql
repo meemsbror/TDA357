@@ -15,7 +15,7 @@ update persons
 set locationarea = 'Arvika'
 where personnummer = '19960123-2631' AND  country = 'Sweden';
 
-insert into roads values ('Sweden', 'Gothenburg', 'Sweden', 'Arvika', 'Sweden', '19960123-2631', 2000);
+insert into roads values ('Sweden', 'Gothenburg', 'Sweden', 'Arvika', 'Sweden', '19960123-2632', 2000);
 
 /* Check so no money is deducted when traveling on own road */
 select * from persons where personnummer = '19960123-2631';

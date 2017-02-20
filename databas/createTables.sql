@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS Roads (
 INSERT INTO countries VALUES (' ');
 INSERT INTO countries VALUES ('Sweden') ;
 INSERT INTO areas VALUES ('Sweden','Gothenburg', 491630) ;
-INSERT INTO persons VALUES (' ', ' ', 'The government', 'Sweden', 'Gothenburg', 100000000000);
+INSERT INTO persons VALUES (' ', ' ', 'The government', 'Sweden', 'Gothenburg', 0);
 
 
 
