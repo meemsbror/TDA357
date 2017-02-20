@@ -13,15 +13,14 @@ CREATE OR REPLACE FUNCTION updatePerson() RETURNS TRIGGER AS $$
                 FROM NextMoves
                 WHERE personcountry = old.country AND personnummer = old.personnummer
                 AND country = old.locationcountry AND area = old.locationarea
-                AND destcountry = new.locationcountry AND destarea = new.locationarea) <
+                AND destcountry = new.locationcountry AND destarea = new.locationarea) >
                 (SELECT budget
                  FROM persons
                  WHERE country = old.country 
                  AND personnummer = old.personnummer)) THEN
-                RETURN NEW;
+                 RAISE EXCEPTION 'Not enough money to travel here';
+                 RETURN OLD;
             END IF;
-
-            RAISE EXCEPTION 'Not enough money to travel here';
         END IF;
         RAISE EXCEPTION 'No road from your location to the destination';
 
@@ -37,31 +36,38 @@ CREATE TRIGGER beforePerUpdate
 
 CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
     BEGIN
-    /* Deducts the roadtax from budget */
-    UPDATE persons
-    SET budget = budget - 
-        (SELECT cost
-         FROM NextMoves
-         WHERE personcountry = old.country AND personnummer = old.personnummer
-         AND country = old.locationcountry AND area = old.locationarea
-         AND destcountry = new.locationcountry AND destarea = new.locationarea)  
-    WHERE personnummer = new.personnummer AND country = new.country;
+    /* Check it the person has moved */
+    IF(NOT(new.locationarea = old.locationarea AND new.locationcountry = old.locationcountry))
+        THEN
+        /* Deducts the roadtax from budget */
+        UPDATE persons
+        SET budget = budget - 
+            (SELECT cost
+             FROM NextMoves
+             WHERE personcountry = old.country 
+             AND personnummer = old.personnummer
+             AND country = old.locationcountry 
+             AND area = old.locationarea
+             AND destcountry = new.locationcountry 
+             AND destarea = new.locationarea)  
+        WHERE personnummer = new.personnummer AND country = new.country;
 
-    /* Adds citybonus to person's budget*/
-    IF((SELECT COUNT(*)
-        FROM Cities
-        WHERE country = new.locationcountry 
-        AND area = new.locationarea) > 0) THEN
-            UPDATE persons
-            SET budget = budget +
-                (SELECT citybonus
-                 FROM Cities
-                 WHERE country = new.locationcountry 
-                 AND area = new.locationarea) 
-            WHERE personnummer = new.personnummer AND country = new.country;
+        /* Adds citybonus to person's budget, if there is a citybonus*/
+        IF((SELECT COUNT(*)
+            FROM Cities
+            WHERE country = new.locationcountry 
+            AND area = new.locationarea) > 0) THEN
+                UPDATE persons
+                SET budget = budget +
+                    (SELECT citybonus
+                     FROM Cities
+                     WHERE country = new.locationcountry 
+                     AND area = new.locationarea) 
+                WHERE personnummer = new.personnummer AND country = new.country;
+        END IF;
+        RETURN NEW;
     END IF; 
-
-    RETURN NEW;
+    RETURN OLD;
 END
 $$ LANGUAGE 'plpgsql';
 

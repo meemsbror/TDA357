@@ -10,7 +10,6 @@ CREATE OR REPLACE VIEW  NextMoves AS
         r.tocountry AS destcountry,
         r.toarea AS destarea,
         r.roadtax AS cost
-
         FROM Persons p, Roads r
         WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea) 
 
@@ -25,11 +24,39 @@ CREATE OR REPLACE VIEW  NextMoves AS
         r.roadtax AS cost
         FROM Persons p, Roads r
         WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea) 
+
+        UNION ALL
+
+        SELECT p.country AS personcountry,
+        p.personnummer,
+        p.locationcountry AS country,
+        p.locationarea AS area,
+        r.tocountry AS destcountry,
+        r.toarea AS destarea,
+        0 AS cost
+        FROM Persons p, Roads r
+        WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea) AND
+        ( p.personnummer = r.ownerpersonnummer AND p.country = r.ownercountry)
+
+        UNION ALL
+
+        SELECT p.country AS personcountry,
+        p.personnummer,
+        p.locationcountry AS country,
+        p.locationarea AS area,
+        r.fromcountry AS destcountry,
+        r.fromarea AS destarea,
+        0 AS cost
+        FROM Persons p, Roads r
+        WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea) AND
+        ( p.personnummer = r.ownerpersonnummer AND p.country = r.ownercountry)
     )
 
     SELECT personcountry, personnummer, country, area, destcountry, destarea, MIN(cost) AS cost
     FROM NextMovesHelp
+    WHERE personnummer <> ' ' AND personcountry <> ' '
     GROUP BY personcountry, personnummer, country, area, destcountry, destarea
+    ORDER BY personnummer
 ;
 
 CREATE OR REPLACE VIEW AssetsSummary AS
