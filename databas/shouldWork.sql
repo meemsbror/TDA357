@@ -51,18 +51,31 @@ where ownerpersonnummer = '19960123-2631' and ownercountry = 'Sweden' and toarea
 tocountry = 'Sweden' and fromarea = 'Gothenburg' and fromcountry = 'Sweden'  ;
 
 
-insert into roads values ('Sweden', 'Arvika', 'Sweden', 'Gothenburg', ' ', ' ', 0);
+/*
+Make sure money is deducted from person if they travel to city with hotel 
+and it is transferred to the owners of the hotels
 
-select * from persons;
+Also checks if the visitbonus is transferred
+ */
+insert into roads values ('Sweden', 'Arvika', 'Sweden', 'Gothenburg', ' ', ' ', 0);
 
 update persons
 set locationarea = 'Gothenburg'
 where personnummer = '19900123-3030' AND country = 'Sweden';
 
-select * from persons;
 
 select assert(
     (select budget
         from persons
         where personnummer = '19900123-3030' AND country = 'Sweden'),
-    1000000 - getval('cityvisit'));
+    1000000 - getval('cityvisit') + 10);
+
+select assert(
+    (select budget
+        from persons
+        where personnummer = '19960123-2631'
+        AND country = 'Sweden'),
+        97964.7 + getval('cityvisit')/2);
+
+select assert(
+    (select visitbonus from cities where country = 'Sweden' AND name ='Gothenburg'), 0);

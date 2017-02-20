@@ -90,31 +90,34 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
                 - getval('cityvisit')
                 WHERE personnummer = new.personnummer AND country = new.country;
 
-                UPDATE persons
+                UPDATE Persons p
                 SET budget = budget + 
                 getval('cityvisit') /
                 (SELECT COUNT(*)
                     FROM hotels
                     WHERE locationcountry = new.locationcountry
                     AND locationname = new.locationarea)
-                FROM persons p, hotels h
-                WHERE p.country = h.ownercountry AND p.personnummer = h.ownerpersonnummer
-                AND h.locationcountry = new.locationcountry
-                AND h.locationname = new.locationarea;
+                FROM hotels h
+                WHERE p.country = h.ownercountry
+                    AND p.personnummer = h.ownerpersonnummer
+                    AND h.locationcountry = new.locationcountry
+                    AND h.locationname = new.locationarea
+
+                ;
 
             ELSE
                 /* Deducts the roadtax from budget, if the person moved */
             UPDATE persons
             SET budget = budget - 
-                (SELECT cost
-                 FROM NextMoves
-                 WHERE personcountry = old.country
-                 AND personnummer = old.personnummer
-                 AND country = new.locationcountry
-                 AND area = new.locationarea
-                 AND destcountry = old.locationcountry
-                 AND destarea = old.locationarea)
-                WHERE personnummer = new.personnummer AND country = new.country;
+            (SELECT cost
+                FROM NextMoves
+                WHERE personcountry = old.country
+                AND personnummer = old.personnummer
+                AND country = new.locationcountry
+                AND area = new.locationarea
+                AND destcountry = old.locationcountry
+                AND destarea = old.locationarea)
+            WHERE personnummer = new.personnummer AND country = new.country;
 
             END IF;
 
@@ -149,3 +152,5 @@ CREATE TRIGGER afterUpdate
     ON Persons
     FOR EACH ROW
     EXECUTE PROCEDURE afterUpdatePerson();
+
+

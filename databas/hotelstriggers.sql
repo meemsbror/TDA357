@@ -111,3 +111,6 @@ CREATE TRIGGER deleteHotel
     AFTER DELETE ON Hotels
     FOR EACH ROW
     EXECUTE PROCEDURE sellHotel();
+
+
+
