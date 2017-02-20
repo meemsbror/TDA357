@@ -1,4 +1,3 @@
-
 insert into countries values ('Finland');
 
 insert into areas values ('Sweden', 'Kungsbacka', 2);
@@ -7,7 +6,7 @@ insert into areas values ('Sweden', 'Arvika', 2);
 
 insert into persons values ('Sweden', '19960123-2631', 'Frej Karlsson', 'Sweden', 'Gothenburg', 100000);
 insert into persons values ('Finland', '19960115-1120', 'Maija Happonen', 'Sweden', 'Stockholm', 1500);
-insert into persons values ('Sweden', '19900123-3030', 'Mimmi Jarlsson', 'Sweden', 'Arvika', 1000);
+insert into persons values ('Sweden', '19900123-3030', 'Mimmi Jarlsson', 'Sweden', 'Arvika', 1000000);
 
 insert into roads values ('Sweden', 'Gothenburg', 'Sweden', 'Arvika', 'Sweden', '19960123-2631', 1);
 
@@ -52,4 +51,18 @@ where ownerpersonnummer = '19960123-2631' and ownercountry = 'Sweden' and toarea
 tocountry = 'Sweden' and fromarea = 'Gothenburg' and fromcountry = 'Sweden'  ;
 
 
+insert into roads values ('Sweden', 'Arvika', 'Sweden', 'Gothenburg', ' ', ' ', 0);
 
+select * from persons;
+
+update persons
+set locationarea = 'Gothenburg'
+where personnummer = '19900123-3030' AND country = 'Sweden';
+
+select * from persons;
+
+select assert(
+    (select budget
+        from persons
+        where personnummer = '19900123-3030' AND country = 'Sweden'),
+    1000000 - getval('cityvisit'));
