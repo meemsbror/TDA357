@@ -10,7 +10,9 @@ psql -d test -c 'drop table countries;'
 psql -d test -c 'drop table constants;'
 psql -d test -f createTables.sql
 psql -d test -f lab2-20-constants.sql
+psql -d test -f lab2-10-assert.sql
 psql -d test -f roadtriggers.sql
 psql -d test -f persontriggers.sql
+psql -d test -f hotelstriggers.sql
 psql -d test -f views.sql
 psql -d test -f test.sql
