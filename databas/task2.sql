@@ -74,25 +74,24 @@ CREATE TABLE IF NOT EXISTS Roads (
     );
 
 
-
-
 CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
     BEGIN
        /* Check if the owner already has a road between the areas */
        IF((SELECT COUNT(*)
             FROM Roads
-            WHERE ownerpersonnummer = NEW.ownerpersonnummer 
-            AND fromarea = NEW.toarea 
-            AND toarea = NEW.fromarea 
+            WHERE ownerpersonnummer = NEW.ownerpersonnummer
+            AND fromarea = NEW.toarea
+            AND toarea = NEW.fromarea
             AND fromcountry = NEW.tocountry
-            AND tocountry = NEW.fromcountry 
+            AND tocountry = NEW.fromcountry
             AND ownercountry = NEW.ownercountry) > 0)
             THEN RAISE EXCEPTION 'Road already exists';
        END IF;
 
        /* Check if it is the goverment, location or money not neccessary*/
        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
-            THEN RETURN NEW;
+            THEN NEW.roadtax := 0;
+            RETURN NEW;
         END IF;
 
        /* Check if the owner is either in the start pos or end pos of the road */
@@ -107,7 +106,8 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
         /* Check if the person has enough money to build the road */
         IF((SELECT budget
             FROM Persons
-            WHERE personnummer = new.ownerpersonnummer AND country = new.ownercountry) < getval('roadprice'))
+            WHERE personnummer = new.ownerpersonnummer
+            AND country = new.ownercountry) < getval('roadprice'))
             THEN RAISE EXCEPTION 'Not enough money';
         END IF;
 
@@ -156,6 +156,7 @@ CREATE TRIGGER updateRoad
     EXECUTE PROCEDURE updateRoadTaxOnly();
 
 
+
 /*This no work. Why??? */
 CREATE OR REPLACE FUNCTION removeDuplicate() RETURNS TRIGGER AS $$
     BEGIN
@@ -175,8 +176,6 @@ CREATE TRIGGER removeRoad
     BEFORE DELETE ON Roads
     FOR EACH ROW
     EXECUTE PROCEDURE removeDuplicate();
-
-
 
 
 
@@ -255,7 +254,7 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
             AND locationcountry = new.locationcountry AND locationarea = new.locationarea)
             > 0)
         THEN
-            /* Deducts the roadtax and citivisit (if city and hotel) from budget */
+            /* Deducts the roadtax and citivisit (if city) from budget */
             IF((SELECT COUNT(*)
                 FROM hotels
                 WHERE locationcountry = new.locationcountry
@@ -290,7 +289,7 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
                 ;
 
             ELSE
-                /* Deducts the roadtax from budget */
+                /* Deducts the roadtax from budget, if the person moved */
             UPDATE persons
             SET budget = budget - 
             (SELECT cost
@@ -304,6 +303,35 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
             WHERE personnummer = new.personnummer AND country = new.country;
 
             END IF;
+
+            IF( (SELECT cost
+                FROM NextMoves
+                WHERE personcountry = old.country
+                AND personnummer = old.personnummer
+                AND country = new.locationcountry
+                AND area = new.locationarea
+                AND destcountry = old.locationcountry
+                AND destarea = old.locationarea) > 0) THEN
+
+
+                WITH aRoad AS (
+
+                    SELECT *
+                    FROM roads
+                    WHERE (r.fromarea = old.locationarea AND r.toarea = new.locationarea
+                        AND r.fromcountry = old.locationcountry
+                        AND r.tocountry = old.locationcountry) OR
+                        (r.fromarea = new.locationarea AND r.toarea = old.locationarea
+                        AND r.fromcountry = new.locationcountry
+                        AND r.tocountry = old.locationcountry)
+                    ORDER BY roadtax DESC
+                    LIMIT 1
+                )
+                UPDATE persons p
+                SET budget = budget + 
+                r.roadtax
+                FROM aRoad r
+                WHERE r.ownerpersonnummer = p.personnummer AND r.ownercountry = p.country;
 
             /* Adds citybonus to person's budget, if there is a citybonus*/
             IF((SELECT COUNT(*)
@@ -322,8 +350,9 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
                     UPDATE cities
                     SET visitbonus = 0
                     WHERE new.locationcountry = country AND new.locationarea = name;
+
+            RETURN NEW;
             END IF;
-        RETURN NEW;
         END IF;
 
     RETURN OLD;
@@ -335,7 +364,8 @@ CREATE TRIGGER afterUpdate
     ON Persons
     FOR EACH ROW
     EXECUTE PROCEDURE afterUpdatePerson();
- 
+
+
 
 
 
@@ -348,7 +378,7 @@ CREATE OR REPLACE FUNCTION beforeNewHotel() RETURNS TRIGGER AS $$
         END IF;
 
         /* See if person has enough money before buying hotel*/
-       IF((SELECT budget 
+       IF((SELECT budget
           FROM Persons
           WHERE personnummer = new.ownerpersonnummer
           AND country = new.ownercountry) < getval('hotelprice'))
@@ -374,11 +404,7 @@ CREATE TRIGGER beforeNewHotel
 
 CREATE OR REPLACE FUNCTION afterNewHotel() RETURNS TRIGGER AS $$
     BEGIN
-        /* Government cannot own hotel */
-        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
-            THEN RETURN OLD;
-        END IF;
-
+    
         /*Update person's budget after buying new hotel*/
         UPDATE Persons
         SET budget = budget - getval('hotelprice')
@@ -515,7 +541,7 @@ CREATE OR REPLACE VIEW  NextMoves AS
 
     SELECT personcountry, personnummer, country, area, destcountry, destarea, MIN(cost) AS cost
     FROM NextMovesHelp
-    WHERE personnummer <> '' AND personcountry <> ''
+    WHERE personnummer <> ' ' AND personcountry <> ' '
     GROUP BY personcountry, personnummer, country, area, destcountry, destarea
     ORDER BY personnummer
 ;
@@ -542,5 +568,4 @@ NATURAL INNER JOIN hotelAssets h
 NATURAL INNER JOIN personBudget p
 WHERE ownerpersonnummer<>' '
 ;
-
 
