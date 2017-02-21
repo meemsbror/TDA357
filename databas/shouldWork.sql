@@ -20,10 +20,10 @@ select assert((select budget from Persons where personnummer = '19960123-2631' a
 
 insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', 'Finland', '19960115-1120', 3);
 
-insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', ' ', ' ', 0);
+insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', '', '', 0);
 
 /* Assert that budget is NOT updated for that government*/	
-select assert((select budget from Persons where personnummer = ' ' and country = ' '), 0);
+select assert((select budget from Persons where personnummer = '' and country = ''), 0);
 
 insert into cities values('Sweden', 'Gothenburg', 10);
 insert into cities values('Sweden', 'Kungsbacka', 22);
@@ -62,7 +62,7 @@ and it is transferred to the owners of the hotels
 
 Also checks if the visitbonus is transferred
  */
-insert into roads values ('Sweden', 'Arvika', 'Sweden', 'Gothenburg', ' ', ' ', 0);
+insert into roads values ('Sweden', 'Arvika', 'Sweden', 'Gothenburg', '', '', 0);
 
 update persons
 set locationarea = 'Gothenburg'

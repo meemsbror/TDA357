@@ -73,8 +73,5 @@ CREATE TABLE IF NOT EXISTS Roads (
     FOREIGN KEY (ownercountry,ownerpersonnummer) REFERENCES Persons (country,personnummer)
     );
 
-INSERT INTO countries VALUES (' ');
-
-
-
+INSERT INTO countries VALUES ('');
 

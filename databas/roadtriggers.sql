@@ -3,17 +3,17 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
        /* Check if the owner already has a road between the areas */
        IF((SELECT COUNT(*)
             FROM Roads
-            WHERE ownerpersonnummer = NEW.ownerpersonnummer 
-            AND fromarea = NEW.toarea 
-            AND toarea = NEW.fromarea 
+            WHERE ownerpersonnummer = NEW.ownerpersonnummer
+            AND fromarea = NEW.toarea
+            AND toarea = NEW.fromarea
             AND fromcountry = NEW.tocountry
-            AND tocountry = NEW.fromcountry 
+            AND tocountry = NEW.fromcountry
             AND ownercountry = NEW.ownercountry) > 0)
             THEN RAISE EXCEPTION 'Road already exists';
        END IF;
 
        /* Check if it is the goverment, location or money not neccessary*/
-       IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+       IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
             THEN RETURN NEW;
         END IF;
 
@@ -29,7 +29,8 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
         /* Check if the person has enough money to build the road */
         IF((SELECT budget
             FROM Persons
-            WHERE personnummer = new.ownerpersonnummer AND country = new.ownercountry) < getval('roadprice'))
+            WHERE personnummer = new.ownerpersonnummer 
+            AND country = new.ownercountry) < getval('roadprice'))
             THEN RAISE EXCEPTION 'Not enough money';
         END IF;
 
@@ -47,7 +48,7 @@ CREATE TRIGGER newRoad
 CREATE OR REPLACE FUNCTION updateBudget() RETURNS TRIGGER AS $$
     BEGIN
         /* No budget update needed if it's the government */
-        IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
             THEN RETURN NEW;
         END IF;
 
