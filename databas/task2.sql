@@ -317,7 +317,7 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
                 WITH aRoad AS (
 
                     SELECT *
-                    FROM roads
+                    FROM roads r
                     WHERE (r.fromarea = old.locationarea AND r.toarea = new.locationarea
                         AND r.fromcountry = old.locationcountry
                         AND r.tocountry = old.locationcountry) OR
