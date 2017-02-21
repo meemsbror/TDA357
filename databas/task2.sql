@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Persons (
     budget NUMERIC NOT NULL,
 
     CHECK(budget >= 0),
-    CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$' OR (country = ' ' AND personnummer = ' ')),
+    CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$' OR (country = '' AND personnummer = '')),
     PRIMARY KEY (country,personnummer),
     FOREIGN KEY (country) REFERENCES Countries (name),
     FOREIGN KEY (locationarea, locationcountry) REFERENCES Areas (name,country)
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS Roads (
     toarea TEXT,
     ownercountry TEXT,
     ownerpersonnummer TEXT,
-    roadtax  NUMERIC NOT NULL,
+    roadtax  NUMERIC NOT NULL DEFAULT getval('roadtax'),
 
     CHECK(roadtax >= 0),
     CHECK(NOT(fromarea=toarea AND fromcountry=tocountry)),
@@ -91,7 +91,7 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
        END IF;
 
        /* Check if it is the goverment, location or money not neccessary*/
-       IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+       IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
             THEN RETURN NEW;
         END IF;
 
@@ -125,7 +125,7 @@ CREATE TRIGGER newRoad
 CREATE OR REPLACE FUNCTION updateBudget() RETURNS TRIGGER AS $$
     BEGIN
         /* No budget update needed if it's the government */
-        IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
             THEN RETURN NEW;
         END IF;
 
@@ -154,7 +154,6 @@ CREATE TRIGGER updateRoad
     ON Roads
     FOR EACH ROW
     EXECUTE PROCEDURE updateRoadTaxOnly();
-
 
 
 /*This no work. Why??? */
@@ -256,7 +255,7 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
             AND locationcountry = new.locationcountry AND locationarea = new.locationarea)
             > 0)
         THEN
-            /* Deducts the roadtax and citivisit (if city) from budget */
+            /* Deducts the roadtax and citivisit (if city and hotel) from budget */
             IF((SELECT COUNT(*)
                 FROM hotels
                 WHERE locationcountry = new.locationcountry
@@ -291,7 +290,7 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
                 ;
 
             ELSE
-                /* Deducts the roadtax from budget, if the person moved */
+                /* Deducts the roadtax from budget */
             UPDATE persons
             SET budget = budget - 
             (SELECT cost
@@ -323,9 +322,8 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
                     UPDATE cities
                     SET visitbonus = 0
                     WHERE new.locationcountry = country AND new.locationarea = name;
-
-            RETURN NEW;
             END IF;
+        RETURN NEW;
         END IF;
 
     RETURN OLD;
@@ -345,7 +343,7 @@ CREATE TRIGGER afterUpdate
 CREATE OR REPLACE FUNCTION beforeNewHotel() RETURNS TRIGGER AS $$
     BEGIN
         /* Government cannot own hotel */
-        IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
             THEN RAISE EXCEPTION 'The government cannot own a hotel';
         END IF;
 
@@ -376,7 +374,11 @@ CREATE TRIGGER beforeNewHotel
 
 CREATE OR REPLACE FUNCTION afterNewHotel() RETURNS TRIGGER AS $$
     BEGIN
-    
+        /* Government cannot own hotel */
+        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
+            THEN RETURN OLD;
+        END IF;
+
         /*Update person's budget after buying new hotel*/
         UPDATE Persons
         SET budget = budget - getval('hotelprice')
@@ -395,7 +397,7 @@ CREATE TRIGGER afterNewHotel
 CREATE OR REPLACE FUNCTION updateHotelOwner() RETURNS TRIGGER AS $$
     BEGIN
          /* Government cannot own hotel */
-        IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
             THEN RAISE EXCEPTION 'The government cannot own a hotel';
         END IF;
         
@@ -513,7 +515,7 @@ CREATE OR REPLACE VIEW  NextMoves AS
 
     SELECT personcountry, personnummer, country, area, destcountry, destarea, MIN(cost) AS cost
     FROM NextMovesHelp
-    WHERE personnummer <> ' ' AND personcountry <> ' '
+    WHERE personnummer <> '' AND personcountry <> ''
     GROUP BY personcountry, personnummer, country, area, destcountry, destarea
     ORDER BY personnummer
 ;
@@ -540,4 +542,5 @@ NATURAL INNER JOIN hotelAssets h
 NATURAL INNER JOIN personBudget p
 WHERE ownerpersonnummer<>' '
 ;
+
 

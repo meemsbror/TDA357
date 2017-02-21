@@ -24,14 +24,15 @@ where name = 'Sunny Beach 2';
 
 /*To poor to buy new hotel*/
 
-select * from persons;
-select * from hotels;
 
-insert into hotels values('King bed 2', 'Sweden', 'Kungsbacka', 'Finland', '19960115-1120');
+insert into hotels values('King bed 2', 'Sweden', 'Kungsbacka', 'Sweden', '19960115-1120');
 
-select * from persons;
-select * from hotels;
+/* Assert that bugdet hasn't been updated when too poor */
 
+select assert((select budget
+				from persons
+				where personnummer='19960115-1120' 
+				and country = 'Sweden'), -779.2);
 
 /* Cannot update hotel location */
 update hotels
