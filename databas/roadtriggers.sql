@@ -14,7 +14,8 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
 
        /* Check if it is the goverment, location or money not neccessary*/
        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
-            THEN RETURN NEW;
+            THEN NEW.roadtax := 0;
+            RETURN NEW;
         END IF;
 
        /* Check if the owner is either in the start pos or end pos of the road */
@@ -29,7 +30,7 @@ CREATE OR REPLACE FUNCTION checkRoad() RETURNS TRIGGER AS $$
         /* Check if the person has enough money to build the road */
         IF((SELECT budget
             FROM Persons
-            WHERE personnummer = new.ownerpersonnummer 
+            WHERE personnummer = new.ownerpersonnummer
             AND country = new.ownercountry) < getval('roadprice'))
             THEN RAISE EXCEPTION 'Not enough money';
         END IF;
