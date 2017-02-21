@@ -149,6 +149,7 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
                 r.roadtax
                 FROM aRoad r
                 WHERE r.ownerpersonnummer = p.personnummer AND r.ownercountry = p.country;
+            END IF;
 
             /* Adds citybonus to person's budget, if there is a citybonus*/
             IF((SELECT COUNT(*)

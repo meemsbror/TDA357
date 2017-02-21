@@ -93,7 +93,7 @@ update persons
 
 select assert((select budget from Persons where personnummer = '19960115-1120' and country = 'Sweden'), 1.5);
 
-select assert((select budget from Persons where personnummer = '19930101-0088' and country = 'Sweden'), 599.7);
+select assert((select budget from Persons where personnummer = '19930101-0088' and country = 'Sweden'), 556.6);
 
 
 /*
@@ -124,10 +124,11 @@ select assert(
 
 select assert(
     (select visitbonus from cities where country = 'Sweden' AND name ='Gothenburg'), 0);
-/*
+
 delete from roads 
 	where fromcountry = 'Sweden' and fromarea = 'Arvika' 
-	and tocountry = 'Sweden' and toarea = 'Stockholm';
+	and tocountry = 'Sweden' and toarea = 'Stockholm'
+	and ownercountry = 'Finland' and ownerpersonnummer = '19960115-1120';
 
-insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', 'Finland', '19960115-1120', 3);
-	*/
+insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', 'Finland', '19960115-1120');
+	

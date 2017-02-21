@@ -84,20 +84,28 @@ CREATE TRIGGER updateRoad
 /*This no work. Why??? */
 CREATE OR REPLACE FUNCTION removeDuplicate() RETURNS TRIGGER AS $$
     BEGIN
-        IF(TG_OP = 'DELETE' ) THEN
         IF((SELECT COUNT(*)
-        FROM Roads
-            WHERE ownerpersonnummer = OLD.ownerpersonnummer AND fromarea = OLD.toarea AND toarea = OLD.fromarea AND fromcountry = OLD.tocountry
-            AND tocountry = OLD.fromcountry AND ownercountry = OLD.ownercountry) > 0)
-            THEN RAISE EXCEPTION 'asdf happend';
+            FROM Roads
+            WHERE ownerpersonnummer = OLD.ownerpersonnummer 
+            AND fromarea = OLD.toarea 
+            AND toarea = OLD.fromarea 
+            AND fromcountry = OLD.tocountry
+            AND tocountry = OLD.fromcountry 
+            AND ownercountry = OLD.ownercountry) > 0) THEN
+                DELETE FROM Roads
+                WHERE ownerpersonnummer = OLD.ownerpersonnummer 
+                AND fromarea = OLD.toarea 
+                AND toarea = OLD.fromarea 
+                AND fromcountry = OLD.tocountry
+                AND tocountry = OLD.fromcountry 
+                AND ownercountry = OLD.ownercountry;
         END IF;
-    END IF;
     RETURN OLD;
     END
     $$ LANGUAGE 'plpgsql';
 
 CREATE TRIGGER removeRoad
-    BEFORE DELETE ON Roads
+    AFTER DELETE ON Roads
     FOR EACH ROW
     EXECUTE PROCEDURE removeDuplicate();
 

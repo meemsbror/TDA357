@@ -1,5 +1,5 @@
 drop view nextmoves; 
-drop view assetssummary;
+drop view assetsummary;
 drop table roads;
 drop table hotels;
 drop table towns;
