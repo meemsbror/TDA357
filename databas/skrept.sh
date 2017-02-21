@@ -1,5 +1,5 @@
 psql -d test -c 'drop view nextmoves;' 
-psql -d test -c 'drop view assetssummary;' 
+psql -d test -c 'drop view assetsummary;' 
 psql -d test -c 'drop table roads;' 
 psql -d test -c 'drop table hotels;'
 psql -d test -c 'drop table towns;'
@@ -15,4 +15,4 @@ psql -d test -f roadtriggers.sql
 psql -d test -f persontriggers.sql
 psql -d test -f hotelstriggers.sql
 psql -d test -f views.sql
-psql -d test -f viewstest.sql
+psql -d test -f shouldWork.sql

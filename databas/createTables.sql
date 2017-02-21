@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS Roads (
     toarea TEXT,
     ownercountry TEXT,
     ownerpersonnummer TEXT,
-    roadtax  NUMERIC NOT NULL,
+    roadtax  NUMERIC NOT NULL DEFAULT getval('roadtax'),
 
     CHECK(roadtax >= 0),
     CHECK(NOT(fromarea=toarea AND fromcountry=tocountry)),
@@ -73,5 +73,5 @@ CREATE TABLE IF NOT EXISTS Roads (
     FOREIGN KEY (ownercountry,ownerpersonnummer) REFERENCES Persons (country,personnummer)
     );
 
-INSERT INTO countries VALUES ('');
+
 
