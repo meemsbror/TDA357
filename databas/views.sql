@@ -59,7 +59,7 @@ CREATE OR REPLACE VIEW  NextMoves AS
     ORDER BY personnummer
 ;
 
-CREATE OR REPLACE VIEW AssetsSummary AS
+CREATE OR REPLACE VIEW AssetSummary AS
 WITH
     roadAssets AS(
         SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('roadprice') AS rAssets

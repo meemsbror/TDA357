@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Persons (
     budget NUMERIC NOT NULL,
 
     CHECK(budget >= 0),
-    CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$' OR (country = ' ' AND personnummer = ' ')),
+    CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$' OR (country = '' AND personnummer = '')),
     PRIMARY KEY (country,personnummer),
     FOREIGN KEY (country) REFERENCES Countries (name),
     FOREIGN KEY (locationarea, locationcountry) REFERENCES Areas (name,country)
@@ -444,8 +444,8 @@ CREATE OR REPLACE FUNCTION sellHotel() RETURNS TRIGGER AS $$
         /* If a hotel is sold (deleted), increase the persons's budget with refund */
         UPDATE Persons
         SET budget = budget + (getval('hotelrefund') * getval('hotelprice'))
-        WHERE personnummer = OLD.personnummer 
-        AND country = OLD.country;
+        WHERE personnummer = old.ownerpersonnummer
+        AND country = old.ownercountry;
 
     RETURN OLD;
     END
@@ -518,7 +518,7 @@ CREATE OR REPLACE VIEW  NextMoves AS
     ORDER BY personnummer
 ;
 
-CREATE OR REPLACE VIEW AssetsSummary AS
+CREATE OR REPLACE VIEW AssetSummary AS
 WITH
     roadAssets AS(
         SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('roadprice') AS rAssets

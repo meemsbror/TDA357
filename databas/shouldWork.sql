@@ -1,4 +1,9 @@
-insert into countries values ('Finland');
+INSERT INTO countries VALUES ('Sweden') ;
+INSERT INTO areas VALUES ('Sweden','Gothenburg', 491630) ;
+INSERT INTO persons VALUES ('', '', 'The government', 'Sweden', 'Gothenburg', 0);
+
+
+nsert into countries values ('Finland');
 
 insert into areas values ('Sweden', 'Kungsbacka', 2);
 insert into areas values ('Sweden', 'Stockholm', 2);

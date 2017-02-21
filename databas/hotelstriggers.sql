@@ -100,8 +100,8 @@ CREATE OR REPLACE FUNCTION sellHotel() RETURNS TRIGGER AS $$
         /* If a hotel is sold (deleted), increase the persons's budget with refund */
         UPDATE Persons
         SET budget = budget + (getval('hotelrefund') * getval('hotelprice'))
-        WHERE personnummer = OLD.personnummer 
-        AND country = OLD.country;
+        WHERE personnummer = old.ownerpersonnummer
+        AND country = old.ownercountry;
 
     RETURN OLD;
     END

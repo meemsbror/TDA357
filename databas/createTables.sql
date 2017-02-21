@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Persons (
     budget NUMERIC NOT NULL,
 
     CHECK(budget >= 0),
-    CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$' OR (country = ' ' AND personnummer = ' ')),
+    CHECK(personnummer ~* '^[0-9]{8}-[0-9]{4}$' OR (country = '' AND personnummer = '')),
     PRIMARY KEY (country,personnummer),
     FOREIGN KEY (country) REFERENCES Countries (name),
     FOREIGN KEY (locationarea, locationcountry) REFERENCES Areas (name,country)
@@ -74,11 +74,6 @@ CREATE TABLE IF NOT EXISTS Roads (
     );
 
 INSERT INTO countries VALUES (' ');
-INSERT INTO countries VALUES ('Sweden') ;
-INSERT INTO areas VALUES ('Sweden','Gothenburg', 491630) ;
-INSERT INTO persons VALUES (' ', ' ', 'The government', 'Sweden', 'Gothenburg', 0);
-
-
 
 
 
