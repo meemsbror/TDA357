@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION beforeNewHotel() RETURNS TRIGGER AS $$
     BEGIN
         /* Government cannot own hotel */
-        IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
             THEN RAISE EXCEPTION 'The government cannot own a hotel';
         END IF;
 
@@ -51,7 +51,7 @@ CREATE TRIGGER afterNewHotel
 CREATE OR REPLACE FUNCTION updateHotelOwner() RETURNS TRIGGER AS $$
     BEGIN
          /* Government cannot own hotel */
-        IF(new.ownerpersonnummer = ' ' AND new.ownercountry = ' ')
+        IF(new.ownerpersonnummer = '' AND new.ownercountry = '')
             THEN RAISE EXCEPTION 'The government cannot own a hotel';
         END IF;
         
@@ -100,8 +100,8 @@ CREATE OR REPLACE FUNCTION sellHotel() RETURNS TRIGGER AS $$
         /* If a hotel is sold (deleted), increase the persons's budget with refund */
         UPDATE Persons
         SET budget = budget + (getval('hotelrefund') * getval('hotelprice'))
-        WHERE personnummer = OLD.personnummer 
-        AND country = OLD.country;
+        WHERE personnummer = old.ownerpersonnummer
+        AND country = old.ownercountry;
 
     RETURN OLD;
     END

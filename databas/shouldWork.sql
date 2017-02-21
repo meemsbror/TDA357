@@ -1,8 +1,9 @@
-
+--TODO: remove? 
 INSERT INTO countries VALUES ('');
 INSERT INTO countries VALUES ('Sweden') ;
 INSERT INTO areas VALUES ('Sweden','Gothenburg', 491630) ;
 INSERT INTO persons VALUES ('', '', 'The government', 'Sweden', 'Gothenburg', 0);
+
 
 insert into countries values ('Finland');
 
@@ -26,13 +27,13 @@ insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', 'Finland', 
 
 select assert((select budget from Persons where personnummer = '19960115-1120' and country = 'Finland'), 1043.1);
 
-/*When person travel on own road no money is deducted*/
 update persons 
 	set locationarea = 'Arvika' 
 	where personnummer = '19960115-1120'
 	and country = 'Finland';
 
 select assert((select budget from Persons where personnummer = '19960115-1120' and country = 'Finland'), 1043.1);
+
 
 insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', '', '', 0);
 

@@ -121,6 +121,35 @@ CREATE OR REPLACE FUNCTION afterUpdatePerson() RETURNS TRIGGER AS $$
 
             END IF;
 
+            IF( (SELECT cost
+                FROM NextMoves
+                WHERE personcountry = old.country
+                AND personnummer = old.personnummer
+                AND country = new.locationcountry
+                AND area = new.locationarea
+                AND destcountry = old.locationcountry
+                AND destarea = old.locationarea) > 0) THEN
+
+
+                WITH aRoad AS (
+
+                    SELECT *
+                    FROM roads
+                    WHERE (r.fromarea = old.locationarea AND r.toarea = new.locationarea
+                        AND r.fromcountry = old.locationcountry
+                        AND r.tocountry = old.locationcountry) OR
+                        (r.fromarea = new.locationarea AND r.toarea = old.locationarea
+                        AND r.fromcountry = new.locationcountry
+                        AND r.tocountry = old.locationcountry)
+                    ORDER BY roadtax DESC
+                    LIMIT 1
+                )
+                UPDATE persons p
+                SET budget = budget + 
+                r.roadtax
+                FROM aRoad r
+                WHERE r.ownerpersonnummer = p.personnummer AND r.ownercountry = p.country;
+
             /* Adds citybonus to person's budget, if there is a citybonus*/
             IF((SELECT COUNT(*)
                 FROM Cities
@@ -152,5 +181,4 @@ CREATE TRIGGER afterUpdate
     ON Persons
     FOR EACH ROW
     EXECUTE PROCEDURE afterUpdatePerson();
-
 
