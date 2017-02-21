@@ -21,11 +21,18 @@ insert into roads values ('Sweden', 'Gothenburg', 'Sweden', 'Arvika', 'Sweden', 
 /* Roadprice is deducted form budget 100000 - 456.9 = 99543.1*/
 select assert((select budget from Persons where personnummer = '19960123-2631' and country = 'Sweden'), 99543.1);
 
-/*New budget: 1043.1*/
+/*
+Check so money is deducted when creating road
+New budget: 1043.1
+ */
 insert into roads values ('Sweden', 'Stockholm', 'Sweden', 'Arvika', 'Finland', '19960115-1120');
 
 
 select assert((select budget from Persons where personnummer = '19960115-1120' and country = 'Finland'), 1043.1);
+
+/* 
+Check so no money is deducted when travelling on own road
+*/
 
 update persons 
 	set locationarea = 'Arvika' 
@@ -48,7 +55,10 @@ insert into hotels values('Sunny Beach', 'Sweden', 'Gothenburg', 'Finland', '199
 
 insert into hotels values('Sunny Beach 2', 'Sweden', 'Gothenburg', 'Sweden', '19960123-2631');
 
-/* 99543.1 - 789.2 = 98753.9*/
+/*
+Check so money is deducted when creating hotel
+99543.1 - 789.2 = 98753.9
+*/
 select assert((select budget from Persons where personnummer = '19960123-2631' and country = 'Sweden'), 98753.9);
 
 insert into hotels values('King bed', 'Sweden', 'Kungsbacka', 'Sweden', '19960123-2631');
@@ -70,7 +80,10 @@ insert into persons values ('Sweden', '19930101-0088', 'Hans Hansson', 'Sweden',
 
 insert into roads values ('Sweden', 'Kungsbacka', 'Sweden', 'Arvika', 'Sweden', '19930101-0088');
 
-/* new budget for 19930101-0088 = 543.1*/
+/* 
+Check if money is deducted when creating road
+new budget for 19930101-0088 = 543.1
+ */
 select assert((select budget from Persons where personnummer = '19930101-0088' and country = 'Sweden'), 543.1);
 
 /* Move Poor Chap and see that the roadtax is deducted from his budget and added to the owner*/

@@ -15,4 +15,4 @@ psql -d test -f roadtriggers.sql
 psql -d test -f persontriggers.sql
 psql -d test -f hotelstriggers.sql
 psql -d test -f views.sql
-psql -d test -f shouldWork.sql
+psql -d test -f shouldFail.sql
