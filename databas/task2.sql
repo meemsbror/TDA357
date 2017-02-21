@@ -542,7 +542,7 @@ CREATE OR REPLACE VIEW  NextMoves AS
 
     SELECT personcountry, personnummer, country, area, destcountry, destarea, MIN(cost) AS cost
     FROM NextMovesHelp
-    WHERE personnummer <> ' ' AND personcountry <> ' '
+    WHERE personnummer <> '' AND personcountry <> ''
     GROUP BY personcountry, personnummer, country, area, destcountry, destarea
     ORDER BY personnummer
 ;
@@ -567,6 +567,6 @@ SELECT ownercountry AS country, ownerpersonnummer AS personnummer, budget, hAsse
 FROM roadAssets r
 NATURAL INNER JOIN hotelAssets h
 NATURAL INNER JOIN personBudget p
-WHERE ownerpersonnummer<>' '
+WHERE ownerpersonnummer<>''
 ;
 
