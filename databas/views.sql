@@ -11,7 +11,7 @@ CREATE OR REPLACE VIEW  NextMoves AS
         r.toarea AS destarea,
         r.roadtax AS cost
         FROM Persons p, Roads r
-        WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea) 
+        WHERE (p.locationcountry = r.fromcountry AND p.locationarea = r.fromarea)
 
         UNION ALL
 
@@ -23,7 +23,7 @@ CREATE OR REPLACE VIEW  NextMoves AS
         r.fromarea AS destarea,
         r.roadtax AS cost
         FROM Persons p, Roads r
-        WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea) 
+        WHERE (p.locationcountry = r.tocountry AND p.locationarea = r.toarea)
 
         UNION ALL
 
