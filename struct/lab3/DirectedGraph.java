@@ -82,11 +82,11 @@ public class DirectedGraph<E extends Edge> {
 
        public int compareTo(QueueElement q){
            if(q.cost>this.cost){
-               return 1;
+               return -1;
            }
 
            if(q.cost<this.cost){
-               return -1;
+               return 1;
            }
            return 0;
        }
