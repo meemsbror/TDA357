@@ -15,3 +15,16 @@ psql -d test -f roadtriggers.sql
 psql -d test -f persontriggers.sql
 psql -d test -f hotelstriggers.sql
 psql -d test -f views.sql
+
+psql -d test -f shouldfail/createTwoHotels.sql
+psql -d test -f shouldfail/nomoneyznotome.sql
+psql -d test -f shouldfail/roadmoney.sql
+psql -d test -f shouldfail/updatehotel.sql
+psql -d test -f shouldfail/hotelGovernment.sql
+psql -d test -f shouldfail/noroad.sql
+psql -d test -f shouldfail/roadSwitched.sql
+psql -d test -f shouldfail/updateroad.sql
+psql -d test -f shouldfail/hotelNoMoneyz.sql
+psql -d test -f shouldfail/roadtoself.sql
+psql -d test -f shouldfail/movetosamelocation.sql
+psql -d test -f shouldfail/personnummer.sql

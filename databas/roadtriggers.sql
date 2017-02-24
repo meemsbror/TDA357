@@ -86,18 +86,18 @@ CREATE OR REPLACE FUNCTION removeDuplicate() RETURNS TRIGGER AS $$
     BEGIN
         IF((SELECT COUNT(*)
             FROM Roads
-            WHERE ownerpersonnummer = OLD.ownerpersonnummer 
-            AND fromarea = OLD.toarea 
-            AND toarea = OLD.fromarea 
+            WHERE ownerpersonnummer = OLD.ownerpersonnummer
+            AND fromarea = OLD.toarea
+            AND toarea = OLD.fromarea
             AND fromcountry = OLD.tocountry
-            AND tocountry = OLD.fromcountry 
+            AND tocountry = OLD.fromcountry
             AND ownercountry = OLD.ownercountry) > 0) THEN
                 DELETE FROM Roads
-                WHERE ownerpersonnummer = OLD.ownerpersonnummer 
-                AND fromarea = OLD.toarea 
-                AND toarea = OLD.fromarea 
+                WHERE ownerpersonnummer = OLD.ownerpersonnummer
+                AND fromarea = OLD.toarea
+                AND toarea = OLD.fromarea
                 AND fromcountry = OLD.tocountry
-                AND tocountry = OLD.fromcountry 
+                AND tocountry = OLD.fromcountry
                 AND ownercountry = OLD.ownercountry;
         END IF;
     RETURN OLD;
