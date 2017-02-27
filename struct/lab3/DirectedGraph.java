@@ -1,10 +1,7 @@
 import java.util.*;
-/**
-**/
 public class DirectedGraph<E extends Edge> {
 
     int[] nodes;
-    List<E>[] MF;
     List<E> EL;
     int noOfNodes;
 
@@ -32,13 +29,14 @@ public class DirectedGraph<E extends Edge> {
 		return kruskal().iterator();
 	}
 
-  private List<E> kruskal(){
+    private List<E> kruskal(){
 
-    ArrayList<List<E>> cc = new ArrayList<List<E>>();
-    for(int i = 0; i<nodes.length; i++){
-      cc.add(new ArrayList<>());
-    }    
-    PriorityQueue<ComparableEdge> pq = new PriorityQueue<ComparableEdge>();
+        ArrayList<List<E>> cc = new ArrayList<List<E>>();
+        for(int i = 0; i < noOfNodes; i++){
+            cc.add(new LinkedList<E>());
+        }    
+
+        PriorityQueue<ComparableEdge> pq = new PriorityQueue<ComparableEdge>();
 
     for(E e : EL){
       pq.add(new ComparableEdge(e));
@@ -63,11 +61,13 @@ public class DirectedGraph<E extends Edge> {
           to.addAll(from);
           //set the index at "from" point at same arraylist as "to"
           cc.set(temp.from, to);
-          nextOcc = cc.indexOf(from);
-          while(nextOcc>0){
-            System.out.println(nextOcc);
-            cc.set(nextOcc, to);
+          if(!from.isEmpty()){
             nextOcc = cc.indexOf(from);
+            while(nextOcc>=0){
+              System.out.println(nextOcc);
+              cc.set(nextOcc, to);
+              nextOcc = cc.indexOf(from);
+            }
           }
 
           to.add(temp);
@@ -75,47 +75,44 @@ public class DirectedGraph<E extends Edge> {
         else{
           from.addAll(to);
           cc.set(temp.to, from);
-
-          nextOcc = cc.indexOf(to);
-          while(nextOcc>0){
-            System.out.println(nextOcc);
-            cc.set(nextOcc, from);
+          if(!to.isEmpty()){
             nextOcc = cc.indexOf(to);
+            while(nextOcc>=0){
+              System.out.println(nextOcc);
+              cc.set(nextOcc, from);
+              nextOcc = cc.indexOf(to);
+            }
           }
           from.add(temp);
         }
         n--;
       }
     }
-    if(cc.get(0).size() == nodes.length -1){
 
-      return cc.get(0);
-    }
     System.out.println(cc.get(0));
       return cc.get(0);
   }
 
+    private class ComparableEdge implements Comparable<ComparableEdge>{
+        E edge;
 
-  private class ComparableEdge implements Comparable<ComparableEdge>{
-    E edge;
+        public ComparableEdge(E edge){
+        this.edge = edge;
+        }
 
-    public ComparableEdge(E edge){
-      this.edge = edge;
+        public int compareTo(ComparableEdge e){
+            if(e.edge.getWeight()>this.edge.getWeight()){
+                return -1;
+            }
+            if(e.edge.getWeight()<this.edge.getWeight()){
+                return 1;
+            }
+        return 0;
+        }
     }
 
-    public int compareTo(ComparableEdge e){
-       if(e.edge.getWeight()>this.edge.getWeight()){
-           return -1;
-       }
-       if(e.edge.getWeight()<this.edge.getWeight()){
-           return 1;
-       }
-       return 0;
-     }
-  }
 
-
-  private ArrayList<E> djikstra(int from, int to){
+    private ArrayList<E> djikstra(int from, int to){
 
     PriorityQueue<QueueElement> q = new PriorityQueue<QueueElement>();
 
