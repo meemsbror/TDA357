@@ -43,53 +43,46 @@ public class DirectedGraph<E extends Edge> {
     }
 
     int n = noOfNodes;
-    System.out.println(n);
+    int i = noOfNodes;
     E temp;
     int nextOcc;
     while(!pq.isEmpty() && n>=1){
 
       temp = pq.poll().edge;
-      System.out.println(pq.isEmpty());
-      System.out.println(n);
 
       List<E> from = cc.get(temp.from);
       List<E> to = cc.get(temp.to);
+
+      List<E> big;
+      List<E> small;
+      
+
       
       if(from != to){
+          System.out.println(n + ":" + i);
         if(from.size()<to.size()){
-          // add the elements from to-list to from-list 
-          to.addAll(from);
-          //set the index at "from" point at same arraylist as "to"
-          cc.set(temp.from, to);
-          if(!from.isEmpty()){
-            nextOcc = cc.indexOf(from);
-            while(nextOcc>=0){
-              System.out.println(nextOcc);
-              cc.set(nextOcc, to);
-              nextOcc = cc.indexOf(from);
-            }
-          }
-
-          to.add(temp);
+            big = to;
+            small = from;
         }
         else{
-          from.addAll(to);
-          cc.set(temp.to, from);
-          if(!to.isEmpty()){
-            nextOcc = cc.indexOf(to);
-            while(nextOcc>=0){
-              System.out.println(nextOcc);
-              cc.set(nextOcc, from);
-              nextOcc = cc.indexOf(to);
-            }
-          }
-          from.add(temp);
+            big = from;
+            small = to;
+        }
+
+        big.addAll(small);
+        big.add(temp);
+        cc.set(temp.from, big);
+        cc.set(temp.to, big);
+        
+        for(E e: small){
+            cc.set(e.to, big);
+            cc.set(e.from, big);
         }
         n--;
       }
+      i--;
     }
 
-    System.out.println(cc.get(0));
       return cc.get(0);
   }
 
