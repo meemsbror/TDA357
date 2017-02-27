@@ -33,7 +33,7 @@ public class DirectedGraph<E extends Edge> {
   private List<E> kruskal(){
 
     ArrayList<List<E>> cc = new ArrayList<List<E>>();
-    for(int i = 0; i<nodes.length+1; i++){
+    for(int i = 0; i<nodes.length; i++){
       cc.add(new ArrayList<>());
     }    
     PriorityQueue<ComparableEdge> pq = new PriorityQueue<ComparableEdge>();
@@ -47,24 +47,30 @@ public class DirectedGraph<E extends Edge> {
     while(!pq.isEmpty() && n>=1){
       temp = pq.poll().edge;
 
-      List<E> from = cc.get(temp.from-1);
-      List<E> to = cc.get(temp.to-1);
+      List<E> from = cc.get(temp.from);
+      List<E> to = cc.get(temp.to);
 
       if(!from.equals(to)){
         if(from.size()<to.size()){
           to.addAll(from);
-          cc.set(temp.from-1,to);
+          cc.set(temp.from,to);
           to.add(temp);
         }
         else{
           from.addAll(to);
-          cc.set(temp.to-1,from);
+          cc.set(temp.to,from);
           from.add(temp);
         }
+        System.out.println(n);
+        System.out.println(pq.size());
         n--;
       }
     }
-    return cc.get(1);
+    if(cc.get(0).size() == nodes.length -1){
+
+      return cc.get(0);
+    }
+    return null;
   }
 
 
