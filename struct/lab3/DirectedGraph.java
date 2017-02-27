@@ -40,30 +40,48 @@ public class DirectedGraph<E extends Edge> {
     }    
     PriorityQueue<ComparableEdge> pq = new PriorityQueue<ComparableEdge>();
 
-    Iterator<E> edges = EL.iterator();
-    while(edges.hasNext()){
-      pq.add(new ComparableEdge(edges.next()));
+    for(E e : EL){
+      pq.add(new ComparableEdge(e));
     }
 
     int n = noOfNodes;
     System.out.println(n);
     E temp;
-    while(!pq.isEmpty() && n>1){
-      System.out.println(pq.isEmpty() + "" + n);
+    int nextOcc;
+    while(!pq.isEmpty() && n>=1){
+
       temp = pq.poll().edge;
+      System.out.println(pq.isEmpty());
+      System.out.println(n);
 
       List<E> from = cc.get(temp.from);
       List<E> to = cc.get(temp.to);
-
+      
       if(from != to){
         if(from.size()<to.size()){
+          // add the elements from to-list to from-list 
           to.addAll(from);
-          cc.set(temp.from,to);
+          //set the index at "from" point at same arraylist as "to"
+          cc.set(temp.from, to);
+          nextOcc = cc.indexOf(from);
+          while(nextOcc>0){
+            System.out.println(nextOcc);
+            cc.set(nextOcc, to);
+            nextOcc = cc.indexOf(from);
+          }
+
           to.add(temp);
         }
         else{
           from.addAll(to);
-          cc.set(temp.to,from);
+          cc.set(temp.to, from);
+
+          nextOcc = cc.indexOf(to);
+          while(nextOcc>0){
+            System.out.println(nextOcc);
+            cc.set(nextOcc, from);
+            nextOcc = cc.indexOf(to);
+          }
           from.add(temp);
         }
         n--;
@@ -73,6 +91,7 @@ public class DirectedGraph<E extends Edge> {
 
       return cc.get(0);
     }
+    System.out.println(cc.get(0));
       return cc.get(0);
   }
 
