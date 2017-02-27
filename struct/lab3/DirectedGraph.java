@@ -4,6 +4,7 @@ import java.util.*;
 public class DirectedGraph<E extends Edge> {
 
     int[] nodes;
+    List<E>[] MF;
     List<E> EL;
 
 	public DirectedGraph(int noOfNodes) {
@@ -26,10 +27,10 @@ public class DirectedGraph<E extends Edge> {
 	}
 		
 	public Iterator<E> minimumSpanningTree() {
-		return null;
+		return kruskal().iterator();
 	}
 
-  private void kruskal(){
+  private List<E> kruskal(){
 
     ArrayList<List<E>> cc = new ArrayList<List<E>>();
     for(int i = 0; i<nodes.length+1; i++){
@@ -63,6 +64,7 @@ public class DirectedGraph<E extends Edge> {
         n--;
       }
     }
+    return cc.get(1);
   }
 
 
@@ -144,7 +146,6 @@ public class DirectedGraph<E extends Edge> {
          return 0;
      }
    }
-
 
 }
   
