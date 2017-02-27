@@ -1,10 +1,7 @@
 import java.util.*;
-/**
-**/
 public class DirectedGraph<E extends Edge> {
 
     int[] nodes;
-    List<E>[] MF;
     List<E> EL;
     int noOfNodes;
 
@@ -32,71 +29,77 @@ public class DirectedGraph<E extends Edge> {
 		return kruskal().iterator();
 	}
 
-  private List<E> kruskal(){
+    private List<E> kruskal(){
 
-    ArrayList<List<E>> cc = new ArrayList<List<E>>();
-    for(int i = 0; i<nodes.length; i++){
-      cc.add(new ArrayList<>());
-    }    
-    PriorityQueue<ComparableEdge> pq = new PriorityQueue<ComparableEdge>();
+        ArrayList<List<E>> cc = new ArrayList<List<E>>();
+        for(int i = 0; i < noOfNodes; i++){
+            cc.add(new LinkedList<E>());
+        }    
 
-    Iterator<E> edges = EL.iterator();
-    while(edges.hasNext()){
-      pq.add(new ComparableEdge(edges.next()));
-    }
+        PriorityQueue<ComparableEdge> pq = new PriorityQueue<ComparableEdge>();
 
-    int n = noOfNodes;
-    System.out.println(n);
-    E temp;
-    while(!pq.isEmpty() && n>1){
-      System.out.println(pq.isEmpty() + "" + n);
-      temp = pq.poll().edge;
 
-      List<E> from = cc.get(temp.from);
-      List<E> to = cc.get(temp.to);
-
-      if(from != to){
-        if(from.size()<to.size()){
-          to.addAll(from);
-          cc.set(temp.from,to);
-          to.add(temp);
+        for(E e: EL){
+            pq.add(new ComparableEdge(e));
         }
-        else{
-          from.addAll(to);
-          cc.set(temp.to,from);
-          from.add(temp);
+
+        int n = 0;
+        E temp;
+
+        while(!pq.isEmpty() && cc.get(0).size() != noOfNodes - 1){
+
+
+            temp = pq.poll().edge;
+
+            List<E> from = cc.get(temp.from);
+            List<E> to = cc.get(temp.to);
+
+            List<E> big;
+            List<E> small;
+            if(from != to){
+
+                System.out.println(temp.from + ":" + temp.to);
+                if(from.size()>to.size()){
+                    big = from;
+                    small = to;
+                }else{
+                    big = to;
+                    small = from;
+                }
+
+                big.addAll(small);
+                big.add(temp);
+
+                for(E e: small){
+                    cc.set(e.to, big);
+                    cc.set(e.from, big);
+                }
+            }
         }
-        n--;
-      }
-    }
-    if(cc.get(0).size() == nodes.length -1){
 
-      return cc.get(0);
-    }
-      return cc.get(0);
-  }
-
-
-  private class ComparableEdge implements Comparable<ComparableEdge>{
-    E edge;
-
-    public ComparableEdge(E edge){
-      this.edge = edge;
+        return cc.get(0);
     }
 
-    public int compareTo(ComparableEdge e){
-       if(e.edge.getWeight()>this.edge.getWeight()){
-           return -1;
-       }
-       if(e.edge.getWeight()<this.edge.getWeight()){
-           return 1;
-       }
-       return 0;
-     }
-  }
+    private class ComparableEdge implements Comparable<ComparableEdge>{
+        E edge;
+
+        public ComparableEdge(E edge){
+        this.edge = edge;
+        }
+
+        public int compareTo(ComparableEdge e){
+            if(e.edge.getWeight()>this.edge.getWeight()){
+                return -1;
+            }
+            if(e.edge.getWeight()<this.edge.getWeight()){
+                return 1;
+            }
+        return 0;
+        }
+    }
 
 
-  private ArrayList<E> djikstra(int from, int to){
+    private ArrayList<E> djikstra(int from, int to){
 
     PriorityQueue<QueueElement> q = new PriorityQueue<QueueElement>();
 
