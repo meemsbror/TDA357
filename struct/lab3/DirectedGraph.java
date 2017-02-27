@@ -6,10 +6,12 @@ public class DirectedGraph<E extends Edge> {
     int[] nodes;
     List<E>[] MF;
     List<E> EL;
+    int noOfNodes;
 
 	public DirectedGraph(int noOfNodes) {
         nodes = new int[noOfNodes+1];
         EL = new ArrayList<E>();
+        this.noOfNodes = noOfNodes;
 	}
 
 	public void addEdge(E e) {
@@ -42,15 +44,18 @@ public class DirectedGraph<E extends Edge> {
     while(edges.hasNext()){
       pq.add(new ComparableEdge(edges.next()));
     }
-    int n = nodes.length;
+
+    int n = noOfNodes;
+    System.out.println(n);
     E temp;
-    while(!pq.isEmpty() && n>=1){
+    while(!pq.isEmpty() && n>1){
+      System.out.println(pq.isEmpty() + "" + n);
       temp = pq.poll().edge;
 
       List<E> from = cc.get(temp.from);
       List<E> to = cc.get(temp.to);
 
-      if(!from.equals(to)){
+      if(from != to){
         if(from.size()<to.size()){
           to.addAll(from);
           cc.set(temp.from,to);
@@ -61,8 +66,6 @@ public class DirectedGraph<E extends Edge> {
           cc.set(temp.to,from);
           from.add(temp);
         }
-        System.out.println(n);
-        System.out.println(pq.size());
         n--;
       }
     }
@@ -70,7 +73,7 @@ public class DirectedGraph<E extends Edge> {
 
       return cc.get(0);
     }
-    return null;
+      return cc.get(0);
   }
 
 
