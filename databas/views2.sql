@@ -81,3 +81,4 @@ ON r.country = h.country AND r.personnummer = h.personnummer )) AS foo
 ON foo.country = p.country AND foo.personnummer = p.personnummer
 WHERE p.personnummer<>''
 ;
+
