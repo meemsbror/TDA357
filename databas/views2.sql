@@ -70,7 +70,7 @@ WITH
         COUNT(*) * getval('hotelrefund') * getval('hotelprice') AS reclaimable
         FROM Hotels
         GROUP BY ownercountry, ownerpersonnummer)
-SELECT p.country, p.personnummer, budget, 
+SELECT p.country, p.personnummer, budget,
 coalesce(hAssets + rAssets, hAssets, rAssets) AS assets, reclaimable
 FROM persons p
 LEFT OUTER JOIN
