@@ -70,12 +70,15 @@ WITH
         COUNT(*) * getval('hotelrefund') * getval('hotelprice') AS reclaimable
         FROM Hotels
         GROUP BY ownercountry, ownerpersonnummer)
-SELECT country, personnummer, budget, hAssets + rAssets AS assets, reclaimable
+SELECT p.country, p.personnummer, budget, 
+coalesce(hAssets + rAssets, hAssets, rAssets) AS assets, reclaimable
 FROM persons p
-NATURAL JOIN
-(select r.country, r.personnummer, rAssets, hAssets, reclaimable
+LEFT OUTER JOIN
+(select coalesce(r.country,h.country) AS country, 
+    coalesce(r.personnummer, h.personnummer) AS personnummer, rAssets, hAssets, reclaimable
     from (hotelAssets h FULL OUTER JOIN roadassets r
 ON r.country = h.country AND r.personnummer = h.personnummer )) AS foo
-WHERE personnummer<>''
+ON foo.country = p.country AND foo.personnummer = p.personnummer
+WHERE p.personnummer<>''
 ;
 

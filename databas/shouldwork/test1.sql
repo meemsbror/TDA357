@@ -126,4 +126,5 @@ select assert(
     (select visitbonus from cities where country = 'Sweden' AND name ='Gothenburg'), 0);
 
 
+insert into hotels values('asdfbed', 'Sweden', 'Gothenburg', 'Sweden', '19900123-3030');
 select * from assetsummary;
