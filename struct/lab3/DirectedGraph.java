@@ -20,35 +20,34 @@ public class DirectedGraph<E extends Edge> {
         EL = new ArrayList<E>();
         this.noOfNodes = noOfNodes;
 	}
-  /**
-  * Adds the edge to the list with edges
-  *@param e the edge to be added
-  */
+    /**
+    * Adds the edge to the list with edges
+    *@param e the edge to be added
+    */
 	public void addEdge(E e) {
         EL.add(e);
 	}
 
-  /**
-  * Finds the shortes path from the node "from" to 
-  * the node "to"
-  *@param from the node to start in
-  *@param to the node to finisih in
-  *@return iteretor with edges in order as the shortest path 
-  */
+    /**
+    * Finds the shortes path from the node "from" to 
+    * the node "to"
+    *@param from the node to start in
+    *@param to the node to finisih in
+    *@return iteretor with edges in order as the shortest path 
+    */
 	public Iterator<E> shortestPath(int from, int to) {
 		return djikstra(from,to);
 	}
 	
-  /**
-  * The cheapest path to take if all nodes should be visited
-  * once and once only
-  *@return iteretor with edges which will give the minimum spanning tree
-  */
+    /**
+    * Connects all nodes in the cheapest way possible creating a minimum spanning tree.
+    * @return iteretor with edges which will give the minimum spanning tree
+    */
 	public Iterator<E> minimumSpanningTree() {
 		return kruskal();
 	}
 
-  private Iterator<E> kruskal(){
+    private Iterator<E> kruskal(){
 
     ArrayList<List<E>> cc = new ArrayList<List<E>>();
     for(int i = 0; i < noOfNodes; i++){
