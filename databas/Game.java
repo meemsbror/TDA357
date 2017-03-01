@@ -211,9 +211,22 @@ public class Game
 	 * and return 1 in case of a success and 0 otherwise.
 	 */
 	int sellHotel(Connection conn, Player person, String city, String country) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+        try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("DELETE FROM hotels" + 
+                "WHERE locationcountry = ? AND locationname = ? AND" +
+                "ownercountry = ? AND ownerpersonnummer = ? ");
+            ps.setString(1,country);
+            ps.setString(2,city);
+            ps.setString(3,pesron.country);
+            ps.setString(4,person.personnummer);
+            ps.executeUpdate();
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+            return 0;
+        }
+        return 1;
+		
 	}
 
 	/* Given a player, a from area and a to area, this function
@@ -221,9 +234,21 @@ public class Game
 	 * and return 1 in case of a success and 0 otherwise.
 	 */
 	int buyRoad(Connection conn, Player person, String area1, String country1, String area2, String country2) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+        try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("INSERT INTO roads (fromcountry,fromarea,tocountry,toarea, ownercountry, ownerpersonnummer) VALUES (?,?,?,?,?,?)");
+            ps.setString(1,area1);
+            ps.setString(2,country1);
+            ps.setString(3,area2);
+            ps.setString(4,country2);
+            ps.setString(5,person.country);
+            ps.setString(6,person.personnummer);
+            ps.executeUpdate();
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+            return 0;
+        }
+    return 1;
 	}
 
 	/* Given a player and a city, this function
@@ -241,6 +266,7 @@ public class Game
             ps.setString(5,person.personnummer);
             ps.executeUpdate();
         }catch(SQLException e){
+            System.out.prinln(e.getMessage());
             return 0;
         }
     return 1;
@@ -262,6 +288,7 @@ public class Game
             ps.setString(4,person.country);
             ps.executeUpdate();
         }catch(SQLException e){
+            System.out.prinln(e.getMessage());
             return 0;
         }
     return 1;
@@ -299,6 +326,7 @@ public class Game
                     " And living in : " + 
                     rs.getString("country")); 
         }catch(SQLException e){
+            System.out.prinln(e.getMessage());
             System.out.println("No Winner fuck you");
         }	
     }
