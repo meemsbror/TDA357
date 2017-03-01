@@ -1,8 +1,6 @@
 import java.util.*;
 /**
-* Class which can represent a directed graph with 
-*
-*
+* Class which can represent a directed graph 
 * */
 public class DirectedGraph<E extends Edge> {
 

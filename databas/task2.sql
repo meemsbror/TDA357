@@ -556,23 +556,25 @@ CREATE OR REPLACE VIEW  NextMoves AS
 CREATE OR REPLACE VIEW AssetSummary AS
 WITH
     roadAssets AS(
-        SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('roadprice') AS rAssets
+        SELECT ownercountry AS country, ownerpersonnummer AS personnummer, COUNT(*) * getval('roadprice') AS rAssets
         FROM Roads
-        GROUP BY ownercountry, ownerpersonnummer
-    ),
+        GROUP BY ownercountry, ownerpersonnummer),
     hotelAssets AS(
-        SELECT ownercountry, ownerpersonnummer, COUNT(*) * getval('hotelprice') AS hAssets,
+        SELECT ownercountry AS country, ownerpersonnummer AS personnummer, COUNT(*) * getval('hotelprice') AS hAssets,
         COUNT(*) * getval('hotelrefund') * getval('hotelprice') AS reclaimable
         FROM Hotels
-        GROUP BY ownercountry, ownerpersonnummer
-    ),
-    personBudget AS(
-    	SELECT personnummer AS ownerpersonnummer, country AS ownercountry, budget
-    	FROM Persons)
-SELECT ownercountry AS country, ownerpersonnummer AS personnummer, budget, hAssets + rAssets AS assets, reclaimable
-FROM roadAssets r
-NATURAL INNER JOIN hotelAssets h
-NATURAL INNER JOIN personBudget p
-WHERE ownerpersonnummer<>''
+        GROUP BY ownercountry, ownerpersonnummer)
+SELECT p.country, p.personnummer, budget, 
+coalesce(hAssets + rAssets, hAssets, rAssets) AS assets, reclaimable
+FROM persons p
+LEFT OUTER JOIN
+(select coalesce(r.country,h.country) AS country, 
+    coalesce(r.personnummer, h.personnummer) AS personnummer, rAssets, hAssets, reclaimable
+    from (hotelAssets h FULL OUTER JOIN roadassets r
+ON r.country = h.country AND r.personnummer = h.personnummer )) AS foo
+ON foo.country = p.country AND foo.personnummer = p.personnummer
+WHERE p.personnummer<>''
 ;
+
+
 
