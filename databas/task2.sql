@@ -565,7 +565,7 @@ WITH
         FROM Hotels
         GROUP BY ownercountry, ownerpersonnummer)
 SELECT p.country, p.personnummer, budget, 
-coalesce(hAssets + rAssets, hAssets, rAssets) AS assets, reclaimable
+coalesce(hAssets + rAssets, hAssets, rAssets,0) AS assets, coalesce(reclaimable,0) AS reclaimable
 FROM persons p
 LEFT OUTER JOIN
 (select coalesce(r.country,h.country) AS country, 

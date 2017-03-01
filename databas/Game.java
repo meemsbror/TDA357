@@ -34,8 +34,8 @@ public class Game
 		}
 	}
 
- 	String USERNAME = "tda357_042";
- 	String PASSWORD = "CXhXWuks";
+ 	String USERNAME = "USERNAME";
+ 	String PASSWORD = "PASSWORD";
 
 	/* Print command optionssetup.
 	* /!\ you don't need to change this function! */
@@ -99,9 +99,30 @@ public class Game
  	 * The city visitbonus should be set to 0.
  	 */
 	void insertCity(Connection conn, String name, String country, String population) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+		try{
+			PreparedStatement ps;
+			try{
+				ps = conn.prepareStatement("INSERT INTO Countries (name) VALUES (?)");
+				ps.setString(1,country);
+				ps.executeUpdate();
+			}catch(SQLException e){}
+
+			ps = conn.prepareStatement("INSERT INTO Areas (country, name, population) VALUES (?,?,cast(? as INT))");
+			ps.setString(1,country);
+			ps.setString(2,name);
+			ps.setString(3,population);
+			ps.executeUpdate();
+
+			ps = conn.prepareStatement("INSERT INTO Towns VALUES (?,?,cast(? as NUMERIC))");
+			ps.setString(1,country);
+			ps.setString(2,name);
+			ps.setString(3,"0")
+			ps.executeUpdate();
+
+
+		}catch(SQLException e){
+			System.out.println("Insertion of Town failed \n" + e.getMessage());
+		}
 	}
 
 	/* Given two areas, this function
@@ -109,27 +130,55 @@ public class Game
  	 * between these two areas.
  	 */
 	void insertRoad(Connection conn, String area1, String country1, String area2, String country2) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+		try{
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO Roads (fromcountry,fromarea,tocountry,toarea,ownercountry,
+    														ownerpersonnummer,roadtax) VALUES (?,?,?,?,?,?,cast(? as NUMERIC))");
+			ps.setString(1,country1);
+			ps.setString(2,area1):
+			ps.setString(3,country2)
+			ps.setString(4,area2);
+			ps.setString(5,"");
+			ps.setString(6,"");
+			ps.setString(7,"0")
+			ps.executeUpdate();
+
+		}catch(SQLException e){
+			System.out.println("Insertion of Road failed \n" + e.getMessage());
+		}
 	}
 
 	/* Given a player, this function
 	 * should return the area name of the player's current location.
 	 */
 	String getCurrentArea(Connection conn, Player person) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+		ResultSet rs;
+		try{
+			PreparedStatement ps = conn.prepareStatement("SELECT locationarea FROM Persons WHERE personnummer=(?) AND country=(?)");
+			ps.setString(1,person.personnummer);
+			ps.setString(2,person.country);
+			rs = ps.executeQuery();
+			rs.next();
+		}catch(SQLException e){
+			return null;
+		}
+		return rs.getString(1);
 	}
 
 	/* Given a player, this function
 	 * should return the country name of the player's current location.
 	 */
 	String getCurrentCountry(Connection conn, Player person) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+		ResultSet rs;
+		try{
+			PreparedStatement ps = conn.prepareStatement("SELECT locationcountry FROM Persons WHERE personnummer=(?) AND country=(?)");
+			ps.setString(1,person.personnummer);
+			ps.setString(2,person.country);
+			rs = ps.executeQuery();
+			rs.next();
+		}catch(SQLException e){
+			return null;
+		}
+		return rs.getString(1);
 	}
 
 	/* Given a player, this function
@@ -138,9 +187,23 @@ public class Game
  	 * The location should be random and the budget should be 1000.
 	 */
 	int createPlayer(Connection conn, Player person) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+		try{
+			PreparedStatement area = conn.prepareStatement("SELECT country,name FROM Areas ORDER BY Random")
+			ResultSet rs = area.executeQuery();
+			rs-next();
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO Persons 
+				(country, personnummer,name,budget,locationcountry,locationarea) 
+				VALUES (?,?,?,cast(? as NUMERIC),?,?),");
+			ps.setString(1,player.country);
+			ps.setString(2,player.personnummer):
+			ps.setString(3,player.playername)
+			ps.setString(4,"1000");
+			ps.setString(5,rs.getString("country"));
+			ps.setString(6,rs.getString("name"));
+
+		}catch(SQLException e){
+			System.out.println("Insertion of Road failed \n" + e.getMessage());
+		}
 	}
 
 	/* Given a player and an area name and country name, this function
@@ -202,6 +265,7 @@ public class Game
 		// TODO: Your implementation here
 	    
 		// TODO TO HERE
+		return 0 ;
 	}
 
 	/* Given a player and a city, this function
@@ -212,6 +276,7 @@ public class Game
 		// TODO: Your implementation here
 	    
 		// TODO TO HERE
+		return 0 ;
 	}
 
 	/* Given a player, a from area and a to area, this function
@@ -222,6 +287,7 @@ public class Game
 		// TODO: Your implementation here
 	    
 		// TODO TO HERE
+		return 0;
 	}
 
 	/* Given a player and a city, this function
@@ -232,6 +298,7 @@ public class Game
 		// TODO: Your implementation here
 	    
 		// TODO TO HERE
+		return 0; 
 	}
 
 	/* Given a player and a new location, this function
@@ -242,6 +309,7 @@ public class Game
 		// TODO: Your implementation here
 	    
 		// TODO TO HERE
+		return 0;
 	}
 
 	/* This function should add the visitbonus of 1000 to a random city
