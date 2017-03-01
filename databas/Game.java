@@ -74,7 +74,9 @@ public class Game
 				ps = conn.prepareStatement("INSERT INTO Countries (name) VALUES (?)");
 				ps.setString(1,country);
 				ps.executeUpdate();
-			}catch(SQLException e){}
+			}catch(SQLException e){
+                //Country already existed all is as it should be
+            }
 
 			ps = conn.prepareStatement("INSERT INTO Areas (country, name, population) VALUES (?,?,cast(? as INT))");
 			ps.setString(1,country);
@@ -273,10 +275,22 @@ public class Game
 	 * and return 1 in case of a success and 0 otherwise.
 	 */
 	int sellHotel(Connection conn, Player person, String city, String country) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
-		return 0 ;
+
+        try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("DELETE FROM hotels" + 
+                "WHERE locationcountry = ? AND locationname = ? AND" +
+                "ownercountry = ? AND ownerpersonnummer = ? ");
+            ps.setString(1,country);
+            ps.setString(2,city);
+            ps.setString(3,pesron.country);
+            ps.setString(4,person.personnummer);
+            ps.executeUpdate();
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+            return 0;
+        }
+        return 1;
 	}
 
 	/* Given a player, a from area and a to area, this function
@@ -284,10 +298,22 @@ public class Game
 	 * and return 1 in case of a success and 0 otherwise.
 	 */
 	int buyRoad(Connection conn, Player person, String area1, String country1, String area2, String country2) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
-		return 0;
+
+        try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("INSERT INTO roads (fromcountry,fromarea,tocountry,toarea, ownercountry, ownerpersonnummer) VALUES (?,?,?,?,?,?)");
+            ps.setString(1,area1);
+            ps.setString(2,country1);
+            ps.setString(3,area2);
+            ps.setString(4,country2);
+            ps.setString(5,person.country);
+            ps.setString(6,person.personnummer);
+            ps.executeUpdate();
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+            return 0;
+        }
+    return 1;
 	}
 
 	/* Given a player and a city, this function
@@ -295,10 +321,21 @@ public class Game
 	 * and return 1 in case of a success and 0 otherwise.
 	 */
 	int buyHotel(Connection conn, Player person, String name, String city, String country) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
-		return 0; 
+
+	    try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("INSERT INTO hotels (name, locationcountry, locationname, ownercountry, ownerpersonnummer) VALUES (?,?,?,?,?)");
+            ps.setString(1,name);
+            ps.setString(2,country);
+            ps.setString(3,city);
+            ps.setString(4,person.country);
+            ps.setString(5,person.personnummer);
+            ps.executeUpdate();
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+            return 0;
+        }
+    return 1;
 	}
 
 	/* Given a player and a new location, this function
@@ -306,27 +343,59 @@ public class Game
 	 * and return 1 in case of a success and 0 otherwise.
 	 */
 	int changeLocation(Connection conn, Player person, String area, String country) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
-		return 0;
+		try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("UPDATE persons " +
+                   "SET locationarea = ?, locationcountry = ? " +
+                   "WHERE personnummer = ? AND country = ?");
+            ps.setString(1,area);
+            ps.setString(2,country);
+            ps.setString(3,person.personnummer);
+            ps.setString(4,person.country);
+            ps.executeUpdate();
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+            return 0;
+        }
+    return 1;
 	}
 
 	/* This function should add the visitbonus of 1000 to a random city
  	 */
 	void setVisitingBonus(Connection conn) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+	try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("UPDATE rancity" +
+                   "SET visitbonus = 2000 " +
+                   "FROM (SELECT * FROM cities ORDER BY RANDOM LIMIT 1) AS rancity");
+            ps.executeUpdate();
+        }catch(SQLException e){
+            //LET'S HOPE WE DON'T GET HERE
+            System.out.println(e.getMessage());
+        }
 	}
 
 	/* This function should print the winner of the game based on the currently highest budget.
  	 */
 	void announceWinner(Connection conn) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
-	}
+		try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("SELECT * FROM persons" +
+                   "ORDER BY budget DESC" +
+                   "LIMIT 1");
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            
+
+            System.out.println("The winner is the person with personnummer : "
+                    + rs.getString("personnummer") + 
+                    " And living in : " + 
+                    rs.getString("country")); 
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+            System.out.println("No Winner fuck you");
+        }	
+    }
 
 	void play (String worldfile) throws IOException {
 
