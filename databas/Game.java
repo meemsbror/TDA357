@@ -1,4 +1,3 @@
-package game;
 /* This is the driving engine of the program. It parses the command-line
  * arguments and calls the appropriate methods in the other classes.
  *
@@ -116,7 +115,7 @@ public class Game
 			ps.setString(3,population);
 			ps.executeUpdate();
 
-			ps = conn.prepareStatement("INSERT INTO cities VALUES (?,?,cast(? as NUMERIC))");
+			ps = conn.prepareStatement("INSERT INTO Towns VALUES (?,?,cast(? as NUMERIC))");
 			ps.setString(1,country);
 			ps.setString(2,name);
 			ps.setString(3,"0");
@@ -191,11 +190,11 @@ public class Game
 	 */
 	int createPlayer(Connection conn, Player person) throws SQLException {
 		try{
-			PreparedStatement area = conn.prepareStatement("SELECT country,name FROM Areas " +
-													"ORDER BY random() LIMIT 1");
+			PreparedStatement area = conn.prepareStatement("SELECT country,name FROM Areas" +
+													"ORDER BY RANDOM LIMIT 1");
 			ResultSet rs = area.executeQuery();
 			rs.next();
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO Persons " +
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO Persons" +
 				"(country,personnummer,name,budget,locationcountry,locationarea)" +
 				"VALUES (?,?,?,cast(? as NUMERIC),?,?)");
 			ps.setString(1,person.country);
@@ -207,8 +206,8 @@ public class Game
 			return 1;
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Person failed \n" + e.getMessage());
-			return 0;
+			System.out.println("Insertion of Road failed \n" + e.getMessage());
+			return 0 ;
 		}
 	}
 
@@ -493,7 +492,7 @@ public class Game
 			PreparedStatement ps;
             ps = conn.prepareStatement("UPDATE rancity" +
                    "SET visitbonus = 2000 " +
-                   "FROM (SELECT * FROM cities ORDER BY random() LIMIT 1) AS rancity");
+                   "FROM (SELECT * FROM cities ORDER BY RANDOM LIMIT 1) AS rancity");
             ps.executeUpdate();
         }catch(SQLException e) {
                     //LET'S HOPE WE DON'T GET HERE
@@ -560,24 +559,6 @@ public class Game
 			/* This block creates the government entry and the necessary
 			 * country and area for that.
 			 */
-            try {
-                PreparedStatement ps = conn.prepareStatement("TRUNCATE TABLE roads CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE hotels CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE towns CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE cities CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE persons CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE areas CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE countries CASCADE");
-				ps.executeUpdate();
-            } catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
 			try {
 				PreparedStatement statement = conn.prepareStatement("INSERT INTO Countries (name) VALUES (?)");
 				statement.setString(1, "");
@@ -763,7 +744,7 @@ public class Game
  	* /!\ You don't need to change this function! */
 	public static void main(String[] args) throws Exception
 	{
-		String worldfile = "world.txt";
+		String worldfile = args[0];
 		Game g = new Game();
 		g.play(worldfile);
 	}

@@ -1,0 +1,66 @@
+﻿In our schema1 we added the attribute ID to both Road and Hotel. This change have caused problems in our schema1 compared to the functional dependencies we discovered. That means that our schema1 failed to capture the correct keys which should’ve existed with BCNF. Therefore our solution in schema1 can be changed to look more like the tables created from the functional dependencies analysis, without the RoadID and HotelID. 
+The result now looks like this:
+
+
+Country(_name)
+
+
+Area(_countryName, _name, popsize, type)
+        countryName -> Country.name
+
+
+Person(_countryName, _personnummer, name, budget, locationarea, locationcountry)
+        countryName → Country.name
+         locationarea, locationcountry -> Area(name, countryName)
+
+
+Speaks(_countryName,_personnummer,_languageName)
+        countryName, personnummer →   Person.(countryName, personnummer)
+        languageName →   Language.name
+
+
+Language(_name)
+
+
+Hotel(_cityName, _countryName, pricePerNight, name, _ownerPersonnr, _ownerCountryName)
+        cityName, countryName →   Area.(name, countryName)
+        ownerPersonnr, ownerCountryName →   Person.(personnummer, countryName)
+
+
+Road(roadtax, _goesTo,_goesToCountryName, _goesFrom, _goesFromCountryName, _ownerPersonnr, _ownerCountry)
+        goesToArea, goesToCountry →   Area.(name, countryName)
+goesFromArea, goesFromCountry →   Area.(name, countryName)
+
+
+ownerPersonnummer, ownerCountry →   Person.(personnummer, countryName)  
+
+
+
+
+
+
+
+
+One difference from schema1 to fds was the type-attribute for an area, which was an ISA-relation in our E/R-diagram. This was because the ISA relationships didn't add any extra attributes and therefore we saw them as obsolete
+
+
+We therefore changed:
+
+
+Area(_countryName, _name, popsize)
+        countryName -> Country.name
+
+
+Town(_areaName, countryName)
+        areaName, countryName -> Area.(name, countryName)
+
+
+City(_areaName, countryName)
+        areaName, countryName -> Area.(name, countryName)
+
+
+To:
+
+
+Area(_countryName, _name, popsize, type)
+        countryName -> Country.name
