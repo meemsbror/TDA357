@@ -118,7 +118,7 @@ public class Game
 			ps = conn.prepareStatement("INSERT INTO Towns VALUES (?,?,cast(? as NUMERIC))");
 			ps.setString(1,country);
 			ps.setString(2,name);
-			ps.setString(3,"0")
+			ps.setString(3,"0");
 			ps.executeUpdate();
 
 
@@ -133,15 +133,15 @@ public class Game
  	 */
 	void insertRoad(Connection conn, String area1, String country1, String area2, String country2) throws SQLException {
 		try{
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO Roads (fromcountry,fromarea,tocountry,toarea,ownercountry,
-    														ownerpersonnummer,roadtax) VALUES (?,?,?,?,?,?,cast(? as NUMERIC))");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO Roads (fromcountry,fromarea,tocountry,toarea,ownercountry,"+
+    													  "ownerpersonnummer,roadtax) VALUES (?,?,?,?,?,?,cast(? as NUMERIC))");
 			ps.setString(1,country1);
-			ps.setString(2,area1):
-			ps.setString(3,country2)
+			ps.setString(2,area1);
+			ps.setString(3,country2);
 			ps.setString(4,area2);
 			ps.setString(5,"");
 			ps.setString(6,"");
-			ps.setString(7,"0")
+			ps.setString(7,"0");
 			ps.executeUpdate();
 
 		}catch(SQLException e){
@@ -155,7 +155,7 @@ public class Game
 	String getCurrentArea(Connection conn, Player person) throws SQLException {
 		ResultSet rs;
 		try{
-			PreparedStatement ps = conn.prepareStatement("SELECT locationarea FROM Persons WHERE personnummer=(?) AND country=(?)");
+			PreparedStatement ps = conn.prepareStatement("SELECT locationarea FROM Persons WHERE personnummer=? AND country=?");
 			ps.setString(1,person.personnummer);
 			ps.setString(2,person.country);
 			rs = ps.executeQuery();
@@ -172,7 +172,7 @@ public class Game
 	String getCurrentCountry(Connection conn, Player person) throws SQLException {
 		ResultSet rs;
 		try{
-			PreparedStatement ps = conn.prepareStatement("SELECT locationcountry FROM Persons WHERE personnummer=(?) AND country=(?)");
+			PreparedStatement ps = conn.prepareStatement("SELECT locationcountry FROM Persons WHERE personnummer=? AND country=?");
 			ps.setString(1,person.personnummer);
 			ps.setString(2,person.country);
 			rs = ps.executeQuery();
@@ -190,21 +190,24 @@ public class Game
 	 */
 	int createPlayer(Connection conn, Player person) throws SQLException {
 		try{
-			PreparedStatement area = conn.prepareStatement("SELECT country,name FROM Areas ORDER BY Random")
+			PreparedStatement area = conn.prepareStatement("SELECT country,name FROM Areas" +
+													"ORDER BY RANDOM LIMIT 1");
 			ResultSet rs = area.executeQuery();
-			rs-next();
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO Persons 
-				(country, personnummer,name,budget,locationcountry,locationarea) 
-				VALUES (?,?,?,cast(? as NUMERIC),?,?),");
-			ps.setString(1,player.country);
-			ps.setString(2,player.personnummer):
-			ps.setString(3,player.playername)
+			rs.next();
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO Persons" +
+				"(country,personnummer,name,budget,locationcountry,locationarea)" +
+				"VALUES (?,?,?,cast(? as NUMERIC),?,?)");
+			ps.setString(1,person.country);
+			ps.setString(2,person.personnummer);
+			ps.setString(3,person.playername);
 			ps.setString(4,"1000");
 			ps.setString(5,rs.getString("country"));
 			ps.setString(6,rs.getString("name"));
+			return 1;
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Road failed \n" + e.getMessage());
+			System.out.println("Insertion of Person failed \n" + e.getMessage());
+			return 0;
 		}
 	}
 
@@ -214,9 +217,50 @@ public class Game
 	 * The output should include area names, country names and the associated road-taxes
  	 */
 	void getNextMoves(Connection conn, Player person, String area, String country) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+		try{
+			PreparedStatement ps = conn.prepareStatement("WITH NextMovesHelp AS("+
+	        "SELECT p.country AS personcountry,p.personnummer,? AS country,? AS area, r.tocountry AS destcountry,"+
+	        "r.toarea AS destarea,r.roadtax AS cost FROM Persons p, Roads r WHERE (? = r.fromcountry AND ? = r.fromarea)"+
+				"UNION ALL"+
+	        "SELECT p.country AS personcountry,p.personnummer,? AS country,? AS area,r.fromcountry AS destcountry,"+
+	        "r.fromarea AS destarea,r.roadtax AS cost FROM Persons p, Roads r WHERE (? = r.tocountry AND ? = r.toarea)"+
+				"UNION ALL"+
+	        "SELECT p.country AS personcountry,p.personnummer,? AS country,? AS area,r.tocountry AS destcountry,"+
+	        "r.toarea AS destarea,0 AS cost FROM Persons p, Roads r WHERE (? = r.fromcountry AND ? = r.fromarea) AND"+
+	        "( p.personnummer = r.ownerpersonnummer AND p.country = r.ownercountry)"+
+	        	"UNION ALL"+
+	        "SELECT p.country AS personcountry,p.personnummer,? AS country,? AS area,r.fromcountry AS destcountry,"+
+	        "r.fromarea AS destarea,0 AS cost FROM Persons p, Roads r WHERE (? = r.tocountry AND ? = r.toarea) AND"+
+	        "(p.personnummer = r.ownerpersonnummer AND p.country = r.ownercountry)"+
+	    	")"+
+				"SELECT personcountry, personnummer, country, area, destcountry, destarea, MIN(cost) AS cost"+
+				"FROM NextMovesHelp"+
+
+	   	 		"WHERE personnummer = ? AND personcountry = ?"+
+	    		"GROUP BY personcountry, personnummer, country, area, destcountry, destarea");
+
+			ps.setString(1,country);
+			ps.setString(2,area);
+			ps.setString(3,country);
+			ps.setString(4,area);
+			ps.setString(5,country);
+			ps.setString(6,area);
+			ps.setString(7,country);
+			ps.setString(8,area);
+			ps.setString(9,person.personnummer);
+			ps.setString(10,person.country);
+			ResultSet rs = ps.executeQuery();
+			System.out.println("These are the roads of that person from chosen area: ");
+			System.out.println("personcountry : personnummer : country : area : destcountry : destarea : cost");
+            while(rs.next()){
+                for(int i = 1; i <= 8; i++){
+                    System.out.print(rs.getString(i) + " : ");
+                }
+                System.out.println();
+            }
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
  	}
 
 	/* Given a player, this function
@@ -225,10 +269,18 @@ public class Game
 	 * The output should include area names, country names and the associated road-taxes
 	 */
 	void getNextMoves(Connection conn, Player person) throws SQLException {
-		// TODO: Your implementation here
-		// hint: Use your implementation of the overloaded getNextMoves function
-	    
-		// TODO TO HERE
+		try{
+			PreparedStatement ps = conn.prepareStatement("SELECT locationarea, locationcountry FROM" + 
+											"Persons WHERE personnummer=? AND personcountry=?");
+
+			ps.setString(1,person.personnummer);
+			ps.setString(2,person.country);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			getNextMoves(conn, person, rs.getString(1), rs.getString(2));
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
 	}
 
 	/* Given a personnummer and a country, this function
@@ -241,15 +293,15 @@ public class Game
             ps = conn.prepareStatement("SELECT * FROM hotels " +
                     "WHERE ownerpersonnummer = ? AND ownercountry = ?");
             ResultSet rs = ps.executeQuery();
-            System.out.println("These are the hotels of that person:");
+            System.out.println("These are the hotels owned by of that person:");
             while(rs.next()){
                 for(int i = 1; i <= 5; i++){
-                    System.out.print(rs.getString(i) + " : ")
+                    System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
             }
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
         try{
@@ -260,12 +312,12 @@ public class Game
             System.out.println("These are the roads of that person:");
             while(rs.next()){
                 for(int i = 1; i <= 5; i++){
-                    System.out.print(rs.getString(i) + " : ")
+                    System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
             }
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
         }
 		
 	}
@@ -274,7 +326,7 @@ public class Game
 	 * should list all properties of the player.
 	 */
 	void listProperties(Connection conn, Player person) throws SQLException {
-        listProperties(person.personnummer, person.country);
+        listProperties(conn, person.personnummer, person.country);
 	}
 
 	/* This function should print the budget, assets and refund values for all players.
@@ -287,12 +339,12 @@ public class Game
             System.out.println("These are the assets:");
             while(rs.next()){
                 for(int i = 1; i <= 4; i++){
-                    System.out.print(rs.getString(i) + " : ")
+                    System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
             }
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
         }
 		
 	}
@@ -312,12 +364,12 @@ public class Game
             ps.setString(2,area1);
             ps.setString(3,country2);
             ps.setString(4,area2);
-            ps.setString(5,pesron.country);
+            ps.setString(5,person.country);
             ps.setString(6,person.personnummer);
             ps.executeUpdate();
             return 1;
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
 
@@ -331,12 +383,12 @@ public class Game
             ps.setString(2,area2);
             ps.setString(3,country1);
             ps.setString(4,area1);
-            ps.setString(5,pesron.country);
+            ps.setString(5,person.country);
             ps.setString(6,person.personnummer);
             ps.executeUpdate();
             return 1;
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
         return 0;
@@ -356,11 +408,11 @@ public class Game
                 "ownercountry = ? AND ownerpersonnummer = ? ");
             ps.setString(1,country);
             ps.setString(2,city);
-            ps.setString(3,pesron.country);
+            ps.setString(3,person.country);
             ps.setString(4,person.personnummer);
             ps.executeUpdate();
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
             return 0;
         }
         return 1;
@@ -383,7 +435,7 @@ public class Game
             ps.setString(6,person.personnummer);
             ps.executeUpdate();
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
             return 0;
         }
     return 1;
@@ -405,7 +457,7 @@ public class Game
             ps.setString(5,person.personnummer);
             ps.executeUpdate();
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
             return 0;
         }
     return 1;
@@ -427,7 +479,7 @@ public class Game
             ps.setString(4,person.country);
             ps.executeUpdate();
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
             return 0;
         }
     return 1;
@@ -442,8 +494,8 @@ public class Game
                    "SET visitbonus = 2000 " +
                    "FROM (SELECT * FROM cities ORDER BY RANDOM LIMIT 1) AS rancity");
             ps.executeUpdate();
-        }catch(SQLException e){
-            //LET'S HOPE WE DON'T GET HERE
+        }catch(SQLException e) {
+                    //LET'S HOPE WE DON'T GET HERE
             System.out.println(e.getMessage());
         }
 	}
@@ -465,8 +517,8 @@ public class Game
                     " And living in : " + 
                     rs.getString("country")); 
         }catch(SQLException e){
-            System.out.prinln(e.getMessage());
-            System.out.println("No Winner fuck you");
+            System.out.println(e.getMessage());
+            System.out.println("No Winner fu");
         }	
     }
 
