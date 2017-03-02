@@ -1,0 +1,38 @@
+﻿Country(_name)
+
+
+Area(_countryName, _name, popsize)
+        countryName →  Country.name
+
+
+Town(_areaName, _countryName)
+        areaName, countryName →   Area.(name, countryName)
+
+
+City(_areaName, _countryName)
+        areaName, countryName →   Area.(name, countryName)
+
+
+Person(_countryName, _personnummer, name, budget, areaName, areaCountryName,)
+        countryName → Country.name
+
+
+Speaks(_countryName,_personnummer,_languageName)
+        countryName, personnummer →   Person.(countryName, personnummer)
+        languageName →   Language.name
+
+
+Language(_name)
+
+
+Hotel(_ID, pricePerNight, name, cityName, countryName, ownerPersonnummer, ownercountry)
+        cityName, countryName →   City.(name, countryName)
+        ownerPersonnummer, ownerCountry →  Person.(personnummer, countryName)  
+
+
+
+Road(roadtax, _ID, goesToArea,goesToCountry, goesFromArea, goesFromCountry, ownerPersonnummer, ownerCountry,)
+        goesToArea, goesToCountry →   Area.(name, countryName)
+        goesFromArea, goesFromCountry →   Area.(name, countryName)
+        ownerPersonnummer, ownerCountry →   Person.(personnummer, countryName)  
+
