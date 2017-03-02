@@ -155,7 +155,7 @@ public class Game
 	String getCurrentArea(Connection conn, Player person) throws SQLException {
 		ResultSet rs;
 		try{
-			PreparedStatement ps = conn.prepareStatement("SELECT locationarea FROM Persons WHERE personnummer=(?) AND country=(?)");
+			PreparedStatement ps = conn.prepareStatement("SELECT locationarea FROM Persons WHERE personnummer=? AND country=?");
 			ps.setString(1,person.personnummer);
 			ps.setString(2,person.country);
 			rs = ps.executeQuery();
@@ -172,7 +172,7 @@ public class Game
 	String getCurrentCountry(Connection conn, Player person) throws SQLException {
 		ResultSet rs;
 		try{
-			PreparedStatement ps = conn.prepareStatement("SELECT locationcountry FROM Persons WHERE personnummer=(?) AND country=(?)");
+			PreparedStatement ps = conn.prepareStatement("SELECT locationcountry FROM Persons WHERE personnummer=? AND country=?");
 			ps.setString(1,person.personnummer);
 			ps.setString(2,person.country);
 			rs = ps.executeQuery();
@@ -190,12 +190,13 @@ public class Game
 	 */
 	int createPlayer(Connection conn, Player person) throws SQLException {
 		try{
-			PreparedStatement area = conn.prepareStatement("SELECT country,name FROM Areas ORDER BY Random")
+			PreparedStatement area = conn.prepareStatement("SELECT country,name FROM Areas 
+													ORDER BY RANDOM LIMIT 1");
 			ResultSet rs = area.executeQuery();
-			rs-next();
+			rs.next();
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO Persons 
 				(country, personnummer,name,budget,locationcountry,locationarea) 
-				VALUES (?,?,?,cast(? as NUMERIC),?,?),");
+				VALUES (?,?,?,cast(? as NUMERIC),?,?)");
 			ps.setString(1,player.country);
 			ps.setString(2,player.personnummer):
 			ps.setString(3,player.playername)
@@ -214,9 +215,76 @@ public class Game
 	 * The output should include area names, country names and the associated road-taxes
  	 */
 	void getNextMoves(Connection conn, Player person, String area, String country) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+		try{
+			PreparedStatement ps = conn.prepareStatement("WITH NextMovesHelp AS(
+	        SELECT p.country AS personcountry,
+	        p.personnummer,
+	        ? AS country,
+	        ? AS area,
+	        r.tocountry AS destcountry,
+	        r.toarea AS destarea,
+	        r.roadtax AS cost
+	        FROM Persons p, Roads r
+	        WHERE (? = r.fromcountry AND ? = r.fromarea)
+
+	        UNION ALL
+
+	        SELECT p.country AS personcountry,
+	        p.personnummer,
+	        ? AS country,
+	        ? AS area,
+	        r.fromcountry AS destcountry,
+	        r.fromarea AS destarea,
+	        r.roadtax AS cost
+	        FROM Persons p, Roads r
+	        WHERE (? = r.tocountry AND ? = r.toarea)
+
+	        UNION ALL
+
+	        SELECT p.country AS personcountry,
+	        p.personnummer,
+	        ? AS country,
+	        ? AS area,
+	        r.tocountry AS destcountry,
+	        r.toarea AS destarea,
+	        0 AS cost
+	        FROM Persons p, Roads r
+	        WHERE (? = r.fromcountry AND ? = r.fromarea) AND
+	        ( p.personnummer = r.ownerpersonnummer AND p.country = r.ownercountry)
+
+	        UNION ALL
+
+	        SELECT p.country AS personcountry,
+	        p.personnummer,
+	        ? AS country,
+	        ? AS area,
+	        r.fromcountry AS destcountry,
+	        r.fromarea AS destarea,
+	        0 AS cost
+	        FROM Persons p, Roads r
+	        WHERE (? = r.tocountry AND ? = r.toarea) AND
+	        ( p.personnummer = r.ownerpersonnummer AND p.country = r.ownercountry)
+	    	)
+				SELECT personcountry, personnummer, country, area, destcountry, destarea, MIN(cost) AS cost
+				FROM NextMovesHelp
+
+	   	 		WHERE personnummer = ? AND personcountry = ?
+	    		GROUP BY personcountry, personnummer, country, area, destcountry, destarea");
+
+			ps.setString(1,country);
+			ps.setString(2,area);
+			ps.setString(3,country);
+			ps.setString(4,area);
+			ps.setString(5,country);
+			ps.setString(6,area);
+			ps.setString(7,country);
+			ps.setString(8,area);
+			ps.setString(9,person.personnummer);
+			ps.setString(10,person.country);
+			ResultSet rs = ps.executeQuery();
+		}catch(SQLException e){
+			
+		}
  	}
 
 	/* Given a player, this function
@@ -369,8 +437,8 @@ public class Game
                    "SET visitbonus = 2000 " +
                    "FROM (SELECT * FROM cities ORDER BY RANDOM LIMIT 1) AS rancity");
             ps.executeUpdate();
-        }catch(SQLException e){
-            //LET'S HOPE WE DON'T GET HERE
+        }catch(SQLException e
+                    //LET'S HOPE WE DON'T GET HERE
             System.out.println(e.getMessage());
         }
 	}
