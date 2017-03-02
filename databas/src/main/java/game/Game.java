@@ -162,6 +162,7 @@ public class Game
 			rs = ps.executeQuery();
 			rs.next();
 		}catch(SQLException e){
+            System.out.prinln(e.getMessage());
 			return null;
 		}
 		return rs.getString(1);
