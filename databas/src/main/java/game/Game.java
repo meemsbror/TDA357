@@ -116,7 +116,7 @@ public class Game
 			ps.setString(3,population);
 			ps.executeUpdate();
 
-			ps = conn.prepareStatement("INSERT INTO Towns VALUES (?,?,cast(? as NUMERIC))");
+			ps = conn.prepareStatement("INSERT INTO cities VALUES (?,?,cast(? as NUMERIC))");
 			ps.setString(1,country);
 			ps.setString(2,name);
 			ps.setString(3,"0");
@@ -560,6 +560,24 @@ public class Game
 			/* This block creates the government entry and the necessary
 			 * country and area for that.
 			 */
+            try {
+                PreparedStatement ps = conn.prepareStatement("TRUNCATE TABLE roads CASCADE");
+				ps.executeUpdate();
+                ps = conn.prepareStatement("TRUNCATE TABLE hotels CASCADE");
+				ps.executeUpdate();
+                ps = conn.prepareStatement("TRUNCATE TABLE towns CASCADE");
+				ps.executeUpdate();
+                ps = conn.prepareStatement("TRUNCATE TABLE cities CASCADE");
+				ps.executeUpdate();
+                ps = conn.prepareStatement("TRUNCATE TABLE persons CASCADE");
+				ps.executeUpdate();
+                ps = conn.prepareStatement("TRUNCATE TABLE areas CASCADE");
+				ps.executeUpdate();
+                ps = conn.prepareStatement("TRUNCATE TABLE countries CASCADE");
+				ps.executeUpdate();
+            } catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 			try {
 				PreparedStatement statement = conn.prepareStatement("INSERT INTO Countries (name) VALUES (?)");
 				statement.setString(1, "");
