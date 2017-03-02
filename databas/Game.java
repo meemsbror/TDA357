@@ -304,27 +304,65 @@ public class Game
 	 * that is identified by the tuple of personnummer and country.
 	 */
 	void listProperties(Connection conn, String personnummer, String country) {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+        try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("SELECT * FROM hotels " +
+                    "WHERE ownerpersonnummer = ? AND ownercountry = ?");
+            ResultSet rs = ps.executeQuery();
+            System.out.println("These are the hotels of that person:");
+            while(rs.next()){
+                for(int i = 1; i <= 5; i++){
+                    System.out.print(rs.getString(i) + " : ")
+                }
+                System.out.println();
+            }
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+        }
+
+        try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("SELECT * FROM roads" +
+                    "WHERE ownerpersonnummer = ? AND ownercountry = ?");
+            ResultSet rs = ps.executeQuery();
+            System.out.println("These are the roads of that person:");
+            while(rs.next()){
+                for(int i = 1; i <= 5; i++){
+                    System.out.print(rs.getString(i) + " : ")
+                }
+                System.out.println();
+            }
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+        }
+		
 	}
 
 	/* Given a player, this function
 	 * should list all properties of the player.
 	 */
 	void listProperties(Connection conn, Player person) throws SQLException {
-		// TODO: Your implementation here
-		// hint: Use your implementation of the overlaoded listProperties function
-	    
-		// TODO TO HERE
+        listProperties(person.personnummer, person.country);
 	}
 
 	/* This function should print the budget, assets and refund values for all players.
 	 */
 	void showScores(Connection conn) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
+    try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("SELECT * FROM assetsummary ");
+            ResultSet rs = ps.executeQuery();
+            System.out.println("These are the assets:");
+            while(rs.next()){
+                for(int i = 1; i <= 4; i++){
+                    System.out.print(rs.getString(i) + " : ")
+                }
+                System.out.println();
+            }
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+        }
+		
 	}
 
 	/* Given a player, a from area and a to area, this function
@@ -332,10 +370,45 @@ public class Game
 	 * and return 1 in case of a success and 0 otherwise.
 	 */
 	int sellRoad(Connection conn, Player person, String area1, String country1, String area2, String country2) throws SQLException {
-		// TODO: Your implementation here
-	    
-		// TODO TO HERE
-		return 0 ;
+		try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("DELETE FROM roads" + 
+                "WHERE fromcountry = ? AND fromarea = ? AND " +
+                "tocountry  = ? AND toarea = ? AND " + 
+                "ownercountry = ? AND ownerpersonnummer = ? ");
+            ps.setString(1,country1);
+            ps.setString(2,area1);
+            ps.setString(3,country2);
+            ps.setString(4,area2);
+            ps.setString(5,pesron.country);
+            ps.setString(6,person.personnummer);
+            ps.executeUpdate();
+            return 1;
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+        }
+
+
+        try{
+			PreparedStatement ps;
+            ps = conn.prepareStatement("DELETE FROM roads" + 
+                "WHERE fromcountry = ? AND fromarea = ? AND " +
+                "tocountry  = ? AND toarea = ? AND " + 
+                "ownercountry = ? AND ownerpersonnummer = ? ");
+            ps.setString(1,country2);
+            ps.setString(2,area2);
+            ps.setString(3,country1);
+            ps.setString(4,area1);
+            ps.setString(5,pesron.country);
+            ps.setString(6,person.personnummer);
+            ps.executeUpdate();
+            return 1;
+        }catch(SQLException e){
+            System.out.prinln(e.getMessage());
+        }
+
+        return 0;
+
 	}
 
 	/* Given a player and a city, this function
@@ -347,7 +420,7 @@ public class Game
         try{
 			PreparedStatement ps;
             ps = conn.prepareStatement("DELETE FROM hotels" + 
-                "WHERE locationcountry = ? AND locationname = ? AND" +
+                "WHERE locationcountry = ? AND locationname = ? AND " +
                 "ownercountry = ? AND ownerpersonnummer = ? ");
             ps.setString(1,country);
             ps.setString(2,city);
