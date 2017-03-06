@@ -11,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/databas$Game.coverage" NAME="Game Coverage Results" MODIFIED="1488468256577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/databas$Game.coverage" NAME="Game Coverage Results" MODIFIED="1488533587024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game.*</FILTER>
     </SUITE>
   </component>
@@ -20,39 +20,42 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/game/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3400">
-              <caret line="321" column="9" lean-forward="true" selection-start-line="321" selection-start-column="9" selection-end-line="321" selection-end-column="9" />
+            <state relative-caret-position="89">
+              <caret line="444" column="154" lean-forward="false" selection-start-line="444" selection-start-column="154" selection-end-line="444" selection-end-column="154" />
               <folding>
-                <marker date="1488468248462" expanded="true" signature="2509:2548" ph="INSERT INTO Countries... " />
-                <marker date="1488468248462" expanded="true" signature="2743:2816" ph="INSERT INTO Areas... " />
-                <marker date="1488468248462" expanded="true" signature="2959:2989" ph="INSERT INTO Towns... " />
-                <marker date="1488468248462" expanded="true" signature="3570:3609" ph="INSERT INTO Countries... " />
-                <marker date="1488468248462" expanded="true" signature="3726:3799" ph="INSERT INTO Areas... " />
-                <marker date="1488468248462" expanded="true" signature="3942:3992" ph="INSERT INTO cities... " />
-                <marker date="1488468248462" expanded="true" signature="4509:4668" ph="INSERT INTO Roads... " />
-                <marker date="1488468248462" expanded="true" signature="5235:5302" ph="SELECT locat... Persons" />
-                <marker date="1488468248462" expanded="true" signature="5758:5828" ph="SELECT locat... Persons" />
-                <marker date="1488468248462" expanded="true" signature="6381:6455" ph="SELECT count... Areas" />
-                <marker date="1488468248462" expanded="true" signature="6561:6699" ph="INSERT INTO Persons... " />
-                <marker date="1488468248462" expanded="true" signature="10085:10191" ph="SELECT locat... " />
-                <marker date="1488468248462" expanded="true" signature="10803:10897" ph="SELECT * FRO... hotels" />
-                <marker date="1488468248462" expanded="true" signature="11405:11497" ph="SELECT * FRO... roadsWHERE" />
-                <marker date="1488468248462" expanded="true" signature="12374:12400" ph="SELECT * FRO... assetsummary" />
-                <marker date="1488468248462" expanded="true" signature="13208:13409" ph="DELETE FROM " />
-                <marker date="1488468248462" expanded="true" signature="13877:14078" ph="DELETE FROM " />
-                <marker date="1488468248462" expanded="true" signature="14838:14992" ph="DELETE FROM " />
-                <marker date="1488468248462" expanded="true" signature="15725:15836" ph="INSERT INTO roads... " />
-                <marker date="1488468248462" expanded="true" signature="16595:16703" ph="INSERT INTO hotels... " />
-                <marker date="1488468248462" expanded="true" signature="17401:17544" ph="UPDATE perso... " />
-                <marker date="1488468248462" expanded="true" signature="18082:18230" ph="UPDATE ranci... " />
-                <marker date="1488468248462" expanded="true" signature="18643:18739" ph="SELECT * FRO... personsORDER" />
-                <marker date="1488468248462" expanded="true" signature="21116:21155" ph="INSERT INTO Countries... " />
-                <marker date="1488468248462" expanded="true" signature="21261:21336" ph="INSERT INTO Areas... " />
-                <marker date="1488468248462" expanded="true" signature="21507:21638" ph="INSERT INTO Persons... " />
+                <marker date="1488536960477" expanded="true" signature="2509:2548" ph="INSERT INTO Countries... " />
+                <marker date="1488536960477" expanded="true" signature="2743:2816" ph="INSERT INTO Areas... " />
+                <marker date="1488536960477" expanded="true" signature="2959:2989" ph="INSERT INTO Towns... " />
+                <marker date="1488536960477" expanded="true" signature="3570:3609" ph="INSERT INTO Countries... " />
+                <marker date="1488536960477" expanded="true" signature="3726:3799" ph="INSERT INTO Areas... " />
+                <marker date="1488536960477" expanded="true" signature="3942:3992" ph="INSERT INTO cities... " />
+                <marker date="1488536960477" expanded="true" signature="4509:4668" ph="INSERT INTO Roads... " />
+                <marker date="1488536960477" expanded="true" signature="5235:5302" ph="SELECT locat... Persons" />
+                <marker date="1488536960477" expanded="true" signature="5806:5876" ph="SELECT locat... Persons" />
+                <marker date="1488536960477" expanded="true" signature="6468:6560" ph="SELECT count... Areas" />
+                <marker date="1488536960477" expanded="true" signature="6666:6804" ph="INSERT INTO Persons... " />
+                <marker date="1488536960477" expanded="true" signature="10459:10559" ph="SELECT locat... " />
+                <marker date="1488536960477" expanded="true" signature="11171:11185" ph="SELECT * FRO... hotels" />
+                <marker date="1488536960477" expanded="true" signature="11171:11265" ph="SELECT * FRO... Hotels" />
+                <marker date="1488536960477" expanded="true" signature="11857:11950" ph="SELECT * FRO... roads" />
+                <marker date="1488536960477" expanded="true" signature="12908:12934" ph="SELECT * FRO... assetsummary" />
+                <marker date="1488536960477" expanded="true" signature="13742:13943" ph="DELETE FROM " />
+                <marker date="1488536960477" expanded="true" signature="14411:14612" ph="DELETE FROM " />
+                <marker date="1488536960477" expanded="true" signature="15372:15390" ph="DELETE FROM " />
+                <marker date="1488536960477" expanded="true" signature="15372:15527" ph="DELETE FROM " />
+                <marker date="1488536960477" expanded="true" signature="16260:16371" ph="INSERT INTO roads... " />
+                <marker date="1488536960477" expanded="true" signature="17130:17238" ph="INSERT INTO hotels... " />
+                <marker date="1488536960477" expanded="true" signature="17936:18079" ph="UPDATE perso... " />
+                <marker date="1488536960477" expanded="true" signature="18617:18765" ph="UPDATE ranci... " />
+                <marker date="1488536960477" expanded="true" signature="19178:19274" ph="SELECT * FRO... personsORDER" />
+                <marker date="1488536960477" expanded="true" signature="21651:21690" ph="INSERT INTO Countries... " />
+                <marker date="1488536960477" expanded="true" signature="21796:21871" ph="INSERT INTO Areas... " />
+                <marker date="1488536960477" expanded="true" signature="22042:22173" ph="INSERT INTO Persons... " />
+                <marker date="1488536960477" expanded="false" signature="23296:23304" ph="&lt;~&gt;" />
               </folding>
             </state>
           </provider>
@@ -84,9 +87,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="width" value="1378" />
-    <option name="height" value="744" />
+    <option name="x" value="1" />
+    <option name="y" value="1" />
+    <option name="width" value="1364" />
+    <option name="height" value="726" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -399,6 +403,7 @@
       <setting name="passParentEnv" value="true" />
       <setting name="launchBrowser" value="true" />
       <setting name="launchBrowserUrl" value="" />
+      <setting name="depsClasspath" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -520,6 +525,12 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -554,47 +565,48 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1488467867371</updated>
-      <workItem from="1488467870315" duration="620000" />
+      <workItem from="1488467870315" duration="3195000" />
+      <workItem from="1488530531309" duration="6116000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="620000" />
+    <option name="totallyTimeSpent" value="9311000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1378" height="744" extended-state="0" />
+    <frame x="1" y="1" width="1364" height="726" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.47634068" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32966226" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2496329" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87223977" sideWeight="0.50292826" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.89772725" sideWeight="0.49707174" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329429" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.050660793" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -614,35 +626,76 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/game/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3400">
-          <caret line="321" column="9" lean-forward="true" selection-start-line="321" selection-start-column="9" selection-end-line="321" selection-end-column="9" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1488468248462" expanded="true" signature="2509:2548" ph="INSERT INTO Countries... " />
-            <marker date="1488468248462" expanded="true" signature="2743:2816" ph="INSERT INTO Areas... " />
-            <marker date="1488468248462" expanded="true" signature="2959:2989" ph="INSERT INTO Towns... " />
-            <marker date="1488468248462" expanded="true" signature="3570:3609" ph="INSERT INTO Countries... " />
-            <marker date="1488468248462" expanded="true" signature="3726:3799" ph="INSERT INTO Areas... " />
-            <marker date="1488468248462" expanded="true" signature="3942:3992" ph="INSERT INTO cities... " />
-            <marker date="1488468248462" expanded="true" signature="4509:4668" ph="INSERT INTO Roads... " />
-            <marker date="1488468248462" expanded="true" signature="5235:5302" ph="SELECT locat... Persons" />
-            <marker date="1488468248462" expanded="true" signature="5758:5828" ph="SELECT locat... Persons" />
-            <marker date="1488468248462" expanded="true" signature="6381:6455" ph="SELECT count... Areas" />
-            <marker date="1488468248462" expanded="true" signature="6561:6699" ph="INSERT INTO Persons... " />
-            <marker date="1488468248462" expanded="true" signature="10085:10191" ph="SELECT locat... " />
-            <marker date="1488468248462" expanded="true" signature="10803:10897" ph="SELECT * FRO... hotels" />
-            <marker date="1488468248462" expanded="true" signature="11405:11497" ph="SELECT * FRO... roadsWHERE" />
-            <marker date="1488468248462" expanded="true" signature="12374:12400" ph="SELECT * FRO... assetsummary" />
-            <marker date="1488468248462" expanded="true" signature="13208:13409" ph="DELETE FROM " />
-            <marker date="1488468248462" expanded="true" signature="13877:14078" ph="DELETE FROM " />
-            <marker date="1488468248462" expanded="true" signature="14838:14992" ph="DELETE FROM " />
-            <marker date="1488468248462" expanded="true" signature="15725:15836" ph="INSERT INTO roads... " />
-            <marker date="1488468248462" expanded="true" signature="16595:16703" ph="INSERT INTO hotels... " />
-            <marker date="1488468248462" expanded="true" signature="17401:17544" ph="UPDATE perso... " />
-            <marker date="1488468248462" expanded="true" signature="18082:18230" ph="UPDATE ranci... " />
-            <marker date="1488468248462" expanded="true" signature="18643:18739" ph="SELECT * FRO... personsORDER" />
-            <marker date="1488468248462" expanded="true" signature="21116:21155" ph="INSERT INTO Countries... " />
-            <marker date="1488468248462" expanded="true" signature="21261:21336" ph="INSERT INTO Areas... " />
-            <marker date="1488468248462" expanded="true" signature="21507:21638" ph="INSERT INTO Persons... " />
+            <marker date="1488536960477" expanded="true" signature="2509:2548" ph="INSERT INTO Countries... " />
+            <marker date="1488536960477" expanded="true" signature="2743:2816" ph="INSERT INTO Areas... " />
+            <marker date="1488536960477" expanded="true" signature="2959:2989" ph="INSERT INTO Towns... " />
+            <marker date="1488536960477" expanded="true" signature="3570:3609" ph="INSERT INTO Countries... " />
+            <marker date="1488536960477" expanded="true" signature="3726:3799" ph="INSERT INTO Areas... " />
+            <marker date="1488536960477" expanded="true" signature="3942:3992" ph="INSERT INTO cities... " />
+            <marker date="1488536960477" expanded="true" signature="4509:4668" ph="INSERT INTO Roads... " />
+            <marker date="1488536960477" expanded="true" signature="5235:5302" ph="SELECT locat... Persons" />
+            <marker date="1488536960477" expanded="true" signature="5806:5876" ph="SELECT locat... Persons" />
+            <marker date="1488536960477" expanded="true" signature="6468:6560" ph="SELECT count... Areas" />
+            <marker date="1488536960477" expanded="true" signature="6666:6804" ph="INSERT INTO Persons... " />
+            <marker date="1488536960477" expanded="true" signature="10459:10559" ph="SELECT locat... " />
+            <marker date="1488536960477" expanded="true" signature="11171:11185" ph="SELECT * FRO... hotels" />
+            <marker date="1488536960477" expanded="true" signature="11171:11265" ph="SELECT * FRO... Hotels" />
+            <marker date="1488536960477" expanded="true" signature="11857:11950" ph="SELECT * FRO... roads" />
+            <marker date="1488536960477" expanded="true" signature="12908:12934" ph="SELECT * FRO... assetsummary" />
+            <marker date="1488536960477" expanded="true" signature="13742:13943" ph="DELETE FROM " />
+            <marker date="1488536960477" expanded="true" signature="14411:14612" ph="DELETE FROM " />
+            <marker date="1488536960477" expanded="true" signature="15372:15390" ph="DELETE FROM " />
+            <marker date="1488536960477" expanded="true" signature="15372:15527" ph="DELETE FROM " />
+            <marker date="1488536960477" expanded="true" signature="16260:16371" ph="INSERT INTO roads... " />
+            <marker date="1488536960477" expanded="true" signature="17130:17238" ph="INSERT INTO hotels... " />
+            <marker date="1488536960477" expanded="true" signature="17936:18079" ph="UPDATE perso... " />
+            <marker date="1488536960477" expanded="true" signature="18617:18765" ph="UPDATE ranci... " />
+            <marker date="1488536960477" expanded="true" signature="19178:19274" ph="SELECT * FRO... personsORDER" />
+            <marker date="1488536960477" expanded="true" signature="21651:21690" ph="INSERT INTO Countries... " />
+            <marker date="1488536960477" expanded="true" signature="21796:21871" ph="INSERT INTO Areas... " />
+            <marker date="1488536960477" expanded="true" signature="22042:22173" ph="INSERT INTO Persons... " />
+            <marker date="1488536960477" expanded="false" signature="23296:23304" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/game/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="444" column="154" lean-forward="false" selection-start-line="444" selection-start-column="154" selection-end-line="444" selection-end-column="154" />
+          <folding>
+            <marker date="1488536960477" expanded="true" signature="2509:2548" ph="INSERT INTO Countries... " />
+            <marker date="1488536960477" expanded="true" signature="2743:2816" ph="INSERT INTO Areas... " />
+            <marker date="1488536960477" expanded="true" signature="2959:2989" ph="INSERT INTO Towns... " />
+            <marker date="1488536960477" expanded="true" signature="3570:3609" ph="INSERT INTO Countries... " />
+            <marker date="1488536960477" expanded="true" signature="3726:3799" ph="INSERT INTO Areas... " />
+            <marker date="1488536960477" expanded="true" signature="3942:3992" ph="INSERT INTO cities... " />
+            <marker date="1488536960477" expanded="true" signature="4509:4668" ph="INSERT INTO Roads... " />
+            <marker date="1488536960477" expanded="true" signature="5235:5302" ph="SELECT locat... Persons" />
+            <marker date="1488536960477" expanded="true" signature="5806:5876" ph="SELECT locat... Persons" />
+            <marker date="1488536960477" expanded="true" signature="6468:6560" ph="SELECT count... Areas" />
+            <marker date="1488536960477" expanded="true" signature="6666:6804" ph="INSERT INTO Persons... " />
+            <marker date="1488536960477" expanded="true" signature="10459:10559" ph="SELECT locat... " />
+            <marker date="1488536960477" expanded="true" signature="11171:11185" ph="SELECT * FRO... hotels" />
+            <marker date="1488536960477" expanded="true" signature="11171:11265" ph="SELECT * FRO... Hotels" />
+            <marker date="1488536960477" expanded="true" signature="11857:11950" ph="SELECT * FRO... roads" />
+            <marker date="1488536960477" expanded="true" signature="12908:12934" ph="SELECT * FRO... assetsummary" />
+            <marker date="1488536960477" expanded="true" signature="13742:13943" ph="DELETE FROM " />
+            <marker date="1488536960477" expanded="true" signature="14411:14612" ph="DELETE FROM " />
+            <marker date="1488536960477" expanded="true" signature="15372:15390" ph="DELETE FROM " />
+            <marker date="1488536960477" expanded="true" signature="15372:15527" ph="DELETE FROM " />
+            <marker date="1488536960477" expanded="true" signature="16260:16371" ph="INSERT INTO roads... " />
+            <marker date="1488536960477" expanded="true" signature="17130:17238" ph="INSERT INTO hotels... " />
+            <marker date="1488536960477" expanded="true" signature="17936:18079" ph="UPDATE perso... " />
+            <marker date="1488536960477" expanded="true" signature="18617:18765" ph="UPDATE ranci... " />
+            <marker date="1488536960477" expanded="true" signature="19178:19274" ph="SELECT * FRO... personsORDER" />
+            <marker date="1488536960477" expanded="true" signature="21651:21690" ph="INSERT INTO Countries... " />
+            <marker date="1488536960477" expanded="true" signature="21796:21871" ph="INSERT INTO Areas... " />
+            <marker date="1488536960477" expanded="true" signature="22042:22173" ph="INSERT INTO Persons... " />
+            <marker date="1488536960477" expanded="false" signature="23296:23304" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>

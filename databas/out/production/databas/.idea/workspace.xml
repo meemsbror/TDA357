@@ -10,10 +10,57 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/databas$Game.coverage" NAME="Game Coverage Results" MODIFIED="1488468256577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game.*</FILTER>
+    </SUITE>
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="Game.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/game/Game.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="165" column="24" lean-forward="false" selection-start-line="165" selection-start-column="24" selection-end-line="165" selection-end-column="24" />
+              <folding>
+                <marker date="1488469571375" expanded="true" signature="2509:2548" ph="INSERT INTO Countries... " />
+                <marker date="1488469571375" expanded="true" signature="2743:2816" ph="INSERT INTO Areas... " />
+                <marker date="1488469571375" expanded="true" signature="2959:2989" ph="INSERT INTO Towns... " />
+                <marker date="1488469571375" expanded="true" signature="3570:3609" ph="INSERT INTO Countries... " />
+                <marker date="1488469571375" expanded="true" signature="3726:3799" ph="INSERT INTO Areas... " />
+                <marker date="1488469571375" expanded="true" signature="3942:3992" ph="INSERT INTO cities... " />
+                <marker date="1488469571375" expanded="true" signature="4509:4668" ph="INSERT INTO Roads... " />
+                <marker date="1488469571375" expanded="true" signature="5235:5302" ph="SELECT locat... Persons" />
+                <marker date="1488469571375" expanded="true" signature="5845:5915" ph="SELECT locat... Persons" />
+                <marker date="1488469571375" expanded="true" signature="6546:6620" ph="SELECT count... Areas" />
+                <marker date="1488469571375" expanded="true" signature="6726:6864" ph="INSERT INTO Persons... " />
+                <marker date="1488469571375" expanded="true" signature="10273:10379" ph="SELECT locat... " />
+                <marker date="1488469571375" expanded="true" signature="10991:11085" ph="SELECT * FRO... hotels" />
+                <marker date="1488469571375" expanded="true" signature="11593:11685" ph="SELECT * FRO... roadsWHERE" />
+                <marker date="1488469571375" expanded="true" signature="12562:12588" ph="SELECT * FRO... assetsummary" />
+                <marker date="1488469571375" expanded="true" signature="13396:13597" ph="DELETE FROM " />
+                <marker date="1488469571375" expanded="true" signature="14065:14266" ph="DELETE FROM " />
+                <marker date="1488469571375" expanded="true" signature="15026:15180" ph="DELETE FROM " />
+                <marker date="1488469571375" expanded="true" signature="15913:16024" ph="INSERT INTO roads... " />
+                <marker date="1488469571375" expanded="true" signature="16783:16891" ph="INSERT INTO hotels... " />
+                <marker date="1488469571375" expanded="true" signature="17589:17732" ph="UPDATE perso... " />
+                <marker date="1488469571375" expanded="true" signature="18270:18418" ph="UPDATE ranci... " />
+                <marker date="1488469571375" expanded="true" signature="18831:18927" ph="SELECT * FRO... personsORDER" />
+                <marker date="1488469571375" expanded="true" signature="21304:21343" ph="INSERT INTO Countries... " />
+                <marker date="1488469571375" expanded="true" signature="21449:21524" ph="INSERT INTO Areas... " />
+                <marker date="1488469571375" expanded="true" signature="21695:21826" ph="INSERT INTO Persons... " />
+                <marker date="1488469571375" expanded="false" signature="22949:22957" ph="&lt;~&gt;" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
   <component name="GradleLocalSettings">
     <option name="modificationStamps">
       <map>
@@ -22,6 +69,13 @@
     </option>
     <option name="externalProjectsViewState">
       <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/game/Game.java" />
+      </list>
     </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -33,7 +87,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1378" />
+    <option name="width" value="1382" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectView">
@@ -347,6 +401,7 @@
       <setting name="passParentEnv" value="true" />
       <setting name="launchBrowser" value="true" />
       <setting name="launchBrowserUrl" value="" />
+      <setting name="depsClasspath" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -468,6 +523,12 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -502,46 +563,48 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1488467867371</updated>
-      <workItem from="1488467870315" duration="197000" />
+      <workItem from="1488467870315" duration="3195000" />
+      <workItem from="1488530531309" duration="41000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197000" />
+    <option name="totallyTimeSpent" value="3236000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.9022082" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2496329" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87223977" sideWeight="0.50292826" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87223977" sideWeight="0.49707174" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.050660793" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32966226" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -557,5 +620,79 @@
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/game/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1488469571375" expanded="true" signature="2509:2548" ph="INSERT INTO Countries... " />
+            <marker date="1488469571375" expanded="true" signature="2743:2816" ph="INSERT INTO Areas... " />
+            <marker date="1488469571375" expanded="true" signature="2959:2989" ph="INSERT INTO Towns... " />
+            <marker date="1488469571375" expanded="true" signature="3570:3609" ph="INSERT INTO Countries... " />
+            <marker date="1488469571375" expanded="true" signature="3726:3799" ph="INSERT INTO Areas... " />
+            <marker date="1488469571375" expanded="true" signature="3942:3992" ph="INSERT INTO cities... " />
+            <marker date="1488469571375" expanded="true" signature="4509:4668" ph="INSERT INTO Roads... " />
+            <marker date="1488469571375" expanded="true" signature="5235:5302" ph="SELECT locat... Persons" />
+            <marker date="1488469571375" expanded="true" signature="5845:5915" ph="SELECT locat... Persons" />
+            <marker date="1488469571375" expanded="true" signature="6546:6620" ph="SELECT count... Areas" />
+            <marker date="1488469571375" expanded="true" signature="6726:6864" ph="INSERT INTO Persons... " />
+            <marker date="1488469571375" expanded="true" signature="10273:10379" ph="SELECT locat... " />
+            <marker date="1488469571375" expanded="true" signature="10991:11085" ph="SELECT * FRO... hotels" />
+            <marker date="1488469571375" expanded="true" signature="11593:11685" ph="SELECT * FRO... roadsWHERE" />
+            <marker date="1488469571375" expanded="true" signature="12562:12588" ph="SELECT * FRO... assetsummary" />
+            <marker date="1488469571375" expanded="true" signature="13396:13597" ph="DELETE FROM " />
+            <marker date="1488469571375" expanded="true" signature="14065:14266" ph="DELETE FROM " />
+            <marker date="1488469571375" expanded="true" signature="15026:15180" ph="DELETE FROM " />
+            <marker date="1488469571375" expanded="true" signature="15913:16024" ph="INSERT INTO roads... " />
+            <marker date="1488469571375" expanded="true" signature="16783:16891" ph="INSERT INTO hotels... " />
+            <marker date="1488469571375" expanded="true" signature="17589:17732" ph="UPDATE perso... " />
+            <marker date="1488469571375" expanded="true" signature="18270:18418" ph="UPDATE ranci... " />
+            <marker date="1488469571375" expanded="true" signature="18831:18927" ph="SELECT * FRO... personsORDER" />
+            <marker date="1488469571375" expanded="true" signature="21304:21343" ph="INSERT INTO Countries... " />
+            <marker date="1488469571375" expanded="true" signature="21449:21524" ph="INSERT INTO Areas... " />
+            <marker date="1488469571375" expanded="true" signature="21695:21826" ph="INSERT INTO Persons... " />
+            <marker date="1488469571375" expanded="false" signature="22949:22957" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/game/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="165" column="24" lean-forward="false" selection-start-line="165" selection-start-column="24" selection-end-line="165" selection-end-column="24" />
+          <folding>
+            <marker date="1488469571375" expanded="true" signature="2509:2548" ph="INSERT INTO Countries... " />
+            <marker date="1488469571375" expanded="true" signature="2743:2816" ph="INSERT INTO Areas... " />
+            <marker date="1488469571375" expanded="true" signature="2959:2989" ph="INSERT INTO Towns... " />
+            <marker date="1488469571375" expanded="true" signature="3570:3609" ph="INSERT INTO Countries... " />
+            <marker date="1488469571375" expanded="true" signature="3726:3799" ph="INSERT INTO Areas... " />
+            <marker date="1488469571375" expanded="true" signature="3942:3992" ph="INSERT INTO cities... " />
+            <marker date="1488469571375" expanded="true" signature="4509:4668" ph="INSERT INTO Roads... " />
+            <marker date="1488469571375" expanded="true" signature="5235:5302" ph="SELECT locat... Persons" />
+            <marker date="1488469571375" expanded="true" signature="5845:5915" ph="SELECT locat... Persons" />
+            <marker date="1488469571375" expanded="true" signature="6546:6620" ph="SELECT count... Areas" />
+            <marker date="1488469571375" expanded="true" signature="6726:6864" ph="INSERT INTO Persons... " />
+            <marker date="1488469571375" expanded="true" signature="10273:10379" ph="SELECT locat... " />
+            <marker date="1488469571375" expanded="true" signature="10991:11085" ph="SELECT * FRO... hotels" />
+            <marker date="1488469571375" expanded="true" signature="11593:11685" ph="SELECT * FRO... roadsWHERE" />
+            <marker date="1488469571375" expanded="true" signature="12562:12588" ph="SELECT * FRO... assetsummary" />
+            <marker date="1488469571375" expanded="true" signature="13396:13597" ph="DELETE FROM " />
+            <marker date="1488469571375" expanded="true" signature="14065:14266" ph="DELETE FROM " />
+            <marker date="1488469571375" expanded="true" signature="15026:15180" ph="DELETE FROM " />
+            <marker date="1488469571375" expanded="true" signature="15913:16024" ph="INSERT INTO roads... " />
+            <marker date="1488469571375" expanded="true" signature="16783:16891" ph="INSERT INTO hotels... " />
+            <marker date="1488469571375" expanded="true" signature="17589:17732" ph="UPDATE perso... " />
+            <marker date="1488469571375" expanded="true" signature="18270:18418" ph="UPDATE ranci... " />
+            <marker date="1488469571375" expanded="true" signature="18831:18927" ph="SELECT * FRO... personsORDER" />
+            <marker date="1488469571375" expanded="true" signature="21304:21343" ph="INSERT INTO Countries... " />
+            <marker date="1488469571375" expanded="true" signature="21449:21524" ph="INSERT INTO Areas... " />
+            <marker date="1488469571375" expanded="true" signature="21695:21826" ph="INSERT INTO Persons... " />
+            <marker date="1488469571375" expanded="false" signature="22949:22957" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>

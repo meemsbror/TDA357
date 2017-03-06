@@ -270,7 +270,7 @@ public class Game
 	 */
 	void getNextMoves(Connection conn, Player person) throws SQLException {
 		try{
-			PreparedStatement ps = conn.prepareStatement("SELECT locationarea, locationcountry FROM" + 
+			PreparedStatement ps = conn.prepareStatement("SELECT locationarea, locationcountry FROM " + 
 											"Persons WHERE personnummer=? AND personcountry=?");
 
 			ps.setString(1,person.personnummer);
@@ -279,7 +279,7 @@ public class Game
 			rs.next();
 			getNextMoves(conn, person, rs.getString(1), rs.getString(2));
 		}catch(SQLException e){
-			System.out.println(e.getMessage());
+			System.out.println("Here prol" + e.getMessage());
 		}
 	}
 
