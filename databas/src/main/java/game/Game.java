@@ -307,13 +307,14 @@ public class Game
             ps.setString(1, personnummer);
             ps.setString(2, country);
             ResultSet rs = ps.executeQuery();
-            System.out.println("These are the hotels owned by of that person: \n");
+            System.out.println("These are the hotels owned by of that person: ");
             while(rs.next()){
                 for(int i = 1; i <= 5; i++){
                     System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
             }
+            System.out.println();
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -327,11 +328,12 @@ public class Game
             ResultSet rs = ps.executeQuery();
             System.out.println("These are the roads of that person:");
             while(rs.next()){
-                for(int i = 1; i <= 5; i++){
+                for(int i = 1; i <= 4; i++){
                     System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
             }
+            System.out.println();
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -353,12 +355,14 @@ public class Game
             ps = conn.prepareStatement("SELECT * FROM assetsummary ");
             ResultSet rs = ps.executeQuery();
             System.out.println("These are the assets:");
+            System.out.println("personcountry : personnummer : budget : assets : reclaimable :");
             while(rs.next()){
-                for(int i = 1; i <= 4; i++){
+                for(int i = 1; i <= 5; i++){
                     System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
             }
+            System.out.println();
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -443,10 +447,10 @@ public class Game
         try{
 			PreparedStatement ps;
             ps = conn.prepareStatement("INSERT INTO roads (fromcountry,fromarea,tocountry,toarea, ownercountry, ownerpersonnummer) VALUES (?,?,?,?,?,?)");
-            ps.setString(1,area1);
-            ps.setString(2,country1);
-            ps.setString(3,area2);
-            ps.setString(4,country2);
+            ps.setString(1,country1);
+            ps.setString(2,area1);
+            ps.setString(3,country2);
+            ps.setString(4,area2);
             ps.setString(5,person.country);
             ps.setString(6,person.personnummer);
             ps.executeUpdate();
@@ -506,9 +510,16 @@ public class Game
 	void setVisitingBonus(Connection conn) throws SQLException {
 	try{
 			PreparedStatement ps;
-            ps = conn.prepareStatement("UPDATE rancity" +
-                   "SET visitbonus = 2000 " +
-                   "FROM (SELECT * FROM cities ORDER BY random() LIMIT 1) AS rancity");
+			ps = conn.prepareStatement("SELECT name, country FROM cities ORDER BY random() LIMIT 1");
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			System.out.println("New city bonus in " + rs.getString(1) + "(" + rs.getString(2) + ")");
+
+            ps = conn.prepareStatement("UPDATE cities " +
+                   "SET visitbonus = visitbonus + 2000 " +
+                   "WHERE name = ? AND country = ?");
+            ps.setString(1,rs.getString(1));
+            ps.setString(2,rs.getString(2));
             ps.executeUpdate();
         }catch(SQLException e) {
                     //LET'S HOPE WE DON'T GET HERE
@@ -521,8 +532,8 @@ public class Game
 	void announceWinner(Connection conn) throws SQLException {
 		try{
 			PreparedStatement ps;
-            ps = conn.prepareStatement("SELECT * FROM persons" +
-                   "ORDER BY budget DESC" +
+            ps = conn.prepareStatement("SELECT * FROM persons " +
+                   "ORDER BY budget DESC " +
                    "LIMIT 1");
             ResultSet rs = ps.executeQuery();
             rs.next();

@@ -7,7 +7,7 @@ INSERT INTO Constants VALUES('roadprice', 456.9);
 INSERT INTO Constants VALUES('hotelprice', 789.2);
 INSERT INTO Constants VALUES('roadtax', 13.5);
 INSERT INTO Constants VALUES('hotelrefund', 0.50);
-INSERT INTO Constants VALUES('cityvisit', 102030.3);
+INSERT INTO Constants VALUES('cityvisit', 200);
 
 CREATE OR REPLACE FUNCTION getval (qname TEXT) RETURNS NUMERIC AS $$
 DECLARE
