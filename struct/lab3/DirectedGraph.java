@@ -62,16 +62,15 @@ public class DirectedGraph<E extends Edge> {
             else{
                 nodes[tmpQE.to] = true;
 
-                for(E e: EL){
-                    if(e.from == tmpQE.to){
-                        if(!nodes[e.to]){
-                            list = tmpQE.path;
-                            list = (ArrayList<E>) list.clone();
-                            list.add(e);
-                            q.add(new CompDijkstraPath(e.to,
-                                        tmpQE.cost + e.getWeight(),
-                                        list));
-                        }
+                for(E e: edges.get(tmpQE.to)){
+                    if(!nodes[e.to]){
+                        list = tmpQE.path;
+                        list = (ArrayList<E>) list.clone();
+                        list.add(e);
+                        q.add(new CompDijkstraPath(e.to,
+                            tmpQE.cost + e.getWeight(),
+                            list));
+
                     }
                 }
             }
@@ -186,7 +185,6 @@ public class DirectedGraph<E extends Edge> {
         return 0;
         }
     }
-
 
 }
   
