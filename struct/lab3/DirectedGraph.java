@@ -4,8 +4,7 @@ import java.util.*;
 * */
 public class DirectedGraph<E extends Edge> {
 
-    int[] nodes;
-    List<E> EL;
+    List<List<E>> edges;
     int noOfNodes;
   /**
   * Creates an directed graph with an array (nodes)
@@ -14,8 +13,10 @@ public class DirectedGraph<E extends Edge> {
   * @param noOFNodes the number of nodes the graph contains
   */
 	public DirectedGraph(int noOfNodes) {
-        nodes = new int[noOfNodes+1];
-        EL = new ArrayList<E>();
+        EL = new ArrayList<List<E>>();
+        for(List<E> li: edges){
+          li = new LinkedList<E>;
+        }
         this.noOfNodes = noOfNodes;
 	}
     /**
@@ -23,7 +24,7 @@ public class DirectedGraph<E extends Edge> {
     *@param e the edge to be added
     */
 	public void addEdge(E e) {
-        EL.add(e);
+      EL.get(e.from).add(e);
 	}
 
     /**
@@ -36,6 +37,73 @@ public class DirectedGraph<E extends Edge> {
 	public Iterator<E> shortestPath(int from, int to) {
 		return djikstra(from,to);
 	}
+
+   private Iterator<E> djikstra(int from, int to){
+
+    boolean[i] nodes = new boolean[noOfNodes];
+    //Mark all the nodes as unvisited
+    for(int i = 0; i < nodes.length; i++){
+      nodes[i] = 0;
+    }
+
+    PriorityQueue<CompDijkstraPath> q = new PriorityQueue<CompDijkstraPath>();
+
+    ArrayList<E> list = new ArrayList<E>();
+    q.add(new CompDijkstraPath(from,0, list));
+
+    CompDijkstraPath tmpQE;
+    while(!q.isEmpty()){
+       tmpQE = q.poll();
+       if(nodes[tmpQE.to] != -1){
+            if(tmpQE.to == to){
+                return tmpQE.path.iterator();
+            } 
+            else{
+                nodes[tmpQE.to] = -1;
+
+                for(E e: EL){
+                    if(e.from == tmpQE.to){
+                        if(nodes[e.to] != -1){
+                            list = tmpQE.path;
+                            list = (ArrayList<E>) list.clone();
+                            list.add(e);
+                            q.add(new CompDijkstraPath(e.to,
+                                        tmpQE.cost + e.getWeight(),
+                                        list));
+                        }
+                    }
+                }
+            }
+         }
+     }
+     return null;
+  }
+
+
+   private class CompDijkstraPath implements Comparable<CompDijkstraPath>{
+     int to;
+     double cost;
+     ArrayList<E> path;
+
+     CompDijkstraPath(int to, double cost, ArrayList<E> path){
+
+         this.to = to;
+         this.cost = cost;
+         this.path = path;
+     }
+
+     public int compareTo(CompDijkstraPath q){
+         if(q.cost>this.cost){
+             return -1;
+         }
+
+         if(q.cost<this.cost){
+             return 1;
+         }
+         return 0;
+     }
+   }
+
 	
     /**
     * Connects all nodes in the cheapest way possible creating a minimum spanning tree.
@@ -119,70 +187,6 @@ public class DirectedGraph<E extends Edge> {
     }
 
 
-    private Iterator<E> djikstra(int from, int to){
-
-    //Mark all the nodes as unvisited
-    for(int i = 0; i < nodes.length; i++){
-      nodes[i] = 0;
-    }
-
-    PriorityQueue<CompDijkstraPath> q = new PriorityQueue<CompDijkstraPath>();
-
-    ArrayList<E> list = new ArrayList<E>();
-    q.add(new CompDijkstraPath(from,0, list));
-
-    CompDijkstraPath tmpQE;
-    while(!q.isEmpty()){
-       tmpQE = q.poll();
-       if(nodes[tmpQE.to] != -1){
-            if(tmpQE.to == to){
-                return tmpQE.path.iterator();
-            } 
-            else{
-                nodes[tmpQE.to] = -1;
-
-                for(E e: EL){
-                    if(e.from == tmpQE.to){
-                        if(nodes[e.to] != -1){
-                            list = tmpQE.path;
-                            list = (ArrayList<E>) list.clone();
-                            list.add(e);
-                            q.add(new CompDijkstraPath(e.to,
-                                        tmpQE.cost + e.getWeight(),
-                                        list));
-                        }
-                    }
-                }
-            }
-         }
-     }
-     return null;
-  }
-
-
-   private class CompDijkstraPath implements Comparable<CompDijkstraPath>{
-     int to;
-     double cost;
-     ArrayList<E> path;
-
-     CompDijkstraPath(int to, double cost, ArrayList<E> path){
-
-         this.to = to;
-         this.cost = cost;
-         this.path = path;
-     }
-
-     public int compareTo(CompDijkstraPath q){
-         if(q.cost>this.cost){
-             return -1;
-         }
-
-         if(q.cost<this.cost){
-             return 1;
-         }
-         return 0;
-     }
-   }
-
+   
 }
   

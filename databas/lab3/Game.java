@@ -77,6 +77,7 @@ public class Game
 				ps.executeUpdate();
 			}catch(SQLException e){
                 //Country already existed all is as it should be
+                System.out.println(e.getMessage());
             }
 
 			ps = conn.prepareStatement("INSERT INTO Areas (country, name, population) VALUES (?,?,cast(? as INT))");
@@ -92,7 +93,7 @@ public class Game
 
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Town failed \n" + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -108,7 +109,9 @@ public class Game
 				ps = conn.prepareStatement("INSERT INTO Countries (name) VALUES (?)");
 				ps.setString(1,country);
 				ps.executeUpdate();
-			}catch(SQLException e){}
+			}catch(SQLException e){
+				System.out.println(e.getMessage());
+			}
 
 			ps = conn.prepareStatement("INSERT INTO Areas (country, name, population) VALUES (?,?,cast(? as INT))");
 			ps.setString(1,country);
@@ -124,7 +127,7 @@ public class Game
 
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Town failed \n" + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -146,7 +149,7 @@ public class Game
 			ps.executeUpdate();
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Road failed \n" + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -193,10 +196,7 @@ public class Game
 	 */
 	int createPlayer(Connection conn, Player person) throws SQLException {
 		try{
-			PreparedStatement area = conn.prepareStatement("SELECT country,name FROM Areas WHERE country<>'' " +
-													"ORDER BY random() LIMIT 1");
-			ResultSet rs = area.executeQuery();
-			rs.next();
+		
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO Persons " +
 				"(country,personnummer,name,budget,locationcountry,locationarea)" +
 				"VALUES (?,?,?,cast(? as NUMERIC),?,?)");
@@ -204,13 +204,13 @@ public class Game
 			ps.setString(2,person.personnummer);
 			ps.setString(3,person.playername);
 			ps.setString(4,"1000");
-			ps.setString(5,rs.getString("country"));
-			ps.setString(6,rs.getString("name"));
+			ps.setString(5,person.country);
+			ps.setString(6,person.startingArea);
 			ps.executeUpdate();
 			return 1;
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Person failed \n" + e.getMessage());
+			System.out.println(e.getMessage());
 			return 0;
 		}
 	}
@@ -524,6 +524,7 @@ public class Game
         }catch(SQLException e) {
                     //LET'S HOPE WE DON'T GET HERE
             System.out.println(e.getMessage());
+
         }
 	}
 
@@ -545,7 +546,6 @@ public class Game
                     rs.getString("country")); 
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            System.out.println("No Winner fu");
         }	
     }
 
@@ -586,24 +586,6 @@ public class Game
 			/* This block creates the government entry and the necessary
 			 * country and area for that.
 			 */
-            try {
-                PreparedStatement ps = conn.prepareStatement("TRUNCATE TABLE roads CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE hotels CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE towns CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE cities CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE persons CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE areas CASCADE");
-				ps.executeUpdate();
-                ps = conn.prepareStatement("TRUNCATE TABLE countries CASCADE");
-				ps.executeUpdate();
-            } catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
 			try {
 				PreparedStatement statement = conn.prepareStatement("INSERT INTO Countries (name) VALUES (?)");
 				statement.setString(1, "");
@@ -785,7 +767,7 @@ public class Game
 		return stringBuilder.toString();
 	}
 
-	/* main: parses the input commands.
+		/* main: parses the input commands.
  	* /!\ You don't need to change this function! */
 	public static void main(String[] args) throws Exception
 	{

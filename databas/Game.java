@@ -1,3 +1,4 @@
+
 /* This is the driving engine of the program. It parses the command-line
  * arguments and calls the appropriate methods in the other classes.
  *
@@ -76,6 +77,7 @@ public class Game
 				ps.executeUpdate();
 			}catch(SQLException e){
                 //Country already existed all is as it should be
+                System.out.println(e.getMessage());
             }
 
 			ps = conn.prepareStatement("INSERT INTO Areas (country, name, population) VALUES (?,?,cast(? as INT))");
@@ -91,7 +93,7 @@ public class Game
 
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Town failed \n" + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -107,7 +109,9 @@ public class Game
 				ps = conn.prepareStatement("INSERT INTO Countries (name) VALUES (?)");
 				ps.setString(1,country);
 				ps.executeUpdate();
-			}catch(SQLException e){}
+			}catch(SQLException e){
+				System.out.println(e.getMessage());
+			}
 
 			ps = conn.prepareStatement("INSERT INTO Areas (country, name, population) VALUES (?,?,cast(? as INT))");
 			ps.setString(1,country);
@@ -115,7 +119,7 @@ public class Game
 			ps.setString(3,population);
 			ps.executeUpdate();
 
-			ps = conn.prepareStatement("INSERT INTO Towns VALUES (?,?,cast(? as NUMERIC))");
+			ps = conn.prepareStatement("INSERT INTO cities VALUES (?,?,cast(? as NUMERIC))");
 			ps.setString(1,country);
 			ps.setString(2,name);
 			ps.setString(3,"0");
@@ -123,7 +127,7 @@ public class Game
 
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Town failed \n" + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -145,7 +149,7 @@ public class Game
 			ps.executeUpdate();
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Road failed \n" + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -161,6 +165,7 @@ public class Game
 			rs = ps.executeQuery();
 			rs.next();
 		}catch(SQLException e){
+            System.out.println(e.getMessage());
 			return null;
 		}
 		return rs.getString(1);
@@ -178,6 +183,7 @@ public class Game
 			rs = ps.executeQuery();
 			rs.next();
 		}catch(SQLException e){
+			System.out.println(e.getMessage());
 			return null;
 		}
 		return rs.getString(1);
@@ -190,24 +196,22 @@ public class Game
 	 */
 	int createPlayer(Connection conn, Player person) throws SQLException {
 		try{
-			PreparedStatement area = conn.prepareStatement("SELECT country,name FROM Areas" +
-													"ORDER BY RANDOM LIMIT 1");
-			ResultSet rs = area.executeQuery();
-			rs.next();
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO Persons" +
+		
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO Persons " +
 				"(country,personnummer,name,budget,locationcountry,locationarea)" +
 				"VALUES (?,?,?,cast(? as NUMERIC),?,?)");
 			ps.setString(1,person.country);
 			ps.setString(2,person.personnummer);
 			ps.setString(3,person.playername);
 			ps.setString(4,"1000");
-			ps.setString(5,rs.getString("country"));
-			ps.setString(6,rs.getString("name"));
+			ps.setString(5,person.country);
+			ps.setString(6,person.startingArea);
+			ps.executeUpdate();
 			return 1;
 
 		}catch(SQLException e){
-			System.out.println("Insertion of Road failed \n" + e.getMessage());
-			return 0 ;
+			System.out.println(e.getMessage());
+			return 0;
 		}
 	}
 
@@ -218,25 +222,25 @@ public class Game
  	 */
 	void getNextMoves(Connection conn, Player person, String area, String country) throws SQLException {
 		try{
-			PreparedStatement ps = conn.prepareStatement("WITH NextMovesHelp AS("+
-	        "SELECT p.country AS personcountry,p.personnummer,? AS country,? AS area, r.tocountry AS destcountry,"+
-	        "r.toarea AS destarea,r.roadtax AS cost FROM Persons p, Roads r WHERE (? = r.fromcountry AND ? = r.fromarea)"+
-				"UNION ALL"+
-	        "SELECT p.country AS personcountry,p.personnummer,? AS country,? AS area,r.fromcountry AS destcountry,"+
+			PreparedStatement ps = conn.prepareStatement("WITH NextMovesHelp AS ("+
+	        "SELECT p.country AS personcountry, p.personnummer, ? AS country, ? AS area, r.tocountry AS destcountry," +
+	        "r.toarea AS destarea, r.roadtax AS cost FROM Persons p, Roads r WHERE (? = r.fromcountry AND ? = r.fromarea)"+
+				" UNION ALL "+
+	        "SELECT p.country AS personcountry, p.personnummer, ? AS country, ? AS area, r.fromcountry AS destcountry,"+
 	        "r.fromarea AS destarea,r.roadtax AS cost FROM Persons p, Roads r WHERE (? = r.tocountry AND ? = r.toarea)"+
-				"UNION ALL"+
+				" UNION ALL "+
 	        "SELECT p.country AS personcountry,p.personnummer,? AS country,? AS area,r.tocountry AS destcountry,"+
-	        "r.toarea AS destarea,0 AS cost FROM Persons p, Roads r WHERE (? = r.fromcountry AND ? = r.fromarea) AND"+
+	        "r.toarea AS destarea,0 AS cost FROM Persons p, Roads r WHERE (? = r.fromcountry AND ? = r.fromarea) AND "+
 	        "( p.personnummer = r.ownerpersonnummer AND p.country = r.ownercountry)"+
-	        	"UNION ALL"+
-	        "SELECT p.country AS personcountry,p.personnummer,? AS country,? AS area,r.fromcountry AS destcountry,"+
-	        "r.fromarea AS destarea,0 AS cost FROM Persons p, Roads r WHERE (? = r.tocountry AND ? = r.toarea) AND"+
-	        "(p.personnummer = r.ownerpersonnummer AND p.country = r.ownercountry)"+
-	    	")"+
-				"SELECT personcountry, personnummer, country, area, destcountry, destarea, MIN(cost) AS cost"+
-				"FROM NextMovesHelp"+
+	        	" UNION ALL "+
+	        "SELECT p.country AS personcountry,p.personnummer, ? AS country, ? AS area, r.fromcountry AS destcountry,"+
+	        "r.fromarea AS destarea,0 AS cost FROM Persons p, Roads r WHERE (? = r.tocountry AND ? = r.toarea) AND "+
+	        "(p.personnummer = r.ownerpersonnummer AND p.country = r.ownercountry) "+
+	    	") "+
+				"SELECT personcountry, personnummer, country, area, destcountry, destarea, MIN(cost) AS cost "+
+				"FROM NextMovesHelp "+
 
-	   	 		"WHERE personnummer = ? AND personcountry = ?"+
+	   	 		"WHERE personnummer = ? AND personcountry = ? "+
 	    		"GROUP BY personcountry, personnummer, country, area, destcountry, destarea");
 
 			ps.setString(1,country);
@@ -247,13 +251,21 @@ public class Game
 			ps.setString(6,area);
 			ps.setString(7,country);
 			ps.setString(8,area);
-			ps.setString(9,person.personnummer);
-			ps.setString(10,person.country);
+			ps.setString(9,country);
+			ps.setString(10,area);
+			ps.setString(11,country);
+			ps.setString(12,area);
+			ps.setString(13,country);
+			ps.setString(14,area);
+			ps.setString(15,country);
+			ps.setString(16,area);
+			ps.setString(17,person.personnummer);
+			ps.setString(18,person.country);
 			ResultSet rs = ps.executeQuery();
 			System.out.println("These are the roads of that person from chosen area: ");
 			System.out.println("personcountry : personnummer : country : area : destcountry : destarea : cost");
             while(rs.next()){
-                for(int i = 1; i <= 8; i++){
+                for(int i = 1; i <= 7; i++){
                     System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
@@ -270,8 +282,8 @@ public class Game
 	 */
 	void getNextMoves(Connection conn, Player person) throws SQLException {
 		try{
-			PreparedStatement ps = conn.prepareStatement("SELECT locationarea, locationcountry FROM " + 
-											"Persons WHERE personnummer=? AND personcountry=?");
+			PreparedStatement ps = conn.prepareStatement("SELECT locationarea, locationcountry FROM " +
+											"Persons WHERE personnummer=? AND country=?");
 
 			ps.setString(1,person.personnummer);
 			ps.setString(2,person.country);
@@ -279,7 +291,7 @@ public class Game
 			rs.next();
 			getNextMoves(conn, person, rs.getString(1), rs.getString(2));
 		}catch(SQLException e){
-			System.out.println("Here prol" + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -290,32 +302,38 @@ public class Game
 	void listProperties(Connection conn, String personnummer, String country) {
         try{
 			PreparedStatement ps;
-            ps = conn.prepareStatement("SELECT * FROM hotels " +
+            ps = conn.prepareStatement("SELECT * FROM Hotels " +
                     "WHERE ownerpersonnummer = ? AND ownercountry = ?");
+            ps.setString(1, personnummer);
+            ps.setString(2, country);
             ResultSet rs = ps.executeQuery();
-            System.out.println("These are the hotels owned by of that person:");
+            System.out.println("These are the hotels owned by of that person: ");
             while(rs.next()){
                 for(int i = 1; i <= 5; i++){
                     System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
             }
+            System.out.println();
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
 
         try{
 			PreparedStatement ps;
-            ps = conn.prepareStatement("SELECT * FROM roads" +
+            ps = conn.prepareStatement("SELECT * FROM roads " +
                     "WHERE ownerpersonnummer = ? AND ownercountry = ?");
+            ps.setString(1, personnummer);
+            ps.setString(2, country);
             ResultSet rs = ps.executeQuery();
             System.out.println("These are the roads of that person:");
             while(rs.next()){
-                for(int i = 1; i <= 5; i++){
+                for(int i = 1; i <= 4; i++){
                     System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
             }
+            System.out.println();
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -337,12 +355,14 @@ public class Game
             ps = conn.prepareStatement("SELECT * FROM assetsummary ");
             ResultSet rs = ps.executeQuery();
             System.out.println("These are the assets:");
+            System.out.println("personcountry : personnummer : budget : assets : reclaimable :");
             while(rs.next()){
-                for(int i = 1; i <= 4; i++){
+                for(int i = 1; i <= 5; i++){
                     System.out.print(rs.getString(i) + " : ");
                 }
                 System.out.println();
             }
+            System.out.println();
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -403,7 +423,7 @@ public class Game
 
         try{
 			PreparedStatement ps;
-            ps = conn.prepareStatement("DELETE FROM hotels" + 
+            ps = conn.prepareStatement("DELETE FROM hotels " + 
                 "WHERE locationcountry = ? AND locationname = ? AND " +
                 "ownercountry = ? AND ownerpersonnummer = ? ");
             ps.setString(1,country);
@@ -427,10 +447,10 @@ public class Game
         try{
 			PreparedStatement ps;
             ps = conn.prepareStatement("INSERT INTO roads (fromcountry,fromarea,tocountry,toarea, ownercountry, ownerpersonnummer) VALUES (?,?,?,?,?,?)");
-            ps.setString(1,area1);
-            ps.setString(2,country1);
-            ps.setString(3,area2);
-            ps.setString(4,country2);
+            ps.setString(1,country1);
+            ps.setString(2,area1);
+            ps.setString(3,country2);
+            ps.setString(4,area2);
             ps.setString(5,person.country);
             ps.setString(6,person.personnummer);
             ps.executeUpdate();
@@ -438,7 +458,7 @@ public class Game
             System.out.println(e.getMessage());
             return 0;
         }
-    return 1;
+    	return 1;
 	}
 
 	/* Given a player and a city, this function
@@ -460,7 +480,7 @@ public class Game
             System.out.println(e.getMessage());
             return 0;
         }
-    return 1;
+    	return 1;
 	}
 
 	/* Given a player and a new location, this function
@@ -482,7 +502,7 @@ public class Game
             System.out.println(e.getMessage());
             return 0;
         }
-    return 1;
+    	return 1;
 	}
 
 	/* This function should add the visitbonus of 1000 to a random city
@@ -490,13 +510,21 @@ public class Game
 	void setVisitingBonus(Connection conn) throws SQLException {
 	try{
 			PreparedStatement ps;
-            ps = conn.prepareStatement("UPDATE rancity" +
-                   "SET visitbonus = 2000 " +
-                   "FROM (SELECT * FROM cities ORDER BY RANDOM LIMIT 1) AS rancity");
+			ps = conn.prepareStatement("SELECT name, country FROM cities ORDER BY random() LIMIT 1");
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			System.out.println("New city bonus in " + rs.getString(1) + "(" + rs.getString(2) + ")");
+
+            ps = conn.prepareStatement("UPDATE cities " +
+                   "SET visitbonus = visitbonus + 2000 " +
+                   "WHERE name = ? AND country = ?");
+            ps.setString(1,rs.getString(1));
+            ps.setString(2,rs.getString(2));
             ps.executeUpdate();
         }catch(SQLException e) {
                     //LET'S HOPE WE DON'T GET HERE
             System.out.println(e.getMessage());
+
         }
 	}
 
@@ -505,20 +533,19 @@ public class Game
 	void announceWinner(Connection conn) throws SQLException {
 		try{
 			PreparedStatement ps;
-            ps = conn.prepareStatement("SELECT * FROM persons" +
-                   "ORDER BY budget DESC" +
+            ps = conn.prepareStatement("SELECT * FROM persons " +
+                   "ORDER BY budget DESC " +
                    "LIMIT 1");
             ResultSet rs = ps.executeQuery();
             rs.next();
             
 
-            System.out.println("The winner is the person with personnummer : "
+            System.out.println("The winner is " +rs.getString("name")+", with personnummer : "
                     + rs.getString("personnummer") + 
                     " And living in : " + 
                     rs.getString("country")); 
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            System.out.println("No Winner fu");
         }	
     }
 
@@ -740,7 +767,7 @@ public class Game
 		return stringBuilder.toString();
 	}
 
-	/* main: parses the input commands.
+		/* main: parses the input commands.
  	* /!\ You don't need to change this function! */
 	public static void main(String[] args) throws Exception
 	{
