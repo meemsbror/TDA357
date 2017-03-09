@@ -24,7 +24,7 @@ public class DirectedGraph<E extends Edge> {
     *@param e the edge to be added
     */
 	public void addEdge(E e) {
-      EL.get(e.from).add(e);
+      edges.get(e.from).add(e);
 	}
 
     /**
@@ -38,12 +38,13 @@ public class DirectedGraph<E extends Edge> {
 		return djikstra(from,to);
 	}
 
-   private Iterator<E> djikstra(int from, int to){
+
+    private Iterator<E> djikstra(int from, int to){
 
     boolean[i] nodes = new boolean[noOfNodes];
     //Mark all the nodes as unvisited
     for(int i = 0; i < nodes.length; i++){
-      nodes[i] = 0;
+      nodes[i] = false;
     }
 
     PriorityQueue<CompDijkstraPath> q = new PriorityQueue<CompDijkstraPath>();
@@ -54,16 +55,16 @@ public class DirectedGraph<E extends Edge> {
     CompDijkstraPath tmpQE;
     while(!q.isEmpty()){
        tmpQE = q.poll();
-       if(nodes[tmpQE.to] != -1){
+       if(!nodes[tmpQE.to]){
             if(tmpQE.to == to){
                 return tmpQE.path.iterator();
             } 
             else{
-                nodes[tmpQE.to] = -1;
+                nodes[tmpQE.to] = true;
 
                 for(E e: EL){
                     if(e.from == tmpQE.to){
-                        if(nodes[e.to] != -1){
+                        if(!nodes[e.to]){
                             list = tmpQE.path;
                             list = (ArrayList<E>) list.clone();
                             list.add(e);
@@ -187,6 +188,5 @@ public class DirectedGraph<E extends Edge> {
     }
 
 
-   
 }
   

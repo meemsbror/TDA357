@@ -3,6 +3,9 @@ apply plugin: 'application'
 
 mainClassName = 'game.Game'
 
+run{
+ standardInput = System.in
+}
 
 jar {
     baseName = 'game'
