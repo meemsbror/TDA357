@@ -4,7 +4,7 @@ import java.util.*;
 * */
 public class DirectedGraph<E extends Edge> {
 
-    int[] nodes;
+    boolean[] nodes;
     List<E> EL;
     int noOfNodes;
   /**
@@ -14,7 +14,6 @@ public class DirectedGraph<E extends Edge> {
   * @param noOFNodes the number of nodes the graph contains
   */
 	public DirectedGraph(int noOfNodes) {
-        nodes = new int[noOfNodes+1];
         EL = new ArrayList<E>();
         this.noOfNodes = noOfNodes;
 	}
@@ -123,7 +122,7 @@ public class DirectedGraph<E extends Edge> {
 
     //Mark all the nodes as unvisited
     for(int i = 0; i < nodes.length; i++){
-      nodes[i] = 0;
+      nodes[i] = false;
     }
 
     PriorityQueue<CompDijkstraPath> q = new PriorityQueue<CompDijkstraPath>();
@@ -134,16 +133,16 @@ public class DirectedGraph<E extends Edge> {
     CompDijkstraPath tmpQE;
     while(!q.isEmpty()){
        tmpQE = q.poll();
-       if(nodes[tmpQE.to] != -1){
+       if(!nodes[tmpQE.to]){
             if(tmpQE.to == to){
                 return tmpQE.path.iterator();
             } 
             else{
-                nodes[tmpQE.to] = -1;
+                nodes[tmpQE.to] = true;
 
                 for(E e: EL){
                     if(e.from == tmpQE.to){
-                        if(nodes[e.to] != -1){
+                        if(!nodes[e.to]){
                             list = tmpQE.path;
                             list = (ArrayList<E>) list.clone();
                             list.add(e);
